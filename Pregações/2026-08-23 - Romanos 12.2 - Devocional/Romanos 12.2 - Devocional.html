@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#20372a">
+  <meta name="description" content="Devocional bíblico em Romanos 12:2: Não moldados pelo mundo, transformados pela renovação da mente para discernir a boa vontade de Deus.">
+  <title>Romanos 12:2 | Devocional &amp; Meditação Bíblica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f3f0e8;
+      --paper: #fffdf8;
+      --ink: #16201c;
+      --muted: #47544d;
+      --forest: #30493a;
+      --forest-2: #20372a;
+      --rust: #a64d2e;
+      --rust-dark: #8c3b20;
+      --gold: #b68a43;
+      --line: #c9c8bd;
+      --soft-line: #deddd4;
+      --reading-size: 18px;
+      --page: 820px;
+      --topbar: 56px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 400 var(--reading-size)/1.75 "DM Sans", system-ui, -apple-system, sans-serif;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: var(--forest); text-underline-offset: 3px; }
+    a:hover { color: var(--rust-dark); }
+    a:focus-visible, button:focus-visible { outline: 3px solid #d99369; outline-offset: 4px; }
+    button { font: inherit; }
+
+    /* Sticky Minimalist Topbar for Web & Mobile */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: var(--topbar);
+      border-bottom: 1px solid rgba(22, 32, 28, .1);
+      background: rgba(243, 240, 232, .96);
+      backdrop-filter: blur(12px);
+    }
+    .topbar-inner {
+      max-width: var(--page);
+      height: 100%;
+      margin: auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .brand strong {
+      font-size: .88rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--forest-2);
+    }
+    .brand span { font-size: .8rem; color: var(--muted); }
+    .print-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+      white-space: nowrap;
+      transition: all .15s ease;
+    }
+    .print-action:hover {
+      color: var(--forest-2);
+      border-color: var(--forest);
+      background: #fff;
+    }
+
+    /* Print Layout Container (Table wrapper for repeating thead on all pages) */
+    .print-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+    .print-table > thead {
+      display: none;
+    }
+    .print-table > tbody > tr > td {
+      padding: 0;
+      border: 0;
+    }
+
+    /* Devotional Container */
+    .devotional-wrapper {
+      max-width: var(--page);
+      margin: 32px auto 80px;
+      padding: 0 24px;
+    }
+    .devotional-header {
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 30px;
+    }
+    .kicker {
+      color: var(--rust-dark);
+      font-size: .76rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin: 0 0 8px;
+    }
+    h1 {
+      font: 700 clamp(1.9rem, 3.8vw, 2.7rem)/1.15 "Newsreader", Georgia, serif;
+      margin: 0 0 14px;
+      letter-spacing: -.025em;
+      color: var(--ink);
+    }
+    h1 em { color: var(--forest); font-style: normal; }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: .8rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .meta span {
+      padding: 5px 12px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+    }
+
+    /* Scripture Box */
+    .scripture-box {
+      margin: 28px 0;
+      padding: 24px 26px;
+      background: var(--forest-2);
+      color: #f9f4ea;
+      border-left: 5px solid var(--gold);
+      border-radius: 4px;
+      break-inside: avoid;
+    }
+    .scripture-ref {
+      color: #efba91;
+      font-size: .74rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .scripture-box blockquote {
+      margin: 0;
+      font: 500 clamp(1.25rem, 2vw, 1.55rem)/1.42 "Newsreader", Georgia, serif;
+    }
+
+    .section-title {
+      font: 700 1.45rem "Newsreader", Georgia, serif;
+      color: var(--forest);
+      margin: 34px 0 12px;
+      letter-spacing: -.01em;
+      break-after: avoid;
+    }
+    .prose p { margin: 0 0 1.15em; font-size: 1.05rem; }
+    .context-pill {
+      padding: 16px 20px;
+      background: #ece7dc;
+      border-left: 3px solid var(--forest);
+      margin: 24px 0;
+      font-size: .94rem;
+      color: #313e36;
+      line-height: 1.6;
+      border-radius: 0 3px 3px 0;
+      break-inside: avoid;
+    }
+    .principles-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin: 26px 0;
+    }
+    .principle-card {
+      padding: 18px 20px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--rust-dark);
+      border-radius: 3px;
+      break-inside: avoid;
+    }
+    .principle-card b {
+      display: block;
+      font: 700 1.18rem "Newsreader", Georgia, serif;
+      margin-bottom: 4px;
+      color: var(--ink);
+    }
+    .principle-card p { margin: 0; font-size: .94rem; color: var(--muted); }
+    .reflection-box {
+      margin: 32px 0;
+      padding: 22px 24px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--forest);
+      border-radius: 3px;
+      break-inside: avoid;
+    }
+    .reflection-box h3 {
+      margin: 0 0 10px;
+      font: 700 1.3rem "Newsreader", Georgia, serif;
+      color: var(--forest);
+    }
+    .reflection-box ul { margin: 0; padding-left: 18px; color: var(--ink); font-size: 1rem; line-height: 1.65; }
+    .reflection-box li + li { margin-top: 8px; }
+    
+    footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-size: .8rem;
+      color: var(--muted);
+      text-align: center;
+      break-inside: avoid;
+    }
+
+    /* Mobile Refinements */
+    @media (max-width: 600px) {
+      :root { --reading-size: 16.5px; --topbar: 50px; }
+      .topbar-inner, .devotional-wrapper { padding-left: 16px; padding-right: 16px; }
+      .devotional-wrapper { margin: 20px auto 60px; }
+      .brand strong { font-size: .82rem; }
+      .brand span { display: none; }
+      .print-action { padding: 4px 10px; font-size: .74rem; }
+      .scripture-box { padding: 18px 20px; }
+      h1 { font-size: clamp(1.75rem, 7vw, 2.3rem); }
+    }
+
+    /* Multi-Page PDF & Print Styling with Repeating Thead */
+    @media print {
+      @page {
+        margin: 16mm 14mm 18mm;
+        size: A4 portrait;
+      }
+      body {
+        background: #fff;
+        font-size: 10.5pt;
+        line-height: 1.55;
+      }
+      .topbar { display: none!important; }
+      .devotional-wrapper { max-width: none; margin: 0; padding: 0; }
+      
+      /* Forces Android/Chrome/iOS PDF Engine to repeat this header on every page */
+      .print-table > thead {
+        display: table-header-group!important;
+      }
+      .print-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1.5pt solid #30493a;
+        padding-bottom: 4pt;
+        margin-bottom: 14pt;
+        font-family: "DM Sans", system-ui, sans-serif;
+        font-size: 8pt;
+        color: #47544d;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+      }
+      .print-header strong { color: #20372a; font-weight: 700; }
+      .print-header .version-tag {
+        font-size: 7.5pt;
+        color: #555;
+        border: 0.5pt solid #bbb;
+        padding: 1pt 4pt;
+        border-radius: 2pt;
+      }
+
+      .devotional-header { border-bottom: 1px solid #aaa; margin-bottom: 18pt; padding-bottom: 12pt; }
+      .scripture-box { background: #f4f2eb; color: #111; border-left: 3pt solid #30493a; }
+      .scripture-ref { color: #555; }
+      .context-pill { background: #f6f5ef; border-left: 2pt solid #666; }
+      .principle-card { background: #fff; border: 0.5pt solid #ccc; border-left: 3pt solid #8c3b20; }
+      .reflection-box { background: #fff; border: 0.5pt solid #ccc; border-top: 3pt solid #30493a; }
+      .scripture-box, .context-pill, .principle-card, .reflection-box, footer {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      h1, h2, h3, .section-title {
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sticky Minimalist Header for Web & Mobile -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/" title="Voltar à Biblioteca de Estudos"><strong>Romanos 12:2</strong><span>· Devocional</span></a>
+      <button type="button" class="print-action" onclick="window.print()" aria-label="Imprimir ou Salvar em PDF">
+        🖨️ Imprimir / PDF
+      </button>
+    </div>
+  </header>
+
+  <div class="devotional-wrapper" id="inicio">
+    <table class="print-table">
+      <thead>
+        <tr>
+          <td>
+            <!-- Repeating Running Header across all printed PDF pages -->
+            <div class="print-header">
+              <span><strong>Romanos 12:2</strong> · Devocional &amp; Meditação Bíblica</span>
+              <span class="version-tag">Almeida Corrigida e Fiel (ACF)</span>
+            </div>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <header class="devotional-header">
+              <p class="kicker">Devocional &amp; Meditação Bíblica</p>
+              <h1>Não Moldados pelo Mundo: <em>A Mente Renovada</em> e a Vontade de Deus</h1>
+              <div class="meta">
+                <span>Texto: Romanos 12:2 · ACF</span>
+                <span>Tema: Renovação da Mente e Discernimento</span>
+                <span>Modo: Devocional Pastoral</span>
+              </div>
+            </header>
+
+            <main>
+              <div class="scripture-box">
+                <div class="scripture-ref">Romanos 12:2 · Almeida Corrigida e Fiel</div>
+                <blockquote>“E não vos conformeis com este mundo, mas transformai-vos pela renovação do vosso entendimento, para que experimenteis qual seja a boa, agradável, e perfeita vontade de Deus.”</blockquote>
+              </div>
+
+              <div class="context-pill">
+                <strong>Contexto em 1 Minuto:</strong> Após onze capítulos dedicados a expor as profundezas da graça, da justificação pela fé e da soberana misericórdia divina em Cristo, o apóstolo Paulo inicia o capítulo 12 chamando a igreja em Roma à vida prática. Diante de tão grande salvação, o culto verdadeiro não consiste em ritos exteriores, mas no oferecimento da própria vida como sacrifício vivo a Deus. O versículo 2 revela como essa consagração acontece no dia a dia: rompendo com as formas deste século presente e permitindo que o entendimento seja remodelado pela verdade do Evangelho.
+              </div>
+
+              <div class="prose">
+                <h2 class="section-title">O Coração da Mensagem</h2>
+                <p>O mundo ao nosso redor exerce uma pressão contínua, sutil e persistente para que nos ajustemos aos seus próprios moldes. Conformar-se significa ceder passivamente a essa força externa, permitindo que a cultura vigente defina o que tem valor, como devemos reagir às ofensas, de que modo medir o sucesso e onde depositar a nossa segurança. Quando não vigiamos, passamos a pensar como o mundo pensa e a desejar o que o mundo deseja, perdendo a nitidez da nossa identidade e vocação em Cristo.</p>
+                <p>A resposta bíblica a essa pressão, no entanto, não é o isolamento amargurado nem um esforço moralista superficial, mas uma transformação profunda que brota de dentro para fora. Pela ação conjunta das Escrituras e do Espírito Santo, o entendimento humano é continuamente curado e reorientado. Nossos afetos, prioridades e critérios de julgamento deixam de ser governados pela autoafirmação ou pelo medo, passando a ser iluminados pela sabedoria da cruz e da ressurreição.</p>
+                <p>É dessa mente reconfigurada pela graça que nasce a capacidade de discernir. A vontade de Deus não é tratada nas Escrituras como um enigma impenetrável ou uma imposição pesada, mas como uma realidade viva que se comprova no próprio caminhar da obediência. À medida que confiamos e colocamos em prática os princípios do Reino, experimentamos por nós mesmos que o querer de Deus é genuinamente bom para a alma, agradável ao coração redimido e perfeito para cumprir o Seu propósito eterno.</p>
+              </div>
+
+              <h2 class="section-title">Princípios para Guardar no Coração</h2>
+              <div class="principles-grid">
+                <div class="principle-card">
+                  <b>1. Resistência vigilante à moldagem cultural</b>
+                  <p>O que consome nossos pensamentos e conversas diárias molda gradualmente nossos valores. Guardar a mente das pressões e futilidades deste século é a primeira linha de defesa da integridade espiritual.</p>
+                </div>
+                <div class="principle-card">
+                  <b>2. A mente como campo central do discipulado</b>
+                  <p>O cristianismo abrange o intelecto tanto quanto as emoções. Alimentar o entendimento com a verdade bíblica é o que gera convicções firmes e nos livra da instabilidade das circunstâncias.</p>
+                </div>
+                <div class="principle-card">
+                  <b>3. A vontade de Deus é comprovada na prática</b>
+                  <p>O discernimento espiritual não amadurece na inércia da dúvida, mas nos passos concretos de obediência. Quem se dispõe a fazer a vontade do Senhor descobre diariamente a Sua bondade e suficiência.</p>
+                </div>
+              </div>
+
+              <div class="reflection-box">
+                <h3>Autoexame e Aplicação Pessoal</h3>
+                <ul>
+                  <li>Em quais áreas práticas da minha rotina (trabalho, uso do tempo, finanças ou reações diante de conflitos) tenho me deixado moldar pelos padrões e ansiedades deste século sem perceber?</li>
+                  <li>Quais fontes têm alimentado predominantemente os meus pensamentos ao longo do dia, e o que preciso ajustar para que as Escrituras tenham primazia sobre a minha mente?</li>
+                  <li>Tenho hesitado em dar passos de obediência a Deus por temer que a Sua vontade seja pesada demais, em vez de descansar na promessa de que ela é boa, agradável e perfeita?</li>
+                </ul>
+              </div>
+            </main>
+
+            <footer>
+              Estudo devocional pessoal · Texto bíblico: Almeida Corrigida e Fiel (ACF).
+            </footer>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
