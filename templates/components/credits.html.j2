@@ -1,0 +1,18 @@
+<div class="footer-credit">
+  {% if credits.textual %}
+  <div><strong>Fontes textuais:</strong> {{ credits.textual|join("; ") }}</div>
+  {% endif %}
+  {% if credits.lexicons %}
+  <div><strong>Léxicos:</strong> {{ credits.lexicons|join("; ") }}</div>
+  {% endif %}
+  {% if credits.images %}
+  <div><strong>Imagens:</strong>
+    {% for image in credits.images %}
+      {% if image.get("credito") %}{{ image.get("credito") }}{% elif image.get("credit") %}{{ image.get("credit") }}{% elif image.get("src") %}{{ image.get("src") }}{% endif %}{% if not loop.last %}; {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% if not credits.textual and not credits.lexicons and not credits.images %}
+  <div>Fontes e créditos ainda não declarados neste material.</div>
+  {% endif %}
+</div>

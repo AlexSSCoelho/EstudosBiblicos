@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "studies": [
+    {
+      "id": "romanos-12-2-devocional",
+      "tipo": "devocional",
+      "titulo": "Não Moldados pelo Mundo: A Mente Renovada e a Vontade de Deus",
+      "passagem": "Romanos 12:2",
+      "traducao": "ACF",
+      "traducao_inferida": false,
+      "data": "2026-08-23",
+      "resumo": "Uma meditação pastoral sobre a pressão dos padrões deste século, a transformação pela renovação do entendimento e a obediência que discerne a vontade de Deus.",
+      "status": "revisado",
+      "tags": [
+        "Romanos",
+        "renovação da mente",
+        "discernimento"
+      ],
+      "homiletica": false,
+      "html": "estudos/romanos-12-2-devocional/romanos-12-2-devocional.html",
+      "pdf": "estudos/romanos-12-2-devocional/romanos-12-2-devocional.pdf",
+      "fonte": "Pregações/2026-08-23 - Romanos 12.2 - Devocional/estudo.md"
+    },
+    {
+      "id": "filipenses-4-6-9",
+      "tipo": "estudo_exegetico",
+      "titulo": "Filipenses: alegria com os pés no chão",
+      "passagem": "Filipenses 4:6-9",
+      "traducao": "ACF",
+      "traducao_inferida": false,
+      "data": "2026-07-19",
+      "resumo": "Escrita da prisão para uma igreja parceira, a carta ensina uma comunidade pressionada a permanecer unida, pensar segundo o evangelho e transformar a fé em prática.",
+      "status": "revisado",
+      "tags": [
+        "Filipenses",
+        "oração",
+        "paz",
+        "discipulado"
+      ],
+      "homiletica": true,
+      "html": "estudos/filipenses-4-6-9/filipenses-4-6-9.html",
+      "pdf": "estudos/filipenses-4-6-9/filipenses-4-6-9.pdf",
+      "fonte": "Pregações/2026-07-19 - Filipenses 4.6-9 - IPR Paranaíba-MS/estudo.md"
+    }
+  ]
+}

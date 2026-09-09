@@ -1,6 +1,6 @@
 # Instruções do Repositório: Estudos Bíblicos e Pregações
 
-Repositório pessoal para elaboração, leitura e arquivamento de estudos bíblicos exegéticos, sermões expositivos e devocionais estruturados em HTML semântico de padrão editorial e Markdown.
+Repositório pessoal para elaboração, leitura e arquivamento de estudos bíblicos exegéticos, sermões expositivos e devocionais. A fonte canônica é Markdown com front matter YAML; HTML, PDF e índice em `dist/` são artefatos gerados.
 
 ## Fonte de Verdade
 - Consulte sempre [`CONTEXT.md`](CONTEXT.md) para regras hermenêuticas, cânon bíblico, modos de entrega e design system *Paper & Forest*.
@@ -17,10 +17,10 @@ Repositório pessoal para elaboração, leitura e arquivamento de estudos bíbli
 
 ## Modos de Estudo Suportados
 
-1. **Modo 1: Devocional / Estudo Rápido** (1–2 páginas):
-   - Foco pastoral imediato, leitura da passagem (ACF), 3 princípios centrais e autoexame prático para a vida diária. Sem morfologia técnica e sem orações guiadas prontas.
-2. **Modo 2: Estudo Exegético Completo + Homilética** (Passagem aprofundada / Púlpito):
-   - Macrocontexto histórico/geográfico, delimitação, exegese em prosa versículo a versículo, gavetas lexicais recolhíveis (`<details class="lex-drawer">`), hermenêutica com limites e seção homilética completa (proposição, esboço em movimentos, ilustrações, perguntas e apelo).
+1. **Devocional / Estudo Rápido:**
+   - Foco pastoral imediato e estrutura definida pelo conteúdo. A tradução padrão para novos devocionais é NVI; a tradução explícita no front matter prevalece. Sem morfologia técnica desnecessária e sem orações guiadas prontas.
+2. **Estudo Exegético:**
+   - A tradução padrão é ACF. Contexto, delimitação, exposição por unidades ou versículos, gavetas lexicais (`<details class="lex-drawer">`), hermenêutica, homilética, perguntas e apelo são blocos opcionais; o conteúdo determina a composição.
 
 ## Convenções de Pastas e Arquivos
 
@@ -28,9 +28,8 @@ Repositório pessoal para elaboração, leitura e arquivamento de estudos bíbli
   - Padrão: `Pregações/AAAA-MM-DD - [Livro] [Cap.Vers] - [Igreja]/`
   - Exemplo: `Pregações/2026-07-19 - Filipenses 4.6-9 - IPR Paranaíba-MS/`
 - Arquivos de imagem locais (mapas, diagramas) devem ficar na pasta do respectivo estudo e ser referenciados por caminho relativo `./nome-imagem.png`.
-- Templates reutilizáveis ficam em `templates/`:
-  - `templates/TEMPLATE-ESTUDO-EXEGETICO.html`
-  - `templates/TEMPLATE-DEVOCIONAL.html`
+- Templates reutilizáveis ficam em `templates/` (`base.html.j2`, `devotional.html.j2`, `exegetical.html.j2` e componentes). Não edite HTML dentro de `dist/` para alterar um estudo.
+- Gere a biblioteca com `py -X utf8 build.py` ou apenas um estudo com `py -X utf8 build.py <id>`. O `server.py` serve exclusivamente `dist/` e usa o manifesto gerado.
 
 ## Regras e Restrições Locais (Do-Not Rules)
 
@@ -38,6 +37,6 @@ Repositório pessoal para elaboração, leitura e arquivamento de estudos bíbli
 2. **Gramática em Gaveta Retrátil:** O autor não é especialista em hebraico/grego. Mantenha a prosa explicativa 100% visível e coloque tabelas morfológicas e códigos gramaticais dentro de `<details class="lex-drawer">`.
 3. **Sem Orações Guiadas:** Não incluir seções de oração guiada/pronta em nenhum estudo ou devocional.
 4. **Fidelidade Histórico-Gramatical:** Nunca introduza conclusões dogmáticas ou calvinistas/arminianas que não decorram da evidência do texto examinado.
-5. **Tradução-Base:** Sempre use a Almeida Corrigida e Fiel (ACF) como tradução principal em português.
+5. **Tradução-Base:** Para novos estudos exegéticos, use ACF; para novos devocionais, use NVI. Uma tradução explicitamente solicitada no front matter prevalece. Ao migrar legado, preserve a versão realmente usada e registre-a.
 6. **Acessibilidade e Ergonomia:** Todos os HTMLs devem manter alto contraste (WCAG AAA no texto principal), escala tipográfica proporcional equilibrada (h1 max 3.2rem, h2 max 2.3rem), e sticky TOC responsivo no desktop / pílulas no mobile.
 7. **Compatibilidade com Servidor Local e Mobile (`server.py`):** Todos os caminhos de imagens locais devem ser estritamente relativos à pasta do estudo (`./nome-imagem.png`) e o cabeçalho superior deve manter `href="/"` para retornar à biblioteca inicial quando servido via HTTP local, Wi-Fi ou túnel 4G.

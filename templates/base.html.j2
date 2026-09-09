@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#20372a">
+  <meta name="description" content="{{ metadata.resumo if metadata is defined else 'Biblioteca de estudos bíblicos.' }}">
+  <title>{% block title %}Estudos Bíblicos{% endblock %}</title>
+  <link rel="stylesheet" href="{{ asset_prefix }}assets/study.css">
+  <script defer src="{{ asset_prefix }}assets/study.js"></script>
+</head>
+<body class="{% block body_class %}{% endblock %}" data-study-type="{{ metadata.tipo if metadata is defined else 'biblioteca' }}">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  {% if metadata is defined %}
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/" title="Voltar à biblioteca">
+        <strong>Estudos Bíblicos</strong>
+        <span>· {{ metadata.passagem }}</span>
+      </a>
+      <button type="button" class="print-action" onclick="window.print()" aria-label="Imprimir ou salvar em PDF">
+        Imprimir / PDF
+      </button>
+    </div>
+  </header>
+  {% endif %}
+
+  {% block content %}{% endblock %}
+</body>
+</html>

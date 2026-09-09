@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#20372a">
+  <meta name="description" content="Biblioteca de estudos bíblicos, estudos exegéticos e devocionais.">
+  <title>Biblioteca de Estudos Bíblicos</title>
+  <link rel="stylesheet" href="{{ asset_prefix }}assets/study.css">
+</head>
+<body class="library-page">
+  <main id="conteudo" class="library-shell">
+    <header class="library-header">
+      <p class="eyebrow">Biblioteca pastoral</p>
+      <h1>Estudos Bíblicos</h1>
+      <p>Leituras exegéticas e devocionais organizadas a partir de uma fonte editorial única.</p>
+    </header>
+
+    <section class="library-list" aria-labelledby="library-title">
+      <div class="library-list-heading">
+        <h2 id="library-title">Materiais disponíveis</h2>
+        <span>{{ cards|length }} estudo(s)</span>
+      </div>
+      {% if cards %}
+      <div class="study-cards">
+        {% for card in cards %}
+        <article class="study-card study-card--{{ card.tipo }}">
+          <div class="card-kicker">{{ "Devocional" if card.tipo == "devocional" else "Estudo exegético" }} · {{ card.passagem }}</div>
+          <h3><a href="{{ card.html }}">{{ card.titulo }}</a></h3>
+          <p>{{ card.resumo }}</p>
+          <div class="card-meta">
+            <span>{{ card.data }}</span>
+            <span>{{ card.traducao }}</span>
+            {% if card.pdf %}<a href="{{ card.pdf }}">PDF</a>{% endif %}
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <h3>Nenhum estudo publicado</h3>
+        <p>Adicione uma fonte <code>Pregações/**/estudo.md</code> e execute o build.</p>
+      </div>
+      {% endif %}
+    </section>
+
+    <footer class="library-footer">
+      <span>Paper &amp; Forest · HTML e PDF derivados dos mesmos metadados.</span>
+      <a href="manifest.json">Manifesto da biblioteca</a>
+    </footer>
+  </main>
+</body>
+</html>

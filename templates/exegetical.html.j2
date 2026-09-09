@@ -1,0 +1,71 @@
+{% extends "base.html.j2" %}
+
+{% block title %}{{ metadata.titulo }} | Estudo exegético{% endblock %}
+{% block body_class %}study-document exegetical-document{% endblock %}
+
+{% block content %}
+<main id="conteudo" class="study-page">
+  <header class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Estudo exegético · Histórico-gramatical</p>
+      <h1>{{ metadata.titulo }}</h1>
+      <p class="hero-lead">{{ metadata.resumo }}</p>
+      <div class="hero-meta" aria-label="Dados do estudo">
+        <span>{{ metadata.passagem }}</span>
+        <span>{{ metadata.traducao }}</span>
+        <span>{{ metadata.data }}</span>
+        {% if metadata.autor %}<span>Autor: {{ metadata.autor }}</span>{% endif %}
+        {% if metadata.igreja %}<span>{{ metadata.igreja }}</span>{% endif %}
+      </div>
+    </div>
+    {% if hero_image %}
+    <figure class="hero-figure">
+      <img src="{{ hero_image.src }}" alt="{{ hero_image.alt|default('Imagem de contexto do estudo') }}">
+      {% if hero_image.legenda %}<figcaption>{{ hero_image.legenda }}</figcaption>{% endif %}
+    </figure>
+    {% else %}
+    <div class="hero-placeholder" aria-label="Sem imagem de abertura">
+      <span>Contexto histórico e literário</span>
+      <small>O estudo prioriza a leitura do texto e seus limites.</small>
+    </div>
+    {% endif %}
+  </header>
+
+  {% if metadata.tese %}
+  <div class="thesis-wrap">
+    <aside class="thesis" aria-label="Tese da passagem">
+      <div class="thesis-inner">
+        <span class="thesis-label">Tese da passagem</span>
+        <p>{{ metadata.tese }}</p>
+      </div>
+    </aside>
+  </div>
+  {% endif %}
+
+  <div class="study-shell">
+    <nav class="toc" aria-label="Índice do estudo">
+      <p class="toc-title">Neste estudo</p>
+      <div class="toc-list">
+        {% for entry in toc %}
+        <a href="#{{ entry.id }}"><span>{{ "%02d"|format(loop.index) }}</span>{{ entry.name }}</a>
+        {% endfor %}
+      </div>
+    </nav>
+
+    <article class="study-content">
+      <div class="prose study-body">{{ body_html|safe }}</div>
+    </article>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <strong>{{ metadata.titulo }}</strong>
+        <span>{{ metadata.passagem }} · {{ metadata.traducao }} · {{ metadata.data }}</span>
+        {% if metadata.igreja %}<span>{{ metadata.igreja }}</span>{% endif %}
+      </div>
+      {% include "components/credits.html.j2" %}
+    </div>
+  </footer>
+</main>
+{% endblock %}

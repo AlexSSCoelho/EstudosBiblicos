@@ -2,6 +2,8 @@
 
 Este documento é a **fonte de verdade durável** para a criação, expansão e revisão de todos os estudos bíblicos, sermões e devocionais deste repositório. Qualquer agente de IA ou autor humano deve consultar este guia para preservar a integridade teológica, exegética, linguística e visual do projeto.
 
+O conteúdo editorial vive em `Pregações/**/estudo.md`, com front matter YAML. `build.py` deriva HTML, PDF, manifesto e índice em `dist/`; esses artefatos não são fontes para edição manual. Os padrões de tradução e a composição da página devem ser lidos dos metadados, não inferidos por regex no HTML.
+
 ---
 
 ## 1. Perfil do Autor e Ambiente de Uso
@@ -21,7 +23,7 @@ Este documento é a **fonte de verdade durável** para a criação, expansão e 
    - Rejeição de leituras alegóricas arbitrárias, espiritualizações forçadas, anacronismos e teologia da prosperidade/triunfalista.
    - Sistemas teológicos (calvinismo, arminianismo, dispensacionalismo, pactualismo, etc.) devem ser estritamente submetidos à evidência exegética do texto em análise, nunca usados como gabarito interpretativo prévio.
 2. **Tradução-Base e Crítica Textual:**
-   - **Tradução-base:** **Almeida Corrigida e Fiel (ACF)**, salvo se especificada outra versão pelo autor.
+   - **Tradução-base por tipo:** ACF para novos estudos exegéticos e NVI para novos devocionais. Uma versão explicitamente solicitada no front matter prevalece; materiais legados preservam a versão que realmente utilizavam.
    - **Novo Testamento:** Texto-base grego Nestle-Aland 28ª edição (NA28) cotejado com o Textus Receptus (TR). Comparações de variantes textuais só devem ser feitas quando houver impacto real na tradução ou interpretação do versículo.
    - **Antigo Testamento:** Texto Massorético (Biblia Hebraica Stuttgartensia / Westminster Leningrad Codex).
 3. **Equilíbrio Pastoral e Responsabilidade Psicológica:**
@@ -41,54 +43,34 @@ O repositório deve lidar com qualquer um dos 66 livros da Bíblia, aplicando as
 | Gênero Literário | Livros Exemplo | Diretrizes Exegéticas Específicas |
 | :--- | :--- | :--- |
 | **Narrativa Histórica** | Gênesis, Samuel, Reis, Atos | Distinguir o que é *descritivo* (o que aconteceu) do que é *prescritivo* (o que deve ser feito). Analisar o enredo, personagens, ponto de vista do narrador e intervenção de Deus. |
-| **Lei e Aliança** | Êxodo, Levítico, Deuteronômio | Compreender a lei no contexto da Antiga Aliança (moral, cerimonial, civil), seu propósito original em Israel e sua realização em Cristo na Nova Aliança. |
+| **Lei e Aliança** | Êxodo, Levítico, Deuteronômio | Investigar a função da lei na aliança mosaica, seu propósito original em Israel e seu desenvolvimento canônico. Categorias teológicas posteriores podem ser avaliadas depois, em relação a Cristo e à Nova Aliança, sem tratá-las como uma divisão explícita do Pentateuco. |
 | **Poesia e Sabedoria** | Salmos, Provérbios, Jó, Eclesiastes | Identificar paralelismos hebraicos (sinônimo, antitético, sintético), linguagem figurada, hipérboles e a sabedoria como guia para a vida sob o temor do Senhor, não promessas mecânicas infalíveis. |
 | **Profecia do AT** | Isaías, Jeremias, Amós, Malaquias | Mapear a mensagem original ao contexto pré-exílico, exílico ou pós-exílico. Compreender denúncia da quebra da aliança, apelo ao arrependimento, promessas messiânicas e cumprimento escatológico. |
 | **Evangelhos** | Mateus, Marcos, Lucas, João | Interpretar à luz do Reino de Deus e do ministério de Jesus, comparando passagens paralelas nos Sinóticos e considerando a ênfase teológica única de cada evangelista. |
 | **Epístolas** | Romanos, Filipenses, Hebreus, Tiago | Seguir o fluxo do argumento lógico, conjunções conectivas, ocasião histórica da carta, destinatários, problemas comunitários e a relação indissolúvel entre doutrina (indicativo) e prática (imperativo). |
-| **Literatura Apocalíptica** | Daniel, Zacarias, Apocalipse | Interpretar os símbolos e visões à luz do Antigo Testamento e do conforto aos santos perseguidos pelo poder imperial, evitando previsões conspiratórias ou mapeamento literalista ingênuo de notícias modernas. |
+| **Literatura Apocalíptica** | Daniel, Zacarias, Apocalipse | Interpretar símbolos, visões, imagética e horizonte escatológico à luz do contexto literário e do Antigo Testamento. Considerar perseguição, juízo, esperança e soberania divina quando o livro/passagem os sustentar, evitando previsões conspiratórias ou mapeamento literalista ingênuo de notícias modernas. |
 
 ---
 
-## 4. Os Dois Modos Oficiais de Entrega
+## 4. Os Dois Perfis Oficiais de Entrega
 
-O repositório opera estritamente com **dois modos de estudo**:
+O repositório oferece dois perfis editoriais, mas nenhum deles impõe uma quantidade fixa de seções, princípios, movimentos ou perguntas. O front matter registra `tipo` e `homiletica`; o corpo do Markdown determina a composição real.
 
-### Modo 1: Devocional / Estudo Rápido (1–2 páginas)
+### Perfil 1: Devocional / Estudo Rápido
+
 * **Objetivo:** Edificação pessoal, leitura em pequenos grupos ou meditação rápida.
-* **Estrutura Padrão:**
-  1. **Cabeçalho:** Título pastoral inspirador, texto-base (ACF) e tema central.
-  2. **Passagem Bíblica:** Texto bíblico destacado na íntegra.
-  3. **Contexto em 1 Minuto:** 1–2 parágrafos situando o cenário histórico e a ocasião.
-  4. **Meditação Bíblica (O Coração do Texto):** 2 a 4 parágrafos de exposição bíblica fluida e calorosa.
-  5. **Princípios para Guardar:** Cartões com 3 lições diretas para a vida.
-  6. **Autoexame e Aplicação Pessoal:** Perguntas práticas para reflexão pessoal e alinhamento de conduta.
-* **Restrições:** Proibido o uso de orações guiadas prontas e jargões técnicos de gramática grega/hebraica (morfologia, termos em lemas sem explicação).
+* **Tradução padrão para novos materiais:** NVI, salvo sobrescrita explícita.
+* **Composição possível:** passagem bíblica, contexto, meditação, implicações, autoexame, perguntas, imagens e fontes, somente quando ajudarem o material.
+* **Restrições:** não incluir orações guiadas prontas nem jargão técnico sem explicação clara.
 
----
+### Perfil 2: Estudo Exegético
 
-### Modo 2: Estudo Exegético Completo + Homilética (Aprofundado / Púlpito)
-* **Objetivo:** Estudo exaustivo de passagem, preparação teológica sólida e esboço completo para pregação.
-* **Estrutura Padrão:**
-  1. **Hero & Metadados:** Título do estudo, autor, destinatários, ocasião, tese central da passagem e imagem de abertura ou placeholder elegante com contexto arqueológico/geográfico.
-  2. **Índice Interativo (TOC):** Sidebar fixa com rolagem suave e atalho para versículos.
-  3. **01 · Orientação Inicial & Tese:** Grade de dados do livro/passagem e ideia exegética central.
-  4. **02 · Contexto Histórico, Geográfico e Cultural:** Cidade/região, contexto social, mapas com itinerário quando aplicável e notas de limites.
-  5. **03 · Autor, Destinatários e Ocasião:** Prisão/viagem, rede de cooperadores, graus de certeza histórica.
-  6. **04 · Contexto Amplo no Livro:** Mapa argumentativo do livro inteiro e fios temáticos.
-  7. **05 · Delimitação da Perícope:** Fluxo argumentativo imediato e estrutura retórica da unidade.
-  8. **06 · Exegese Versículo a Versículo:**
-     - **Comentário Exegético em Prosa (Principal - 100% Visível):** Explicação contínua do versículo citando o termo original transliterado com seu significado real na frase.
-     - **Gaveta Lexical e Gramatical (`<details class="lex-drawer">`):** Bloco recolhível contendo lema, forma original, transliteração acadêmica (SBL), classificação morfológica, função sintática, campo semântico e justificativa contextual.
-     - **Linhas Interpretativas e Limites:** Caixa de observação pastoral/teológica ao final de cada versículo.
-  9. **07 · Hermenêutica Histórico-Gramatical:** Princípios teológicos permanentes, pontes contemporâneas e limites da aplicação (o que o texto *não* significa).
-  10. **08 · Proposta Homilética e Esboço para o Púlpito:**
-      - *Proposição Homilética:* Frase-mestra da mensagem.
-      - *Sentimento/Atmosfera do Sermão:* O tom da entrega (solene, encorajador, reflexivo).
-      - *Esboço em Movimentos:* Tópicos ordenados com transições, ilustrações contextualizadas e pontes para a vida real.
-      - *Perguntas para Reflexão Comunitária:* Perguntas instigantes para discipulado.
-      - *Conclusão e Apelo:* Chamado à ação centrado no evangelho.
-  11. **Rodapé:** Créditos bibliográficos, léxicos consultados (Logeion, BDAG, HALOT, etc.) e licenças de imagens.
+* **Objetivo:** investigação histórico-gramatical e preparação teológica sólida; a entrega pode ou não incluir material para o púlpito.
+* **Tradução padrão para novos materiais:** ACF, salvo sobrescrita explícita.
+* **Composição possível:** contexto histórico e literário, delimitação, exposição por unidades ou versículos, gavetas lexicais, síntese teológica, limites de aplicação, relações bíblicas, notas, imagens e fontes.
+* **Homilética:** proposição, movimentos, ilustrações, perguntas para grupo e apelo são entregáveis opcionais, ativados pelo pedido ou por `homiletica: true`.
+
+Em ambos os perfis, a distinção entre observação textual, interpretação, inferência, síntese e aplicação deve aparecer naturalmente na prosa, sem etiquetas repetitivas nem formato de relatório de IA.
 
 ---
 
@@ -144,7 +126,7 @@ Todos os arquivos HTML devem seguir rigorosamente este design system editorial c
 
 ## 6. Servidor Local e Acesso Mobile (Wi-Fi & 4G)
 
-O repositório inclui um servidor HTTP nativo em Python (`server.py`) de dependência zero, projetado para leitura ergonômica tanto no computador quanto no celular/tablet.
+O repositório inclui um servidor HTTP nativo em Python (`server.py`) de dependência zero para servir a saída já gerada em `dist/`, projetado para leitura ergonômica tanto no computador quanto no celular/tablet. Se a saída ainda não existir, ele executa o build completo uma vez.
 
 ### Como Iniciar o Servidor:
 ```bash
@@ -158,6 +140,7 @@ python server.py
    - **Opção 1 (Recomendada / Segura):** Usar o **Tailscale** no PC e no celular (acesse via `http://<IP-Tailscale>:8000` de qualquer lugar do mundo com criptografia de ponta a ponta).
    - **Opção 2 (Túnel Cloudflare):** Em outro terminal, execute `cloudflared tunnel --url http://localhost:8000` para gerar um link HTTPS público temporário e seguro.
 
-### Indexação Automática:
-- Toda vez que uma nova pasta for criada dentro de `Pregações/`, o script `server.py` ou qualquer requisição ao `/` regenera automaticamente o `index.html` da biblioteca com cards responsivos contendo título, data e badge do modo de estudo.
+### Build e indexação:
+- Execute `py -X utf8 build.py` para regenerar HTML, PDF, manifesto e `dist/index.html`; use `py -X utf8 build.py <id>` para um estudo específico.
+- O índice é renderizado pelo build a partir do front matter/manifesto e não tenta descobrir metadados lendo HTML. O `server.py` apenas serve essa saída.
 - Os templates utilizam links relativos e `href="/"` no topo para retornar à biblioteca inicial com um toque no celular.
