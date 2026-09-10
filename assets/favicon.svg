@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Estudos Bíblicos">
+  <rect width="64" height="64" rx="14" fill="#20372a"/>
+  <path d="M13 17.5c7.2-.6 13.3 1.1 18 5.1v25.8c-5-3.6-11-5.2-18-4.7V17.5Z" fill="#f3f0e8"/>
+  <path d="M51 17.5c-7.2-.6-13.3 1.1-18 5.1v25.8c5-3.6 11-5.2 18-4.7V17.5Z" fill="#fffdf8"/>
+  <path d="M32 23v25.5" stroke="#b68a43" stroke-width="2" stroke-linecap="round"/>
+  <path d="M18 25.5c4.1-.1 7.4.8 10 2.7M18 31.5c4.1-.1 7.4.8 10 2.7M46 25.5c-4.1-.1-7.4.8-10 2.7M46 31.5c-4.1-.1-7.4.8-10 2.7" stroke="#30493a" stroke-width="1.6" stroke-linecap="round" opacity=".72"/>
+</svg>

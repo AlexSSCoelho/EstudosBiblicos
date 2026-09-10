@@ -7,6 +7,8 @@ on:
       - "templates/**"
       - "assets/**"
       - "build.py"
+      - "server.py"
+      - "tests/**"
       - "requirements.txt"
       - ".github/workflows/build-estudos.yml"
   workflow_dispatch:
@@ -34,7 +36,7 @@ jobs:
       - name: Instalar Chromium do Playwright
         run: python -m playwright install --with-deps chromium
 
-      - name: Executar testes
+      - name: Executar testes unitários
         run: python -m unittest discover -s tests -v
 
       - name: Gerar e validar HTML, PDF e índice
@@ -49,6 +51,9 @@ jobs:
           cp -a dist/. "$snapshot_dir/"
           python build.py
           diff -r -q "$snapshot_dir" dist
+
+      - name: Validar frontend responsivo e interações
+        run: python tests/frontend_qa.py
 
       - name: Publicar artefato do workflow
         uses: actions/upload-artifact@v4
