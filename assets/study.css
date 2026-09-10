@@ -506,7 +506,7 @@ figcaption {
 }
 
 @media print {
-  @page { size: A4 portrait; margin: 16mm 14mm 18mm; }
+  @page { size: A4 portrait; margin: 16mm 14mm 12mm; }
   body { background: #fff; font-size: 10.5pt; line-height: 1.55; }
   .topbar, .toc, .mobile-toc-wrap, .skip-link, .print-action { display: none !important; }
   .hero, .study-shell, .thesis-wrap, .footer-inner {
