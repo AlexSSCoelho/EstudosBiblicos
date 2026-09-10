@@ -1,7 +1,7 @@
 # Implementação da refatoração do repositório EstudosBiblicos
 
 > **Executor previsto:** Gemini 3.8 Flash no Google Antigravity, trabalhando localmente neste repositório.
-> **Status:** especificação aprovada para implementação.
+> **Status:** implementação concluída, validada e aprovada em auditoria independente.
 > **Objetivo:** transformar o repositório em um sistema editorial de fonte única, com templates flexíveis e geração repetível de HTML + PDF, preservando o método exegético, a identidade visual e a facilidade de leitura atuais.
 
 ## 1. Resultado esperado
@@ -400,3 +400,19 @@ A refatoração só está concluída quando:
 - os casos de validação acima passam.
 
 Ao finalizar, entregue um resumo curto contendo: arquivos principais alterados, comandos de build/teste, arquitetura resultante, resultado da validação e quaisquer limitações concretas que ainda existam.
+
+## 15. Registro de conclusão
+
+Esta especificação foi implementada no branch `Refinos` e aprovada pelo auditor web no head `0e44216f7d28165f78022c0f0cad50e289bd16c6`, no [PR #1](https://github.com/AlexSSCoelho/EstudosBiblicos/pull/1). A arquitetura final usa `Pregações/**/estudo.md` como fonte editorial canônica; `build.py`, os templates compartilhados, os assets de `assets/` e `server.py` derivam e servem HTML, PDF, manifesto e índice em `dist/`.
+
+### Evidências finais
+
+- A suíte local terminou com **16 testes aprovados** e **1 caso ignorado no Windows** por exigir privilégio de symlink; o mesmo cenário de symlink foi executado no CI Linux.
+- `py -X utf8 -m py_compile build.py server.py tests/test_build.py` e `git diff --check` passaram.
+- O workflow [Build estudos bíblicos](https://github.com/AlexSSCoelho/EstudosBiblicos/actions/runs/34432221814) instalou dependências fixadas, executou dois builds consecutivos, comparou todo `dist/` e publicou os artefatos.
+- Os testes visuais reais foram executados em servidor HTTP local, via Chrome/Playwright, nos viewports `1440x900` e `390x844`. Romanos manteve 4 links de TOC; Filipenses, 37 links, 4 gavetas lexicais e 3 imagens carregadas. Não houve overflow horizontal e o carregamento mobile iniciou com `scrollY = 0`.
+- A auditoria externa confirmou `AUDITORIA_APROVADA`, PDFs A4, gavetas lexicais presentes na impressão, créditos completos, ausência de duplicação em Filipenses e ausência de página órfã de créditos em Romanos.
+
+### Limitação operacional conhecida
+
+O GitHub Pages deste repositório não está configurado e retorna 404. A inspeção interativa foi feita por HTTP local, sem `file://`; os artefatos persistidos em `dist/` e o artefato do workflow permanecem disponíveis no GitHub para revisão e merge.
