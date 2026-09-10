@@ -19,8 +19,8 @@
     </div>
     {% if hero_image %}
     <figure class="hero-figure">
-      <img src="{{ hero_image.src }}" alt="{{ hero_image.alt|default('Imagem de apoio ao estudo') }}">
-      {% if hero_image.legenda %}<figcaption>{{ hero_image.legenda }}</figcaption>{% endif %}
+      <img src="{{ hero_image.get('src') }}" alt="{{ hero_image.get('alt') or 'Imagem de apoio ao estudo' }}">
+      {% if hero_image.get('legenda') %}<figcaption>{{ hero_image.get('legenda') }}</figcaption>{% endif %}
     </figure>
     {% else %}
     <div class="hero-placeholder" aria-label="Sem imagem de abertura">

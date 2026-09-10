@@ -3,7 +3,7 @@ name: Build estudos bíblicos
 on:
   push:
     paths:
-      - "Pregações/**/estudo.md"
+      - "Pregações/**"
       - "templates/**"
       - "assets/**"
       - "build.py"

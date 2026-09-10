@@ -33,6 +33,10 @@ imagens:
     alt: "Mapa esquemático da segunda viagem missionária de Paulo"
     legenda: "Mapa esquemático usado no contexto histórico e geográfico."
     credito: "Mapa local do estudo."
+  - src: "https://commons.wikimedia.org/wiki/Special:FilePath/Via%20Egnatia%2C%20Philippi%20%287272787450%29.jpg?width=1400"
+    alt: "Trecho preservado da Via Egnácia na antiga Filipos"
+    legenda: "Trecho da Via Egnácia em Filipos. A estrada conectava a cidade a uma rede política, militar e comercial muito maior."
+    credito: "Wikimedia Commons — Via Egnatia, Philippi (7272787450)."
 ---
 
 ## Antes de interpretar um versículo, localize a conversa inteira.

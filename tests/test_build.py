@@ -90,8 +90,41 @@ class BuildRenderingTests(unittest.TestCase):
         finally:
             build.STUDY_OUTPUT_ROOT = old_output_root
 
+    def test_image_without_optional_fields_renders_for_string_and_mapping(self) -> None:
+        old_output_root = build.STUDY_OUTPUT_ROOT
+        try:
+            with tempfile.TemporaryDirectory(dir=Path.cwd()) as temp_dir:
+                root = Path(temp_dir)
+                build.STUDY_OUTPUT_ROOT = root / "dist" / "estudos"
+                (root / "figura.png").write_bytes(b"not-a-real-image")
+                cases = (
+                    ("imagem-string", '  - "./figura.png"'),
+                    ("imagem-mapping", '  - src: "./figura.png"'),
+                )
+                for study_id, image_yaml in cases:
+                    source = root / f"{study_id}.md"
+                    source.write_text(
+                        f"""---\nid: {study_id}\ntipo: devocional\ntitulo: Material com imagem\npassagem: Salmo 1\ndata: 2026-09-09\nresumo: Renderização de imagem sem campos opcionais.\nimagens:\n{image_yaml}\n---\n\n## Unidade\n\nTexto do estudo.\n""",
+                        encoding="utf-8",
+                    )
+                    study = build.load_study(source)
+                    build.render_study(study, build.environment(), skip_pdf=True)
+                    html = (
+                        build.STUDY_OUTPUT_ROOT / study_id / f"{study_id}.html"
+                    ).read_text(encoding="utf-8")
+                    self.assertIn('src="./figura.png"', html)
+                    self.assertIn('alt="Imagem de apoio ao estudo"', html)
+                    self.assertNotIn("None", html)
+        finally:
+            build.STUDY_OUTPUT_ROOT = old_output_root
+
 
 class BuildValidationTests(unittest.TestCase):
+    def test_workflow_rebuilds_when_any_study_file_changes(self) -> None:
+        workflow = Path(".github/workflows/build-estudos.yml").read_text(encoding="utf-8")
+        self.assertIn('      - "Pregações/**"', workflow)
+        self.assertNotIn('      - "Pregações/**/estudo.md"', workflow)
+
     def test_base64_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             source_dir = Path(temp_dir)

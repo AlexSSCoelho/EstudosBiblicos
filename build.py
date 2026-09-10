@@ -356,8 +356,15 @@ def find_studies() -> list[Study]:
 
 def image_dict(image: Any) -> dict[str, Any]:
     if isinstance(image, dict):
-        return dict(image)
-    return {"src": str(image)}
+        normalized = dict(image)
+    else:
+        normalized = {"src": str(image)}
+
+    for field in ("src", "alt", "legenda", "credito", "credit"):
+        value = normalized.get(field)
+        normalized[field] = "" if value is None else str(value)
+    normalized["hero"] = bool(normalized.get("hero"))
+    return normalized
 
 
 def hero_image(study: Study) -> dict[str, Any] | None:
@@ -439,6 +446,13 @@ def render_pdf_with_playwright(html_path: Path, pdf_path: Path) -> bool:
             page.emulate_media(media="print")
             page.goto(html_path.as_uri(), wait_until="load", timeout=60_000)
             page.wait_for_timeout(500)
+            page.evaluate(
+                """() => {
+                    document.querySelectorAll("details.lex-drawer").forEach((drawer) => {
+                        drawer.open = true;
+                    });
+                }"""
+            )
             page.pdf(
                 path=str(pdf_path),
                 format="A4",
@@ -462,22 +476,42 @@ def render_pdf_with_chromium(html_path: Path, pdf_path: Path) -> None:
             "Instale as dependências e execute 'python -m playwright install chromium'."
         )
 
-    with tempfile.TemporaryDirectory(prefix="estudos-pdf-") as profile:
-        command = [
-            str(candidates[0]),
-            "--headless=new",
-            "--disable-gpu",
-            "--no-sandbox",
-            "--disable-dev-shm-usage",
-            "--no-pdf-header-footer",
-            f"--user-data-dir={profile}",
-            f"--print-to-pdf={pdf_path}",
-            html_path.as_uri(),
-        ]
-        result = subprocess.run(command, capture_output=True, text=True, timeout=120)
-        if result.returncode != 0:
-            detail = (result.stderr or result.stdout).strip()
-            raise BuildError(f"Chromium não conseguiu gerar {pdf_path}: {detail}")
+    print_html_path: Path | None = None
+    try:
+        print_html = html_path.read_text(encoding="utf-8").replace(
+            '<details class="lex-drawer">',
+            '<details class="lex-drawer" open>',
+        )
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            suffix=".html",
+            prefix=f".{html_path.stem}-print-",
+            dir=html_path.parent,
+            delete=False,
+        ) as print_file:
+            print_file.write(print_html)
+            print_html_path = Path(print_file.name)
+
+        with tempfile.TemporaryDirectory(prefix="estudos-pdf-") as profile:
+            command = [
+                str(candidates[0]),
+                "--headless=new",
+                "--disable-gpu",
+                "--no-sandbox",
+                "--disable-dev-shm-usage",
+                "--no-pdf-header-footer",
+                f"--user-data-dir={profile}",
+                f"--print-to-pdf={pdf_path}",
+                print_html_path.as_uri(),
+            ]
+            result = subprocess.run(command, capture_output=True, text=True, timeout=120)
+            if result.returncode != 0:
+                detail = (result.stderr or result.stdout).strip()
+                raise BuildError(f"Chromium não conseguiu gerar {pdf_path}: {detail}")
+    finally:
+        if print_html_path is not None:
+            print_html_path.unlink(missing_ok=True)
 
 
 def render_pdf(html_path: Path, pdf_path: Path) -> None:

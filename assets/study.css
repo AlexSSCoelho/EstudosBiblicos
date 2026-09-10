@@ -535,17 +535,13 @@ figcaption {
     print-color-adjust: exact;
     font-size: 6.2pt;
     line-height: 1.25;
-    break-inside: avoid;
-    page-break-inside: avoid;
+    break-before: avoid;
+    page-break-before: avoid;
   }
   .footer-inner {
-    display: flex;
-    align-items: flex-start;
-    gap: 12pt;
+    display: block;
     padding: 2pt 0;
     color: #fff;
-    break-inside: avoid;
-    page-break-inside: avoid;
   }
   .footer-inner > div:first-child { display: none; }
   .footer-credit { flex: 1; max-width: none; color: #e9eee9; text-align: left; }
