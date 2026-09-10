@@ -12,13 +12,14 @@
 
   function setActive(sectionId) {
     if (activeId === sectionId) return;
+    const isInitialActivation = activeId === "";
     activeId = sectionId;
     tocLinks.forEach((link) => {
       const active = link.getAttribute("href") === "#" + sectionId;
       link.classList.toggle("active", active);
       if (active) link.setAttribute("aria-current", "location");
       else link.removeAttribute("aria-current");
-      if (active && window.matchMedia("(max-width: 860px)").matches) {
+      if (active && !isInitialActivation && window.matchMedia("(max-width: 860px)").matches) {
         link.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
       }
     });

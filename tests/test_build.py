@@ -120,6 +120,16 @@ class BuildRenderingTests(unittest.TestCase):
 
 
 class BuildValidationTests(unittest.TestCase):
+    def test_mobile_toc_does_not_scroll_page_on_initial_activation(self) -> None:
+        source_script = Path("assets/study.js").read_text(encoding="utf-8")
+        generated_script = Path("dist/assets/study.js").read_text(encoding="utf-8")
+        for script in (source_script, generated_script):
+            self.assertIn('const isInitialActivation = activeId === "";', script)
+            self.assertIn(
+                'active && !isInitialActivation && window.matchMedia("(max-width: 860px)")',
+                script,
+            )
+
     def test_workflow_rebuilds_when_any_study_file_changes(self) -> None:
         workflow = Path(".github/workflows/build-estudos.yml").read_text(encoding="utf-8")
         self.assertIn('      - "Pregações/**"', workflow)
