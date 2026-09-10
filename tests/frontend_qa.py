@@ -2,15 +2,19 @@ from __future__ import annotations
 
 import functools
 import socketserver
+import sys
 import threading
 from pathlib import Path
 
 from playwright.sync_api import Page, sync_playwright
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 import server as study_server
 
 
-ROOT = Path(__file__).resolve().parents[1]
 DIST_ROOT = ROOT / "dist"
 STUDIES = (
     "/estudos/filipenses-4-6-9/filipenses-4-6-9.html",
