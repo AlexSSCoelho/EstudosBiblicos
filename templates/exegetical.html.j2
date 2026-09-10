@@ -14,7 +14,7 @@
         <span>{{ metadata.passagem }}</span>
         <span>{{ metadata.traducao }}</span>
         <span>{{ metadata.data }}</span>
-        {% if metadata.autor %}<span>Autor: {{ metadata.autor }}</span>{% endif %}
+        {% if metadata.get("autor") %}<span>Autor: {{ metadata.get("autor") }}</span>{% endif %}
         {% if metadata.igreja %}<span>{{ metadata.igreja }}</span>{% endif %}
       </div>
     </div>
@@ -31,12 +31,12 @@
     {% endif %}
   </header>
 
-  {% if metadata.tese %}
+  {% if metadata.get("tese") %}
   <div class="thesis-wrap">
     <aside class="thesis" aria-label="Tese da passagem">
       <div class="thesis-inner">
         <span class="thesis-label">Tese da passagem</span>
-        <p>{{ metadata.tese }}</p>
+        <p>{{ metadata.get("tese") }}</p>
       </div>
     </aside>
   </div>

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 from html import escape
+from html.parser import HTMLParser
 import json
 import os
 import re
@@ -19,8 +20,9 @@ import sys
 import tempfile
 import unicodedata
 from dataclasses import dataclass
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any, Iterable
+from urllib.parse import unquote, urlsplit
 
 try:
     import markdown
@@ -56,7 +58,6 @@ DEFAULT_TRANSLATIONS = {
     "estudo_exegetico": "ACF",
 }
 REQUIRED_FIELDS = ("id", "tipo", "titulo", "passagem", "data", "resumo")
-LOCAL_REF_RE = re.compile(r"(?P<ref>\./[A-Za-z0-9À-ÿ0-9_./ -]+)")
 DETAIL_BLOCK_RE = re.compile(
     r'<details\s+class="lex-drawer">\s*<summary>(?P<summary>.*?)</summary>'
     r'(?P<body>.*?)</details>',
@@ -66,6 +67,9 @@ MARKDOWN_EXTENSIONS = ["extra", "sane_lists", "toc", "smarty"]
 PDF_DATE_RE = re.compile(
     rb"/(CreationDate|ModDate) \(D:\d{14}[+-]\d{2}'\d{2}'\)"
 )
+DATA_URI_RE = re.compile(r"\bdata:", re.IGNORECASE)
+DATA_IMAGE_RE = re.compile(r"\bdata:image/", re.IGNORECASE)
+ALLOWED_EXTERNAL_SCHEMES = {"http", "https"}
 
 
 class BuildError(RuntimeError):
@@ -167,12 +171,10 @@ def normalize_metadata(metadata: dict[str, Any], path: Path) -> dict[str, Any]:
     normalized["passagem"] = str(metadata["passagem"]).strip()
     normalized["resumo"] = str(metadata["resumo"]).strip()
     normalized["data"] = str(metadata["data"]).strip()
-    normalized["traducao_inferida"] = not bool(str(metadata.get("traducao", "")).strip())
-    normalized["traducao"] = (
-        str(metadata.get("traducao")).strip()
-        if str(metadata.get("traducao", "")).strip()
-        else DEFAULT_TRANSLATIONS[normalized["tipo"]]
-    )
+    translation = metadata.get("traducao")
+    translation_text = "" if translation is None else str(translation).strip()
+    normalized["traducao_inferida"] = not bool(translation_text)
+    normalized["traducao"] = translation_text or DEFAULT_TRANSLATIONS[normalized["tipo"]]
     normalized["homiletica"] = bool(metadata.get("homiletica", False))
     normalized["tags"] = [str(item) for item in as_list(metadata.get("tags"))]
     normalized["fontes_textuais"] = [
@@ -184,34 +186,120 @@ def normalize_metadata(metadata: dict[str, Any], path: Path) -> dict[str, Any]:
         for item in as_list(metadata.get("lexicos"))
     ]
     normalized["imagens"] = as_list(metadata.get("imagens"))
-    normalized["igreja"] = metadata.get("igreja")
-    normalized["status"] = str(metadata.get("status", "rascunho"))
+    for field in ("tema", "autor", "tese", "destinatarios", "igreja"):
+        value = metadata.get(field)
+        normalized[field] = "" if value is None else str(value).strip()
+    status = metadata.get("status")
+    normalized["status"] = str(status).strip() if status is not None else "rascunho"
     return normalized
 
 
-def local_references(study: Study) -> set[str]:
-    references = set(LOCAL_REF_RE.findall(study.body))
-    for image in study.metadata.get("imagens", []):
-        if isinstance(image, dict) and str(image.get("src", "")).startswith("./"):
-            references.add(str(image["src"]))
-        elif isinstance(image, str) and image.startswith("./"):
-            references.add(image)
+class ReferenceParser(HTMLParser):
+    """Collect resource links emitted by Markdown or written as raw HTML."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.references: list[str] = []
+
+    def handle_starttag(self, _tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        for name, value in attrs:
+            if name.casefold() in {"src", "href"} and value is not None:
+                self.references.append(value)
+
+
+def body_references(study: Study) -> list[str]:
+    parser = ReferenceParser()
+    parser.feed(study.body_html)
+    parser.close()
+    return parser.references
+
+
+def image_references(study: Study) -> list[tuple[str, str]]:
+    references: list[tuple[str, str]] = []
+    for index, item in enumerate(study.metadata.get("imagens", [])):
+        image = image_dict(item)
+        source = image.get("src")
+        if source is None or not str(source).strip():
+            raise BuildError(
+                f"{study.source_path}: imagens[{index}].src precisa ser informado."
+            )
+        references.append((f"imagens[{index}].src", str(source).strip()))
     return references
 
 
+def local_reference_path(reference: str) -> Path | None:
+    """Return a safe local path, ignore approved URLs/anchors, or raise."""
+    value = str(reference).strip()
+    if not value:
+        raise BuildError("referência vazia")
+    if DATA_URI_RE.match(value):
+        raise BuildError("data URI não é permitida")
+
+    parsed = urlsplit(value)
+    scheme = parsed.scheme.casefold()
+    if scheme:
+        if scheme in ALLOWED_EXTERNAL_SCHEMES:
+            return None
+        raise BuildError(f"esquema de URL não permitido: {scheme}")
+    if parsed.netloc:
+        raise BuildError("referência de rede sem esquema não é permitida")
+    if value.startswith("#"):
+        return None
+
+    path_text = unquote(parsed.path).replace("\\", "/")
+    if "\x00" in path_text:
+        raise BuildError("caminho contém byte nulo")
+    if not path_text.startswith("./"):
+        raise BuildError("caminho local precisa começar com ./")
+
+    parts = PurePosixPath(path_text[2:]).parts
+    if not parts or any(part == ".." for part in parts):
+        raise BuildError("travessia de diretório não é permitida")
+    return Path(*parts)
+
+
+def validate_reference(study: Study, reference: str, label: str) -> Path | None:
+    try:
+        relative = local_reference_path(reference)
+    except BuildError as exc:
+        raise BuildError(f"{study.source_path}: {label} ({reference!r}): {exc}") from exc
+
+    if relative is None:
+        return None
+
+    source_root = study.source_dir.resolve()
+    candidate = (source_root / relative).resolve(strict=False)
+    try:
+        candidate.relative_to(source_root)
+    except ValueError as exc:
+        raise BuildError(
+            f"{study.source_path}: {label} ({reference!r}) aponta para fora da pasta do estudo."
+        ) from exc
+    if not candidate.is_file():
+        raise BuildError(f"{study.source_path}: asset local não encontrado: {reference}")
+    return relative
+
+
+def local_references(study: Study) -> set[str]:
+    references = [reference for _label, reference in image_references(study)]
+    references.extend(body_references(study))
+    local: set[str] = set()
+    for reference in references:
+        if local_reference_path(reference) is not None:
+            local.add(reference)
+    return local
+
+
 def validate_source(study: Study) -> None:
-    if "data:image/" in study.body.lower() or "data:image/" in study.body_html.lower():
+    if DATA_IMAGE_RE.search(study.body) or DATA_IMAGE_RE.search(study.body_html):
         raise BuildError(
             f"{study.source_path}: imagens Base64 não são permitidas; use um asset local ou URL perene."
         )
 
-    for reference in local_references(study):
-        relative = reference[2:]
-        if not relative or relative.startswith("../") or "/../" in relative:
-            raise BuildError(f"{study.source_path}: caminho de asset inválido: {reference}")
-        candidate = (study.source_dir / relative).resolve()
-        if not candidate.is_file():
-            raise BuildError(f"{study.source_path}: asset local não encontrado: {reference}")
+    for label, reference in image_references(study):
+        validate_reference(study, reference, label)
+    for index, reference in enumerate(body_references(study)):
+        validate_reference(study, reference, f"referência HTML/Markdown[{index}]")
 
 
 def markdown_parser() -> markdown.Markdown:
@@ -282,7 +370,9 @@ def hero_image(study: Study) -> dict[str, Any] | None:
 
 def copy_study_assets(study: Study) -> None:
     for reference in local_references(study):
-        relative = Path(reference[2:])
+        relative = validate_reference(study, reference, "asset local")
+        if relative is None:
+            continue
         source = study.source_dir / relative
         target = study.output_dir / relative
         target.parent.mkdir(parents=True, exist_ok=True)

@@ -35,14 +35,6 @@ imagens:
     credito: "Mapa local do estudo."
 ---
 
-![Ruínas da antiga cidade de Filipos, na atual Grécia](https://commons.wikimedia.org/wiki/Special:FilePath/Ancient%20Philippi.jpg?width=1200)
-
-Ruínas de Filipos. A cidade reunia identidade macedônica, administração romana e circulação pela Via Egnácia.
-
-Tese da carta
-
-Porque Cristo é o centro, a igreja pode avançar no evangelho com alegria, unidade, humildade e fidelidade, inclusive em circunstâncias que permanecem difíceis.
-
 ## Antes de interpretar um versículo, localize a conversa inteira.
 
 Filipenses é uma carta pastoral, missionária e profundamente pessoal. Paulo escreve a pessoas que conhecia e que já haviam participado de seu ministério. As exortações surgem de uma amizade no evangelho, de conflitos reais e da possibilidade concreta de sofrimento.

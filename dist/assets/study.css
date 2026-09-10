@@ -529,8 +529,24 @@ figcaption {
   .prose h2, .prose h3 { break-after: avoid; page-break-after: avoid; }
   .prose blockquote, .prose details, .prose img, .study-card { break-inside: avoid; page-break-inside: avoid; }
   .prose blockquote { background: #f4f2eb; color: #111; border-left: 3pt solid #30493a; }
-  .site-footer { margin-top: 6pt; background: #20372a; print-color-adjust: exact; font-size: 6.2pt; }
-  .footer-inner { display: flex; align-items: flex-start; gap: 12pt; padding: 3pt 0; color: #fff; }
+  .site-footer {
+    margin-top: 2pt;
+    background: #20372a;
+    print-color-adjust: exact;
+    font-size: 6.2pt;
+    line-height: 1.25;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .footer-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12pt;
+    padding: 2pt 0;
+    color: #fff;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
   .footer-inner > div:first-child { display: none; }
   .footer-credit { flex: 1; max-width: none; color: #e9eee9; text-align: left; }
   .footer-credit div + div { margin-top: 0; }

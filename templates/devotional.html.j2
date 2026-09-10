@@ -14,7 +14,7 @@
         <span>{{ metadata.passagem }}</span>
         <span>{{ metadata.traducao }}</span>
         <span>{{ metadata.data }}</span>
-        {% if metadata.tema %}<span>{{ metadata.tema }}</span>{% endif %}
+        {% if metadata.get("tema") %}<span>{{ metadata.get("tema") }}</span>{% endif %}
       </div>
     </div>
     {% if hero_image %}

@@ -21,6 +21,10 @@ lexicos: []
 
 > “E não vos conformeis com este mundo, mas transformai-vos pela renovação do vosso entendimento, para que experimenteis qual seja a boa, agradável, e perfeita vontade de Deus.”
 
+## Contexto em 1 Minuto
+
+Após onze capítulos dedicados a expor as profundezas da graça, da justificação pela fé e da soberana misericórdia divina em Cristo, o apóstolo Paulo inicia o capítulo 12 chamando a igreja em Roma à vida prática. Diante de tão grande salvação, o culto verdadeiro não consiste em ritos exteriores, mas no oferecimento da própria vida como sacrifício vivo a Deus. O versículo 2 revela como essa consagração acontece no dia a dia: rompendo com as formas deste século presente e permitindo que o entendimento seja remodelado pela verdade do Evangelho.
+
 ## O Coração da Mensagem
 
 O mundo ao nosso redor exerce uma pressão contínua, sutil e persistente para que nos ajustemos aos seus próprios moldes. Conformar-se significa ceder passivamente a essa força externa, permitindo que a cultura vigente defina o que tem valor, como devemos reagir às ofensas, de que modo medir o sucesso e onde depositar a nossa segurança. Quando não vigiamos, passamos a pensar como o mundo pensa e a desejar o que o mundo deseja, perdendo a nitidez da nossa identidade e vocação em Cristo.
