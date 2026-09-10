@@ -507,7 +507,7 @@ figcaption {
 
 @media print {
   @page { size: A4 portrait; margin: 16mm 14mm 12mm; }
-  body { background: #fff; font-size: 10.5pt; line-height: 1.55; }
+  body { background: #fff; font-size: 10pt; line-height: 1.45; }
   .topbar, .toc, .mobile-toc-wrap, .skip-link, .print-action { display: none !important; }
   .hero, .study-shell, .thesis-wrap, .footer-inner {
     display: block;
@@ -524,6 +524,7 @@ figcaption {
   .thesis p { margin-top: 4pt; font-size: 15pt; }
   .study-content { width: auto; }
   .prose { max-width: none; }
+  .prose p, .prose li { font-size: 10pt; line-height: 1.45; }
   .prose h2 { break-before: page; }
   .prose h2:first-child { break-before: auto; }
   .prose h2, .prose h3 { break-after: avoid; page-break-after: avoid; }
