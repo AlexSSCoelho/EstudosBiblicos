@@ -3,7 +3,11 @@
 
   const tocLinks = Array.from(document.querySelectorAll(".toc a"));
   const sections = tocLinks
-    .map((link) => document.querySelector(link.getAttribute("href")))
+    .map((link) => {
+      const href = link.getAttribute("href") || "";
+      const id = href.startsWith("#") ? href.slice(1) : "";
+      return id ? document.getElementById(id) : null;
+    })
     .filter(Boolean);
 
   if (!tocLinks.length || !sections.length) return;
