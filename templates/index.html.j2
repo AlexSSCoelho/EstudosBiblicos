@@ -30,7 +30,7 @@
           <h3><a href="{{ card.html }}">{{ card.titulo }}</a></h3>
           <p>{{ card.resumo }}</p>
           <div class="card-meta">
-            <span>{{ card.data }}</span>
+            <span>{{ card.data_formatada or (card.data | date_br) }}</span>
             <span>{{ card.traducao }}</span>
             {% if card.pdf %}<a href="{{ card.pdf }}">PDF</a>{% endif %}
           </div>

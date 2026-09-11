@@ -288,6 +288,15 @@ def normalize_passagens_chave(value: Any, path: Path) -> dict[str, list[dict[str
     return normalized
 
 
+def format_date_br(value: Any) -> str:
+    val_str = str(value or "").strip()
+    match = re.fullmatch(r"(\d{4})-(\d{2})-(\d{2})", val_str)
+    if match:
+        year, month, day = match.groups()
+        return f"{day}/{month}/{year}"
+    return val_str
+
+
 def normalize_metadata(metadata: dict[str, Any], path: Path) -> dict[str, Any]:
     missing = [field for field in REQUIRED_FIELDS if not metadata.get(field)]
     if missing:
@@ -304,6 +313,7 @@ def normalize_metadata(metadata: dict[str, Any], path: Path) -> dict[str, Any]:
     normalized["passagem"] = str(metadata["passagem"]).strip()
     normalized["resumo"] = str(metadata["resumo"]).strip()
     normalized["data"] = str(metadata["data"]).strip()
+    normalized["data_formatada"] = format_date_br(normalized["data"])
 
     if normalized["tipo"] == "estudo_tematico":
         tema = str(metadata.get("tema") or "").strip()
@@ -700,11 +710,13 @@ def normalize_pdf_metadata(pdf_path: Path) -> None:
 
 
 def environment() -> Environment:
-    return Environment(
+    env = Environment(
         loader=FileSystemLoader(str(TEMPLATE_ROOT)),
         undefined=StrictUndefined,
         autoescape=select_autoescape(["html", "xml"]),
     )
+    env.filters["date_br"] = format_date_br
+    return env
 
 
 def credits_context(metadata: dict[str, Any]) -> dict[str, list[Any]]:
@@ -726,6 +738,7 @@ def card_for(study: Study) -> dict[str, Any]:
         "traducao": study.metadata["traducao"],
         "traducao_inferida": study.metadata["traducao_inferida"],
         "data": study.metadata["data"],
+        "data_formatada": format_date_br(study.metadata["data"]),
         "resumo": study.metadata["resumo"],
         "status": study.metadata["status"],
         "tags": study.metadata["tags"],

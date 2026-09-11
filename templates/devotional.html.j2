@@ -13,7 +13,7 @@
       <div class="hero-meta" aria-label="Dados do estudo">
         <span>{{ metadata.passagem }}</span>
         <span>{{ metadata.traducao }}</span>
-        <span>{{ metadata.data }}</span>
+        <span class="hero-meta-date">{{ metadata.data | date_br }}</span>
         {% if metadata.get("tema") %}<span>{{ metadata.get("tema") }}</span>{% endif %}
       </div>
     </div>
@@ -42,7 +42,7 @@
     <div class="footer-inner">
       <div>
         <strong>{{ metadata.titulo }}</strong>
-        <span>{{ metadata.passagem }} · {{ metadata.traducao }} · {{ metadata.data }}</span>
+        <span>{{ metadata.passagem }} · {{ metadata.traducao }} · {{ metadata.data | date_br }}</span>
       </div>
       {% include "components/credits.html.j2" %}
     </div>

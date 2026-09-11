@@ -133,6 +133,11 @@ Todos os arquivos HTML devem seguir rigorosamente este design system editorial c
 3. **Política de Imagens:**
    - Arquivos locais de mapas e diagramas ficam na pasta do estudo (`./nome-imagem.png`).
    - Quando não houver imagem, utilizar o container com placeholder neutro elegante.
+4. **Formatação de Datas em Padrão Brasileiro (`DD/MM/AAAA`):**
+   - No front matter YAML, mantém-se a data em formato ISO (`AAAA-MM-DD`) para consistência editorial e de ordenação cronológica.
+   - Em todas as superfícies visuais (hero meta, rodapés e cartões da biblioteca), a data é apresentada no formato brasileiro `DD/MM/AAAA` (ex.: `10/09/2026`).
+5. **Apresentação em Impressão e PDF:**
+   - No PDF e modo de impressão, suprime-se a data e a hora do cabeçalho (`.hero-meta-date { display: none !important; }`), mantendo apenas os dados centrais do tema/título/passagem e garantindo um cabeçalho limpo sem carimbos de geração.
 
 ---
 

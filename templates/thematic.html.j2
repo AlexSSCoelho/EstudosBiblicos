@@ -14,7 +14,7 @@
         <span>Tema: {{ metadata.tema }}</span>
         <span>Passagens: {{ metadata.passagem }}</span>
         <span>{{ metadata.traducao }}</span>
-        <span>{{ metadata.data }}</span>
+        <span class="hero-meta-date">{{ metadata.data | date_br }}</span>
         {% if metadata.get("autor") %}<span>Autor: {{ metadata.get("autor") }}</span>{% endif %}
       </div>
     </div>
@@ -86,7 +86,7 @@
     <div class="footer-inner">
       <div>
         <strong>{{ metadata.titulo }}</strong>
-        <span>{{ metadata.tema }} · {{ metadata.traducao }} · {{ metadata.data }}</span>
+        <span>{{ metadata.tema }} · {{ metadata.traducao }} · {{ metadata.data | date_br }}</span>
         {% if metadata.get("autor") %}<span>{{ metadata.get("autor") }}</span>{% endif %}
       </div>
       {% include "components/credits.html.j2" %}

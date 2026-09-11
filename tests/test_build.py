@@ -111,6 +111,13 @@ class BuildMetadataTests(unittest.TestCase):
         self.assertEqual(metadata["traducao"], "ARA")
         self.assertFalse(metadata["traducao_inferida"])
 
+    def test_format_date_br(self) -> None:
+        self.assertEqual(build.format_date_br("2026-09-10"), "10/09/2026")
+        self.assertEqual(build.format_date_br("2026-07-19"), "19/07/2026")
+        self.assertEqual(build.format_date_br("data-invalida"), "data-invalida")
+        metadata = build.normalize_metadata(self.base, self.path)
+        self.assertEqual(metadata["data_formatada"], "09/09/2026")
+
     def test_null_translation_uses_default_and_optional_fields_are_safe(self) -> None:
         for translation in (None, "", "   "):
             metadata = build.normalize_metadata(

@@ -931,6 +931,7 @@ figcaption {
   @page { size: A4 portrait; margin: 16mm 14mm 12mm; }
   body { background: #fff; font-size: 10pt; line-height: 1.45; }
   .topbar, .toc, .mobile-toc-wrap, .skip-link, .print-action { display: none !important; }
+  .hero-meta-date { display: none !important; }
   .hero, .study-shell, .thesis-wrap, .footer-inner {
     display: block;
     max-width: none;
