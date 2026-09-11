@@ -668,7 +668,7 @@ def render_pdf_with_chromium(html_path: Path, pdf_path: Path) -> None:
                 "--disable-dev-shm-usage",
                 "--no-pdf-header-footer",
                 f"--user-data-dir={profile}",
-                f"--print-to-pdf={pdf_path}",
+                f"--print-to-pdf={pdf_path.resolve()}",
                 print_html_path.as_uri(),
             ]
             result = subprocess.run(command, capture_output=True, text=True, timeout=120)
