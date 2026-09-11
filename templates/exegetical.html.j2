@@ -43,20 +43,7 @@
   {% endif %}
 
   <div class="study-shell">
-    <nav class="toc" aria-label="Índice do estudo">
-      <p class="toc-title">Neste estudo</p>
-      <div class="toc-list">
-        {% for entry in toc %}
-        {% if entry.badge_type == "verse" %}
-        <a href="#{{ entry.id }}" class="toc-item toc-item--verse"><span class="toc-badge toc-badge--verse">{{ entry.badge }}</span><span class="toc-text">{{ entry.name }}</span></a>
-        {% elif entry.is_subitem %}
-        <a href="#{{ entry.id }}" class="toc-item toc-item--sub"><span class="toc-badge toc-badge--sub">{{ entry.badge }}</span><span class="toc-text">{{ entry.name }}{% if entry.get("verse_range") %} <small class="toc-range-tag">{{ entry.verse_range }}</small>{% endif %}</span></a>
-        {% else %}
-        <a href="#{{ entry.id }}" class="toc-item toc-item--section"><span class="toc-badge toc-badge--num">{{ entry.badge }}</span><span class="toc-text">{{ entry.name }}</span></a>
-        {% endif %}
-        {% endfor %}
-      </div>
-    </nav>
+    {% include "components/toc.html.j2" %}
 
     <article class="study-content">
       <div class="prose study-body">{{ body_html|safe }}</div>

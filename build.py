@@ -56,6 +56,7 @@ STUDY_OUTPUT_ROOT = DIST_ROOT / "estudos"
 DEFAULT_TRANSLATIONS = {
     "devocional": "NVI",
     "estudo_exegetico": "ACF",
+    "estudo_tematico": "ACF",
 }
 REQUIRED_FIELDS = ("id", "tipo", "titulo", "passagem", "data", "resumo")
 DETAIL_BLOCK_RE = re.compile(
@@ -223,7 +224,15 @@ def normalize_type(value: Any, path: Path) -> str:
         "estudo_exegetico_completo",
     }:
         return "estudo_exegetico"
-    raise BuildError(f"{path}: tipo inválido: {value!r}. Use devocional ou estudo_exegetico.")
+    if normalized in {
+        "estudo_tematico",
+        "tematico",
+        "estudo_doutrinario",
+    }:
+        return "estudo_tematico"
+    raise BuildError(
+        f"{path}: tipo inválido: {value!r}. Use devocional, estudo_exegetico ou estudo_tematico."
+    )
 
 
 def as_list(value: Any) -> list[Any]:
@@ -232,6 +241,51 @@ def as_list(value: Any) -> list[Any]:
     if isinstance(value, list):
         return value
     return [value]
+
+
+def normalize_passagens_chave(value: Any, path: Path) -> dict[str, list[dict[str, str]]]:
+    if value is None:
+        return {}
+    if not isinstance(value, dict):
+        raise BuildError(
+            f"{path}: 'passagens_chave' deve ser um objeto contendo 'antigo_testamento' e/ou 'novo_testamento'."
+        )
+
+    allowed_sections = {"antigo_testamento", "novo_testamento"}
+    unexpected_sections = set(value.keys()) - allowed_sections
+    if unexpected_sections:
+        raise BuildError(
+            f"{path}: seções inesperadas em 'passagens_chave': {', '.join(sorted(unexpected_sections))}."
+        )
+
+    normalized: dict[str, list[dict[str, str]]] = {}
+    for section in ("antigo_testamento", "novo_testamento"):
+        if section not in value or value[section] is None:
+            continue
+        items = value[section]
+        if not isinstance(items, list):
+            raise BuildError(f"{path}: 'passagens_chave.{section}' deve ser uma lista de passagens.")
+
+        section_items: list[dict[str, str]] = []
+        for index, item in enumerate(items):
+            if not isinstance(item, dict):
+                raise BuildError(
+                    f"{path}: 'passagens_chave.{section}[{index}]' deve ser um objeto com campo 'ref'."
+                )
+            ref = str(item.get("ref") or "").strip()
+            if not ref:
+                raise BuildError(
+                    f"{path}: 'passagens_chave.{section}[{index}]' exige o campo obrigatório 'ref'."
+                )
+            entry = {"ref": ref}
+            if "texto" in item and item["texto"] is not None:
+                entry["texto"] = str(item["texto"]).strip()
+            section_items.append(entry)
+
+        if section_items:
+            normalized[section] = section_items
+
+    return normalized
 
 
 def normalize_metadata(metadata: dict[str, Any], path: Path) -> dict[str, Any]:
@@ -250,6 +304,17 @@ def normalize_metadata(metadata: dict[str, Any], path: Path) -> dict[str, Any]:
     normalized["passagem"] = str(metadata["passagem"]).strip()
     normalized["resumo"] = str(metadata["resumo"]).strip()
     normalized["data"] = str(metadata["data"]).strip()
+
+    if normalized["tipo"] == "estudo_tematico":
+        tema = str(metadata.get("tema") or "").strip()
+        if not tema:
+            raise BuildError(f"{path}: o campo 'tema' é obrigatório para estudos temáticos.")
+        normalized["tema"] = tema
+    else:
+        normalized["tema"] = str(metadata.get("tema") or "").strip()
+
+    normalized["passagens_chave"] = normalize_passagens_chave(metadata.get("passagens_chave"), path)
+
     translation = metadata.get("traducao")
     translation_text = "" if translation is None else str(translation).strip()
     normalized["traducao_inferida"] = not bool(translation_text)
@@ -265,7 +330,7 @@ def normalize_metadata(metadata: dict[str, Any], path: Path) -> dict[str, Any]:
         for item in as_list(metadata.get("lexicos"))
     ]
     normalized["imagens"] = as_list(metadata.get("imagens"))
-    for field in ("tema", "autor", "tese", "destinatarios", "igreja"):
+    for field in ("autor", "tese", "destinatarios", "igreja"):
         value = metadata.get(field)
         normalized[field] = "" if value is None else str(value).strip()
     status = metadata.get("status")
@@ -412,7 +477,19 @@ def render_markdown(body: str) -> tuple[str, list[dict[str, Any]]]:
     body_with_verses, verse_map = extract_and_inject_verse_markers(body)
     body_with_drawers = DETAIL_BLOCK_RE.sub(render_lexical_drawer, body_with_verses)
     parser = markdown_parser()
-    body_html = parser.convert(body_with_drawers)
+    raw_html = parser.convert(body_with_drawers)
+
+    def external_link_replacer(match: re.Match[str]) -> str:
+        tag_content = match.group(1)
+        href_match = re.search(r'href=["\'](https?://[^"\']+)["\']', tag_content, re.IGNORECASE)
+        if href_match:
+            if 'target=' not in tag_content:
+                tag_content = f'{tag_content} target="_blank"'
+            if 'rel=' not in tag_content:
+                tag_content = f'{tag_content} rel="noopener noreferrer"'
+        return f'<a {tag_content.strip()}>'
+
+    body_html = re.sub(r'<a\s+([^>]+)>', external_link_replacer, raw_html)
     return body_html, enrich_toc(flatten_toc(parser.toc_tokens), verse_map)
 
 
@@ -644,6 +721,7 @@ def card_for(study: Study) -> dict[str, Any]:
         "id": study.study_id,
         "tipo": study.metadata["tipo"],
         "titulo": study.metadata["titulo"],
+        "tema": study.metadata.get("tema", ""),
         "passagem": study.metadata["passagem"],
         "traducao": study.metadata["traducao"],
         "traducao_inferida": study.metadata["traducao_inferida"],
@@ -663,6 +741,13 @@ def normalize_generated_text(text: str) -> str:
     return "\n".join(line.rstrip() for line in text.splitlines()) + "\n"
 
 
+TEMPLATE_BY_TYPE = {
+    "devocional": "devotional.html.j2",
+    "estudo_exegetico": "exegetical.html.j2",
+    "estudo_tematico": "thematic.html.j2",
+}
+
+
 def render_study(study: Study, templates: Environment, skip_pdf: bool) -> dict[str, Any]:
     study.output_dir.mkdir(parents=True, exist_ok=True)
     copy_study_assets(study)
@@ -677,11 +762,11 @@ def render_study(study: Study, templates: Environment, skip_pdf: bool) -> dict[s
         "asset_prefix": "../../",
         "source_path": study.source_path.as_posix(),
     }
-    template_name = (
-        "devotional.html.j2"
-        if study.metadata["tipo"] == "devocional"
-        else "exegetical.html.j2"
-    )
+    study_type = study.metadata["tipo"]
+    if study_type not in TEMPLATE_BY_TYPE:
+        raise BuildError(f"Tipo de estudo sem template mapeado: {study_type!r}")
+
+    template_name = TEMPLATE_BY_TYPE[study_type]
     html_content = normalize_generated_text(
         templates.get_template(template_name).render(**context)
     )

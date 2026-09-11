@@ -21,14 +21,16 @@ Repositório pessoal para elaboração, leitura e arquivamento de estudos bíbli
    - Foco pastoral imediato e estrutura definida pelo conteúdo. A tradução padrão para novos devocionais é NVI; a tradução explícita no front matter prevalece. Sem morfologia técnica desnecessária e sem orações guiadas prontas.
 2. **Estudo Exegético:**
    - A tradução padrão é ACF. Contexto, delimitação, exposição por unidades ou versículos, gavetas lexicais (`<details class="lex-drawer">`), hermenêutica, homilética, perguntas e apelo são blocos opcionais; o conteúdo determina a composição.
+3. **Estudo Temático:**
+   - A tradução padrão é ACF. Investigação bíblico-teológica de um tema ou doutrina articulando passagens do Antigo e do Novo Testamento. O campo `tema` é obrigatório no front matter; `passagens_chave` organiza o panorama canônico opcional. A síntese permanece estritamente submetida à exegese de cada texto em seu contexto histórico-gramatical, com homilética opcional.
 
 ## Convenções de Pastas e Arquivos
 
 - Cada pregação/estudo vive em sua própria pasta temática dentro de `Pregações/`:
-  - Padrão: `Pregações/AAAA-MM-DD - [Livro] [Cap.Vers] - [Igreja]/`
-  - Exemplo: `Pregações/2026-07-19 - Filipenses 4.6-9 - IPR Paranaíba-MS/`
+  - Devocionais e Estudos Exegéticos: `Pregações/AAAA-MM-DD - [Livro] [Cap.Vers] - [Igreja]/` (ex.: `Pregações/2026-07-19 - Filipenses 4.6-9 - IPR Paranaíba-MS/`)
+  - Estudos Temáticos: `Pregações/AAAA-MM-DD - [Tema] - Estudo temático/` (ex.: `Pregações/2026-09-10 - A Imutabilidade de Deus - Estudo temático/`)
 - Arquivos de imagem locais (mapas, diagramas) devem ficar na pasta do respectivo estudo e ser referenciados por caminho relativo `./nome-imagem.png`.
-- Templates reutilizáveis ficam em `templates/` (`base.html.j2`, `devotional.html.j2`, `exegetical.html.j2` e componentes). Não edite HTML dentro de `dist/` para alterar um estudo.
+- Templates reutilizáveis ficam em `templates/` (`base.html.j2`, `devotional.html.j2`, `exegetical.html.j2`, `thematic.html.j2` e componentes). Não edite HTML dentro de `dist/` para alterar um estudo.
 - Gere a biblioteca com `py -X utf8 build.py` ou apenas um estudo com `py -X utf8 build.py <id>`. O `server.py` serve exclusivamente `dist/` e usa o manifesto gerado.
 
 ## Regras e Restrições Locais (Do-Not Rules)
@@ -37,6 +39,9 @@ Repositório pessoal para elaboração, leitura e arquivamento de estudos bíbli
 2. **Gramática em Gaveta Retrátil:** O autor não é especialista em hebraico/grego. Mantenha a prosa explicativa 100% visível e coloque tabelas morfológicas e códigos gramaticais dentro de `<details class="lex-drawer">`.
 3. **Sem Orações Guiadas:** Não incluir seções de oração guiada/pronta em nenhum estudo ou devocional.
 4. **Fidelidade Histórico-Gramatical:** Nunca introduza conclusões dogmáticas ou calvinistas/arminianas que não decorram da evidência do texto examinado.
-5. **Tradução-Base:** Para novos estudos exegéticos, use ACF; para novos devocionais, use NVI. Uma tradução explicitamente solicitada no front matter prevalece. Ao migrar legado, preserve a versão realmente usada e registre-a.
-6. **Acessibilidade e Ergonomia:** Todos os HTMLs devem manter alto contraste (WCAG AAA no texto principal), escala tipográfica proporcional equilibrada (h1 max 3.2rem, h2 max 2.3rem), e sticky TOC responsivo no desktop / pílulas no mobile.
-7. **Compatibilidade com Servidor Local e Mobile (`server.py`):** Todos os caminhos de imagens locais devem ser estritamente relativos à pasta do estudo (`./nome-imagem.png`) e o cabeçalho superior deve manter `href="/"` para retornar à biblioteca inicial quando servido via HTTP local, Wi-Fi ou túnel 4G.
+5. **Tradução-Base:** Para novos estudos exegéticos e temáticos, use ACF; para novos devocionais, use NVI. Uma tradução explicitamente solicitada no front matter prevalece. Ao migrar legado, preserve a versão realmente usada e registre-a.
+6. **Léxicos Acadêmicos Prioritários:** Priorizar sempre as obras de referência de maior autoridade acadêmica:
+   - **Novo Testamento (Grego):** BDAG (Bauer, Danker, Arndt, Gingrich) como padrão principal e Louw-Nida para domínios semânticos; quando indisponíveis, recorrer ao melhor disponível (Liddell-Scott-Jones via Logeion, Thayer, Abbott-Smith).
+   - **Antigo Testamento (Hebraico/Aramaico):** HALOT (Koehler, Baumgartner, Stamm) como padrão principal e DCH (Clines) para hebraico clássico; quando indisponíveis, recorrer ao melhor disponível (BDB, Gesenius).
+7. **Acessibilidade e Ergonomia:** Todos os HTMLs devem manter alto contraste (WCAG AAA no texto principal), escala tipográfica proporcional equilibrada (h1 max 3.2rem, h2 max 2.3rem), e sticky TOC responsivo no desktop / pílulas no mobile. Links externos (`http://` e `https://`) devem sempre abrir em nova aba (`target="_blank" rel="noopener noreferrer"`).
+8. **Compatibilidade com Servidor Local e Mobile (`server.py`):** Todos os caminhos de imagens locais devem ser estritamente relativos à pasta do estudo (`./nome-imagem.png`) e o cabeçalho superior deve manter `href="/"` para retornar à biblioteca inicial quando servido via HTTP local, Wi-Fi ou túnel 4G.

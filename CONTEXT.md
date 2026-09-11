@@ -22,10 +22,14 @@ O conteúdo editorial vive em `Pregações/**/estudo.md`, com front matter YAML.
    - O sentido do texto bíblico é aquele pretendido pelo autor original para seus primeiros destinatários, descoberto pela análise da gramática, do contexto literário imediato, da estrutura do livro e do cenário histórico-cultural da época.
    - Rejeição de leituras alegóricas arbitrárias, espiritualizações forçadas, anacronismos e teologia da prosperidade/triunfalista.
    - Sistemas teológicos (calvinismo, arminianismo, dispensacionalismo, pactualismo, etc.) devem ser estritamente submetidos à evidência exegética do texto em análise, nunca usados como gabarito interpretativo prévio.
-2. **Tradução-Base e Crítica Textual:**
-   - **Tradução-base por tipo:** ACF para novos estudos exegéticos e NVI para novos devocionais. Uma versão explicitamente solicitada no front matter prevalece; materiais legados preservam a versão que realmente utilizavam.
+2. **Tradução-Base, Crítica Textual e Léxicos Acadêmicos:**
+   - **Tradução-base por tipo:** ACF para novos estudos exegéticos e temáticos; NVI para novos devocionais. Uma versão explicitamente solicitada no front matter prevalece; materiais legados preservam a versão que realmente utilizavam.
    - **Novo Testamento:** Texto-base grego Nestle-Aland 28ª edição (NA28) cotejado com o Textus Receptus (TR). Comparações de variantes textuais só devem ser feitas quando houver impacto real na tradução ou interpretação do versículo.
    - **Antigo Testamento:** Texto Massorético (Biblia Hebraica Stuttgartensia / Westminster Leningrad Codex).
+   - **Léxicos de Referência Prioritários:** Priorizar sempre as obras de maior rigor e autoridade acadêmica contemporânea:
+     - **Grego (NT):** **BDAG** (*Bauer, Danker, Arndt, Gingrich*) como padrão acadêmico principal; **Louw-Nida** para campos e domínios semânticos; quando indisponíveis, utilizar as melhores fontes consolidadas disponíveis (Liddell-Scott-Jones via Logeion/Chicago, Thayer, Abbott-Smith).
+     - **Hebraico e Aramaico (AT):** **HALOT** (*Koehler, Baumgartner, Stamm*) como léxico analítico principal; **DCH** (*Dictionary of Classical Hebrew* - Clines) para hebraico bíblico e clássico; quando indisponíveis, utilizar as melhores fontes consolidadas disponíveis (BDB - Brown-Driver-Briggs, Gesenius).
+   - **Abertura de Links:** Quaisquer referências com links externos (`http://`, `https://`) para ferramentas e léxicos digitais (como Logeion, Blue Letter Bible, etc.) devem abrir em nova aba (`target="_blank"`), sem interromper a navegação da leitura.
 3. **Equilíbrio Pastoral e Responsabilidade Psicológica:**
    - Ao tratar de temas como ansiedade, medo, sofrimento, tristeza e aflição, manter distinção clara entre disciplina espiritual/oração e quadros clínicos de saúde mental, enfatizando que buscar ajuda profissional e médica é parte da boa providência divina.
 4. **Ponte Hermenêutica:**
@@ -52,9 +56,9 @@ O repositório deve lidar com qualquer um dos 66 livros da Bíblia, aplicando as
 
 ---
 
-## 4. Os Dois Perfis Oficiais de Entrega
+## 4. Os Três Perfis Oficiais de Entrega
 
-O repositório oferece dois perfis editoriais, mas nenhum deles impõe uma quantidade fixa de seções, princípios, movimentos ou perguntas. O front matter registra `tipo` e `homiletica`; o corpo do Markdown determina a composição real.
+O repositório oferece três perfis editoriais, mas nenhum deles impõe uma quantidade fixa de seções, princípios, movimentos ou perguntas. O front matter registra `tipo` e `homiletica`; o corpo do Markdown determina a composição real.
 
 ### Perfil 1: Devocional / Estudo Rápido
 
@@ -65,12 +69,20 @@ O repositório oferece dois perfis editoriais, mas nenhum deles impõe uma quant
 
 ### Perfil 2: Estudo Exegético
 
-* **Objetivo:** investigação histórico-gramatical e preparação teológica sólida; a entrega pode ou não incluir material para o púlpito.
+* **Objetivo:** investigação histórico-gramatical e preparação teológica sólida centrada em uma perícope contínua; a entrega pode ou não incluir material para o púlpito.
 * **Tradução padrão para novos materiais:** ACF, salvo sobrescrita explícita.
 * **Composição possível:** contexto histórico e literário, delimitação, exposição por unidades ou versículos, gavetas lexicais, síntese teológica, limites de aplicação, relações bíblicas, notas, imagens e fontes.
 * **Homilética:** proposição, movimentos, ilustrações, perguntas para grupo e apelo são entregáveis opcionais, ativados pelo pedido ou por `homiletica: true`.
 
-Em ambos os perfis, a distinção entre observação textual, interpretação, inferência, síntese e aplicação deve aparecer naturalmente na prosa, sem etiquetas repetitivas nem formato de relatório de IA.
+### Perfil 3: Estudo Temático
+
+* **Objetivo:** investigação bíblico-teológica e sistemática de um tema, atributo divino ou doutrina que atravessa o cânon bíblico articulando passagens do Antigo e do Novo Testamento.
+* **Tradução padrão para novos materiais:** ACF, salvo sobrescrita explícita.
+* **Contrato de metadados:** exige obrigatoriamente `tema` no front matter; `passagem` resume as âncoras para o catálogo; `passagens_chave` estrutura o panorama canônico opcional (`antigo_testamento` e `novo_testamento`).
+* **Submissão hermenêutica:** a síntese temática permanece estritamente submetida à exegese de cada texto examinado em seu próprio contexto histórico-gramatical. Não transfere sentidos entre alianças sem demonstração textual nem impõe sistemas teológicos prévios como ponto de partida.
+* **Homilética:** esboço temático, aplicações pastorais, pontos de pregação ou questões para estudo em grupo são opcionais e ativados pelo conteúdo ou por `homiletica: true`.
+
+Em todos os perfis, a distinção entre observação textual, interpretação, inferência, síntese e aplicação deve aparecer naturalmente na prosa, sem etiquetas repetitivas nem formato de relatório de IA.
 
 ---
 

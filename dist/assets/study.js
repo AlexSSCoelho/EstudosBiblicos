@@ -76,4 +76,14 @@
       { passive: false }
     );
   }
+
+  document.querySelectorAll('a[href^="http://"], a[href^="https://"]').forEach((link) => {
+    if (!link.getAttribute("target")) {
+      link.setAttribute("target", "_blank");
+    }
+    const rel = link.getAttribute("rel") || "";
+    if (!rel.includes("noopener")) {
+      link.setAttribute("rel", (rel + " noopener noreferrer").trim());
+    }
+  });
 })();

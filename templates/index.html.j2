@@ -26,7 +26,7 @@
       <div class="study-cards">
         {% for card in cards %}
         <article class="study-card study-card--{{ card.tipo }}">
-          <div class="card-kicker">{{ "Devocional" if card.tipo == "devocional" else "Estudo exegético" }} · {{ card.passagem }}</div>
+          <div class="card-kicker">{% if card.tipo == "devocional" %}Devocional{% elif card.tipo == "estudo_tematico" %}Estudo temático{% else %}Estudo exegético{% endif %} · {{ card.passagem }}</div>
           <h3><a href="{{ card.html }}">{{ card.titulo }}</a></h3>
           <p>{{ card.resumo }}</p>
           <div class="card-meta">

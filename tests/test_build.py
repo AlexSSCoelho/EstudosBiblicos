@@ -31,6 +31,78 @@ class BuildMetadataTests(unittest.TestCase):
         self.assertEqual(metadata["traducao"], "ACF")
         self.assertTrue(metadata["traducao_inferida"])
 
+    def test_thematic_defaults_to_acf_and_requires_tema(self) -> None:
+        # Sem tema deve falhar
+        with self.assertRaises(build.BuildError):
+            build.normalize_metadata(
+                {**self.base, "id": "estudo-tematico-teste", "tipo": "estudo_tematico"},
+                self.path,
+            )
+        # Com tema deve passar e assumir ACF
+        metadata = build.normalize_metadata(
+            {**self.base, "id": "estudo-tematico-teste", "tipo": "estudo_tematico", "tema": "Teologia Própria"},
+            self.path,
+        )
+        self.assertEqual(metadata["traducao"], "ACF")
+        self.assertTrue(metadata["traducao_inferida"])
+        self.assertEqual(metadata["tema"], "Teologia Própria")
+
+    def test_thematic_aliases_and_unknown_type_rejection(self) -> None:
+        for alias in ("tematico", "estudo_doutrinario"):
+            metadata = build.normalize_metadata(
+                {**self.base, "tipo": alias, "tema": "Atributos"},
+                self.path,
+            )
+            self.assertEqual(metadata["tipo"], "estudo_tematico")
+
+        with self.assertRaises(build.BuildError):
+            build.normalize_metadata(
+                {**self.base, "tipo": "tipo_desconhecido"},
+                self.path,
+            )
+
+    def test_passagens_chave_validation_and_normalization(self) -> None:
+        valid_yaml = {
+            **self.base,
+            "tipo": "estudo_tematico",
+            "tema": "Doutrina",
+            "passagens_chave": {
+                "antigo_testamento": [{"ref": "Ml 3.6", "texto": "Eu não mudo"}],
+                "novo_testamento": [{"ref": "Tg 1.17"}],
+            },
+        }
+        meta = build.normalize_metadata(valid_yaml, self.path)
+        self.assertEqual(len(meta["passagens_chave"]["antigo_testamento"]), 1)
+        self.assertEqual(meta["passagens_chave"]["antigo_testamento"][0]["texto"], "Eu não mudo")
+        self.assertNotIn("texto", meta["passagens_chave"]["novo_testamento"][0])
+
+        # Seção inesperada deve falhar
+        invalid_yaml = {
+            **self.base,
+            "tipo": "estudo_tematico",
+            "tema": "Doutrina",
+            "passagens_chave": {"apocrifos": [{"ref": "Tobias 1.1"}]},
+        }
+        with self.assertRaises(build.BuildError):
+            build.normalize_metadata(invalid_yaml, self.path)
+
+        # Item sem ref deve falhar
+        invalid_ref = {
+            **self.base,
+            "tipo": "estudo_tematico",
+            "tema": "Doutrina",
+            "passagens_chave": {"novo_testamento": [{"texto": "sem ref"}]},
+        }
+        with self.assertRaises(build.BuildError):
+            build.normalize_metadata(invalid_ref, self.path)
+
+    def test_external_links_open_in_new_tab(self) -> None:
+        md = "Visite o [Logeion](https://logeion.uchicago.edu/) e veja o [mapa local](./mapa.png) e a [seção](#sec)."
+        html, _ = build.render_markdown(md)
+        self.assertIn('href="https://logeion.uchicago.edu/" target="_blank" rel="noopener noreferrer"', html)
+        self.assertNotIn('href="./mapa.png" target="_blank"', html)
+        self.assertNotIn('href="#sec" target="_blank"', html)
+
     def test_explicit_translation_wins(self) -> None:
         metadata = build.normalize_metadata(
             {**self.base, "traducao": "ARA"},
