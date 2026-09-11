@@ -19,6 +19,7 @@ DIST_ROOT = ROOT / "dist"
 STUDIES = (
     "/estudos/filipenses-4-6-9/filipenses-4-6-9.html",
     "/estudos/romanos-12-2-devocional/romanos-12-2-devocional.html",
+    "/estudos/a-imutabilidade-de-deus/a-imutabilidade-de-deus.html",
 )
 VIEWPORTS = ((390, 844), (768, 900), (1440, 900))
 

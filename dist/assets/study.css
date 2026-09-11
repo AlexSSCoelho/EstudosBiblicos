@@ -222,6 +222,100 @@ figcaption {
   font: 500 clamp(1.25rem, 2vw, 1.8rem)/1.4 "Newsreader", Georgia, serif;
 }
 
+.canonical-matrix-wrap {
+  max-width: var(--page);
+  margin: 0 auto 24px;
+  padding: 0 32px;
+}
+.canonical-matrix {
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--gold);
+  border-radius: 6px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  padding: 24px 28px;
+}
+.canonical-matrix-header {
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--soft-line);
+}
+.canonical-matrix-kicker {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: .74rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--rust-dark);
+}
+.canonical-matrix-title {
+  margin: 4px 0 0;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--forest-2);
+}
+.canonical-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+.canonical-matrix-grid--single {
+  grid-template-columns: 1fr;
+}
+.canonical-testament {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 16px 18px;
+}
+.canonical-testament-heading {
+  margin: 0 0 12px;
+  font-family: var(--font-sans);
+  font-size: .84rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--forest);
+}
+.canonical-passages-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.canonical-passage-card {
+  padding: 8px 12px;
+  background: var(--paper);
+  border-left: 3px solid var(--forest);
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+.canonical-testament--nt .canonical-passage-card {
+  border-left-color: var(--rust);
+}
+.canonical-ref {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: .86rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.canonical-quote {
+  margin: 4px 0 0;
+  padding: 0;
+  font-family: var(--font-serif);
+  font-size: .92rem;
+  font-style: italic;
+  color: var(--muted);
+  line-height: 1.45;
+  border: none;
+}
+
 .study-shell {
   max-width: var(--page);
   margin: auto;
@@ -674,6 +768,7 @@ figcaption {
   box-shadow: 0 5px 16px rgba(22, 32, 28, .035);
 }
 .study-card--devocional { border-left-color: var(--rust-dark); }
+.study-card--estudo_tematico { border-left-color: var(--gold); }
 .study-card h3 { margin: 3px 0 7px; font-size: 1.45rem; line-height: 1.25; }
 .study-card h3 a { color: var(--ink); text-decoration: none; }
 .study-card h3 a::after {
@@ -719,10 +814,12 @@ figcaption {
 
 @media (max-width: 860px) {
   :root { --topbar: 54px; --reading-size: 17px; }
-  .topbar-inner, .hero, .thesis-wrap, .study-shell, .footer-inner {
+  .topbar-inner, .hero, .thesis-wrap, .canonical-matrix-wrap, .study-shell, .footer-inner {
     padding-left: 18px;
     padding-right: 18px;
   }
+  .canonical-matrix { padding: 18px 16px; }
+  .canonical-matrix-grid { grid-template-columns: 1fr; gap: 14px; }
   .brand span { display: none; }
   .hero {
     grid-template-columns: 1fr;
