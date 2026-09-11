@@ -25,6 +25,16 @@
       else link.removeAttribute("aria-current");
       if (active && !isInitialActivation && window.matchMedia("(max-width: 860px)").matches) {
         link.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      } else if (active && !isInitialActivation) {
+        const tocNav = link.closest(".toc");
+        if (tocNav) {
+          const linkRect = link.getBoundingClientRect();
+          const tocRect = tocNav.getBoundingClientRect();
+          const padding = 24;
+          if (linkRect.top < tocRect.top + padding || linkRect.bottom > tocRect.bottom - padding) {
+            link.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          }
+        }
       }
     });
   }
@@ -41,4 +51,29 @@
   window.addEventListener("scroll", updateActiveSection, { passive: true });
   window.addEventListener("resize", updateActiveSection);
   updateActiveSection();
+
+  const tocNav = document.querySelector(".toc");
+  if (tocNav) {
+    tocNav.addEventListener(
+      "wheel",
+      function (e) {
+        const scrollTop = tocNav.scrollTop;
+        const scrollHeight = tocNav.scrollHeight;
+        const height = tocNav.clientHeight;
+        const delta = e.deltaY;
+
+        if (scrollHeight <= height) {
+          e.preventDefault();
+          return;
+        }
+
+        if (delta < 0 && scrollTop <= 0) {
+          e.preventDefault();
+        } else if (delta > 0 && scrollTop + height >= scrollHeight - 1) {
+          e.preventDefault();
+        }
+      },
+      { passive: false }
+    );
+  }
 })();

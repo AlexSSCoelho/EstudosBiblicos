@@ -100,7 +100,10 @@ def main() -> int:
 
     try:
         with sync_playwright() as playwright:
-            browser = playwright.chromium.launch(headless=True)
+            try:
+                browser = playwright.chromium.launch(headless=True)
+            except Exception:
+                browser = playwright.chromium.launch(headless=True, channel="msedge")
             page = browser.new_page(viewport={"width": 1440, "height": 900})
             page_errors: list[str] = []
             page.on("pageerror", lambda error: page_errors.append(str(error)))
@@ -160,15 +163,12 @@ def main() -> int:
             page.wait_for_timeout(150)
             if page_errors:
                 raise AssertionError(f"erros JS em Romanos desktop: {page_errors}")
-            toc_layout = page.locator(".toc--pills .toc-list").evaluate(
-                """element => {
-                    const style = getComputedStyle(element);
-                    return { direction: style.flexDirection, wrap: style.flexWrap };
-                }"""
+            toc_position = page.locator(".toc").evaluate(
+                "element => getComputedStyle(element).position"
             )
-            if toc_layout != {"direction": "row", "wrap": "wrap"}:
+            if toc_position != "sticky":
                 raise AssertionError(
-                    f"TOC devocional desktop não está compacto/horizontal: {toc_layout}"
+                    f"TOC devocional desktop não está fixada na barra lateral: {toc_position}"
                 )
 
             for path in STUDIES:

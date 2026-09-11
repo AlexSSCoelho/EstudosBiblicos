@@ -63,6 +63,9 @@ DETAIL_BLOCK_RE = re.compile(
     r'(?P<body>.*?)</details>',
     re.IGNORECASE | re.DOTALL,
 )
+VERSE_HEADING_RE = re.compile(
+    r'(?m)^(?:v\.|vv\.|versículo|versículos)?\s*(\d+(?:[.:]\d+)?(?:[–—\-]\d+(?:[.:]\d+)?)?)\s*\n+(#{2,4}\s+(.+))$'
+)
 MARKDOWN_EXTENSIONS = ["extra", "sane_lists", "toc", "smarty"]
 PDF_DATE_RE = re.compile(
     rb"/(CreationDate|ModDate) \(D:\d{14}[+-]\d{2}'\d{2}'\)"
@@ -115,6 +118,82 @@ def flatten_toc(tokens: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
         )
         flattened.extend(flatten_toc(token.get("children", [])))
     return flattened
+
+
+def extract_and_inject_verse_markers(text: str) -> tuple[str, dict[str, str]]:
+    verse_map: dict[str, str] = {}
+
+    def repl(m: re.Match[str]) -> str:
+        verse = m.group(1).strip()
+        heading_line = m.group(2).strip()
+        heading_title = m.group(3).strip()
+        verse_map[slugify(heading_title)] = verse
+        anchor_id = f"v-{slugify(verse)}"
+        return (
+            f'<div class="verse-marker" id="{anchor_id}">'
+            f'<span class="verse-tag"><span class="verse-tag-prefix">Versículo</span> {verse}</span>'
+            f"</div>\n\n{heading_line}"
+        )
+
+    processed = VERSE_HEADING_RE.sub(repl, text)
+    return processed, verse_map
+
+
+def format_verse_badge(verse: str) -> str:
+    if "." in verse and not ("–" in verse or "-" in verse or "—" in verse):
+        return f"v. {verse.split('.')[-1]}"
+    if re.fullmatch(r"\d+", verse):
+        return f"v. {verse}"
+    return verse
+
+
+def enrich_toc(raw_toc: list[dict[str, Any]], verse_map: dict[str, str]) -> list[dict[str, Any]]:
+    eligible = [e for e in raw_toc if e.get("level", 1) in (2, 3, 4)]
+    if not eligible:
+        return []
+
+    enriched: list[dict[str, Any]] = []
+    section_counter = 1
+
+    for entry in eligible:
+        slug = entry.get("id", "")
+        name = entry.get("name", "")
+        level = int(entry.get("level", 2))
+
+        verse = verse_map.get(slug)
+        if not verse:
+            v_match = re.match(
+                r"^(?:v\.|vv\.|versículo\s*)?(\d+(?:[.:]\d+)?(?:[–—\-]\d+(?:[.:]\d+)?)?)(?:\s*[·:–\-]\s*|\s+)(.*)$",
+                name,
+                re.IGNORECASE,
+            )
+            if v_match:
+                verse = v_match.group(1).strip()
+
+        is_verse = bool(verse)
+        item = dict(entry)
+        item["is_verse"] = is_verse
+        item["verse"] = verse
+
+        if is_verse and ("." in str(verse) or re.fullmatch(r"\d+", str(verse))) and not ("–" in str(verse) or "-" in str(verse) or "—" in str(verse)):
+            item["badge_type"] = "verse"
+            item["badge"] = format_verse_badge(str(verse))
+            item["is_subitem"] = False
+        elif level == 2:
+            item["badge_type"] = "number"
+            item["badge"] = f"{section_counter:02d}"
+            item["is_subitem"] = False
+            section_counter += 1
+        else:
+            item["badge_type"] = "bullet"
+            item["badge"] = "·"
+            item["is_subitem"] = True
+            if verse:
+                item["verse_range"] = verse
+
+        enriched.append(item)
+
+    return enriched
 
 
 def parse_source(path: Path) -> tuple[dict[str, Any], str]:
@@ -316,15 +395,25 @@ def render_markdown(body: str) -> tuple[str, list[dict[str, Any]]]:
         summary = escape(" ".join(match.group("summary").split()))
         return (
             '<details class="lex-drawer">\n'
-            f"<summary>{summary}</summary>\n"
-            f"{inner_html}\n"
-            "</details>"
+            '<summary class="lex-drawer-summary">\n'
+            f'  <span class="lex-summary-title">{summary}</span>\n'
+            '  <span class="lex-toggle-badge" aria-hidden="true">\n'
+            '    <span class="lex-toggle-text lex-toggle-text--closed">Consultar léxico</span>\n'
+            '    <span class="lex-toggle-text lex-toggle-text--open">Recolher</span>\n'
+            '    <svg class="lex-toggle-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>\n'
+            '  </span>\n'
+            '</summary>\n'
+            '<div class="lex-drawer-body">\n'
+            f'{inner_html}\n'
+            '</div>\n'
+            '</details>'
         )
 
-    body_with_drawers = DETAIL_BLOCK_RE.sub(render_lexical_drawer, body)
+    body_with_verses, verse_map = extract_and_inject_verse_markers(body)
+    body_with_drawers = DETAIL_BLOCK_RE.sub(render_lexical_drawer, body_with_verses)
     parser = markdown_parser()
     body_html = parser.convert(body_with_drawers)
-    return body_html, flatten_toc(parser.toc_tokens)
+    return body_html, enrich_toc(flatten_toc(parser.toc_tokens), verse_map)
 
 
 def load_study(path: Path) -> Study:
@@ -578,7 +667,7 @@ def render_study(study: Study, templates: Environment, skip_pdf: bool) -> dict[s
     study.output_dir.mkdir(parents=True, exist_ok=True)
     copy_study_assets(study)
 
-    entries = [entry for entry in study.toc if entry["level"] <= 3]
+    entries = [entry for entry in study.toc if entry["level"] <= 4]
     context = {
         "metadata": study.metadata,
         "body_html": study.body_html,

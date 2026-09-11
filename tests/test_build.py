@@ -59,8 +59,22 @@ class BuildRenderingTests(unittest.TestCase):
         )
         self.assertIn('<details class="lex-drawer">', html)
         self.assertIn("<strong>Lema</strong>", html)
-        self.assertNotIn("**Lema**", html)
+        self.assertIn('class="lex-drawer-body"', html)
+        self.assertIn('class="lex-toggle-badge"', html)
         self.assertEqual(toc[0]["name"], "Unidade")
+
+    def test_verse_detection_and_badges_in_toc_and_body(self) -> None:
+        md = "## Contexto\n\nVisão geral.\n\n4.6\n\n### Oração e gratidão\n\nTexto de exposição.\n"
+        html, toc = build.render_markdown(md)
+        self.assertIn('class="verse-marker"', html)
+        self.assertIn('Versículo', html)
+        self.assertIn('4.6', html)
+        self.assertEqual(len(toc), 2)
+        self.assertEqual(toc[0]["badge"], "01")
+        self.assertEqual(toc[0]["badge_type"], "number")
+        self.assertEqual(toc[1]["badge"], "v. 6")
+        self.assertEqual(toc[1]["badge_type"], "verse")
+        self.assertTrue(toc[1]["is_verse"])
 
     def test_minimal_devotional_and_exegetical_render_without_optional_fields(self) -> None:
         cases = (
