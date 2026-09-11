@@ -36,7 +36,7 @@ Repositório pessoal para elaboração, leitura e arquivamento de estudos bíbli
 ## Regras e Restrições Locais (Do-Not Rules)
 
 1. **Proibido Base64 Gigante:** Nunca embutir imagens com strings Base64 no HTML. Usar arquivos locais relativos ou URLs perenes do Wikimedia Commons com atribuição no rodapé.
-2. **Gramática em Gaveta Retrátil:** O autor não é especialista em hebraico/grego. Mantenha a prosa explicativa 100% visível e coloque tabelas morfológicas e códigos gramaticais dentro de `<details class="lex-drawer">`.
+2. **Gramática em Gaveta Retrátil:** O autor não é especialista em hebraico/grego. Mantenha a prosa explicativa 100% visível e coloque tabelas morfológicas e códigos gramaticais dentro de `<details class="lex-drawer">`. O título da barra (`<summary>`) deve ser limpo e conciso (ex.: `Referência lexical e morfológica · שָׁנָה (šānâ)`), sem embutir siglas de dicionários/léxicos no título para evitar poluição visual e quebra de linha na UI; a indicação detalhada das obras de referência consultadas deve constar elegantemente dentro do corpo da gaveta.
 3. **Sem Orações Guiadas:** Não incluir seções de oração guiada/pronta em nenhum estudo ou devocional.
 4. **Fidelidade Histórico-Gramatical:** Nunca introduza conclusões dogmáticas ou calvinistas/arminianas que não decorram da evidência do texto examinado.
 5. **Tradução-Base:** Para novos estudos exegéticos e temáticos, use ACF; para novos devocionais, use NVI. Uma tradução explicitamente solicitada no front matter prevalece. Ao migrar legado, preserve a versão realmente usada e registre-a.

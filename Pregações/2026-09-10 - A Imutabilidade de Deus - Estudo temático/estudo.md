@@ -76,7 +76,7 @@ No Antigo Testamento, a proclamação de que Deus é imutável não nasce como u
 3. **A consequência para os filhos de Jacó (*wə’attem bənê-ya‘ăqōḇ lō’ kəlîtem*):** A designação *“filhos de Jacó”* carrega peso teológico: Jacó era o suplantador, o homem instável e vacilante por natureza. A oração conclusiva demonstra que, se a fidelidade de Deus dependesse da constância moral de Jacó, a nação já estaria reduzida a cinzas. É a firmeza inalterável de Deus que sustenta a dispensação da graça.
 
 <details class="lex-drawer">
-<summary>Referência lexical e gramatical · O termo hebraico šānâ (HALOT / BDB)</summary>
+<summary>Referência lexical e morfológica · שָׁנָה (šānâ)</summary>
 
 | Item | Descrição |
 | :--- | :--- |
@@ -104,7 +104,7 @@ No Antigo Testamento, a proclamação de que Deus é imutável não nasce como u
 4. **A identidade pura do ser divino (v. 27):** A declaração hebraica *wə’attâ hû’* traduz-se literalmente por: *“Mas tu és Ele!”* ou *“Mas tu és o Mesmo!”*. Na teologia semítica veterotestamentária, *hû’* atua não apenas como pronome, mas como título da autoidentidade irredutível de Deus (ver também Is 41.4; 43.10; 48.12). Deus não experimenta passado, decadência ou fim (*wּəšənôṯeyḵā lō’ yittāmmû* — “e os teus anos nunca terão fim”).
 
 <details class="lex-drawer">
-<summary>Referência lexical e sintática · A fórmula wə’attâ hû’ (HALOT / DCH)</summary>
+<summary>Referência lexical e sintática · וְאַתָּה הוּא (wə’attâ hû’)</summary>
 
 | Item | Descrição |
 | :--- | :--- |
@@ -146,7 +146,7 @@ O Novo Testamento herda a convicção veterotestamentária da imutabilidade divi
 4. **A imunidade contra o eclipse moral (*ē tropēs aposkíasma*):** A expressão une *tropē* (giro, revolução de corpos celestes) com *aposkíasma* (sombra projetada por obstrução). Os astros físicos geram noites, eclipses e sombras. Em Deus, todavia, não há fase escura, mudança de humor ou declínio benevolente: Sua fidelidade ilumina os Seus filhos sem interrupção.
 
 <details class="lex-drawer">
-<summary>Referência lexical e gramatical · parallagē e aposkíasma no grego helenístico (BDAG / Louw-Nida)</summary>
+<summary>Referência lexical e astronômica · παραλλαγή e ἀποσκίασμα</summary>
 
 | Item | Descrição |
 | :--- | :--- |
@@ -194,7 +194,7 @@ O Novo Testamento herda a convicção veterotestamentária da imutabilidade divi
 5. **O resultado: a âncora da alma (6.19):** Essa imutabilidade não produz fatalismo inerte, mas uma *“consolação forte”* (*ischyràn paráklēsin*) que penetra além do véu celestial.
 
 <details class="lex-drawer">
-<summary>Referência lexical e conceitual · ametáthetos no vocabulário de Hebreus (BDAG)</summary>
+<summary>Referência lexical e jurídica · ἀμετάθετος (ametáthetos)</summary>
 
 | Item | Descrição |
 | :--- | :--- |
@@ -219,7 +219,7 @@ A Escritura utiliza frequentemente **antropopatias** (atribuição de afeições
 3. **O princípio normativo de Jeremias 18.7–10:** Jeremias estabelece a chave hermenêutica canônica dessa dinâmica: Deus anuncia o juízo sobre uma nação perversa; se essa nação se converter de seu mau caminho, Deus suspende a calamidade. Quem mudou não foi o caráter de Deus, mas a postura moral da nação. Deus permaneceu perfeitamente constante ao Seu princípio imutável: punir a impenitência e acolher com compaixão o coração contrito.
 
 <details class="lex-drawer">
-<summary>Referência lexical e semântica · O verbo hebraico nāḥam (HALOT / DCH)</summary>
+<summary>Referência lexical e teológica · נָחַם (nāḥam)</summary>
 
 | Item | Descrição |
 | :--- | :--- |

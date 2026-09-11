@@ -628,6 +628,7 @@ figcaption {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   list-style: none;
   transition: background .15s ease, border-color .15s ease;
 }
@@ -647,6 +648,9 @@ figcaption {
   font-weight: 700;
   color: var(--forest-2);
   letter-spacing: .01em;
+  flex: 1 1 auto;
+  min-width: 0;
+  line-height: 1.35;
 }
 .lex-toggle-badge {
   display: inline-flex;
@@ -662,6 +666,8 @@ figcaption {
   color: var(--muted);
   letter-spacing: .02em;
   transition: all .2s ease;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 .prose details.lex-drawer summary:hover .lex-toggle-badge {
   border-color: var(--forest);
@@ -697,6 +703,21 @@ figcaption {
 }
 .lex-drawer-body > :last-child {
   margin-bottom: 0;
+}
+.lex-drawer-body table {
+  margin: 0.8em 0;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(22, 32, 28, 0.03);
+}
+.lex-drawer-body tr:last-child td {
+  background: var(--paper-2);
+  font-size: .84rem;
+  color: var(--muted);
+}
+.lex-drawer-body tr:last-child td strong {
+  color: var(--forest-2);
 }
 .lex-drawer-body::-webkit-scrollbar {
   width: 6px;

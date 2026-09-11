@@ -125,8 +125,8 @@ Todos os arquivos HTML devem seguir rigorosamente este design system editorial c
 
 ### Regras de Interatividade e Ergonomia:
 1. **Gavetas Lexicais com `<details class="lex-drawer">`:**
-   - `<summary>` estilizado com ícone discreto e chevron animado (`▼`).
-   - Ao abrir, exibe a tabela/cartões com termos e morfologia sem poluir o fluxo de leitura de quem deseja apenas o comentário.
+   - `<summary>` estilizado com título limpo e conciso, sem siglas de léxicos ou dicionários no cabeçalho (evitando quebra de linha na UI), e botão/badge de alternância à direita.
+   - Ao abrir, exibe a tabela/cartões com termos, morfologia, campos semânticos e as referências bibliográficas dos léxicos consultados (BDAG, HALOT, etc.) posicionadas elegantemente ao final do conteúdo interno.
 2. **Navegação Fixa Inteligente:**
    - Desktop: Índice lateral sticky com destaque visual em verde floresta suave no item ativo.
    - Mobile: Barra horizontal de pílulas com rolagem suave automática para o item ativo e alvos de toque confortáveis.
