@@ -282,7 +282,7 @@ figcaption {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 22px;
-  align-items: start;
+  align-items: stretch;
 }
 .canonical-matrix-grid--single {
   grid-template-columns: 1fr;
@@ -292,6 +292,8 @@ figcaption {
   border: 1px solid var(--line);
   border-radius: 4px;
   padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
 }
 .canonical-testament-heading {
   margin: 0 0 12px;
