@@ -22,3 +22,6 @@ $RECYCLE.BIN/
 *.swp
 *.swo
 *~
+
+# Executáveis / Ferramentas locais
+cloudflared.exe

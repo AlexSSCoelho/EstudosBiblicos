@@ -163,13 +163,16 @@ def enrich_toc(raw_toc: list[dict[str, Any]], verse_map: dict[str, str]) -> list
 
         verse = verse_map.get(slug)
         if not verse:
-            v_match = re.match(
-                r"^(?:v\.|vv\.|versículo\s*)?(\d+(?:[.:]\d+)?(?:[–—\-]\d+(?:[.:]\d+)?)?)(?:\s*[·:–\-]\s*|\s+)(.*)$",
-                name,
-                re.IGNORECASE,
-            )
-            if v_match:
-                verse = v_match.group(1).strip()
+            # Não tratar livros bíblicos numerados (ex: 1 Samuel, 2 Reis, 1 João) como versículos
+            is_numbered_book = bool(re.match(r"^[123]\s+(?:samuel|reis|crônicas|cronicas|coríntios|corintios|tessalonicenses|timóteo|timoteo|pedro|joão|joao)\b", name, re.IGNORECASE))
+            if not is_numbered_book:
+                v_match = re.match(
+                    r"^(?:v\.|vv\.|versículo\s*)?(\d+(?:[.:]\d+)?(?:[–—\-]\d+(?:[.:]\d+)?)?)(?:\s*[·:–\-]\s*|\s+)(.*)$",
+                    name,
+                    re.IGNORECASE,
+                )
+                if v_match:
+                    verse = v_match.group(1).strip()
 
         is_verse = bool(verse)
         item = dict(entry)

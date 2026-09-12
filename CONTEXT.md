@@ -60,12 +60,24 @@ O repositório deve lidar com qualquer um dos 66 livros da Bíblia, aplicando as
 
 O repositório oferece três perfis editoriais, mas nenhum deles impõe uma quantidade fixa de seções, princípios, movimentos ou perguntas. O front matter registra `tipo` e `homiletica`; o corpo do Markdown determina a composição real.
 
-### Perfil 1: Devocional / Estudo Rápido
+### Perfil 1: Devocional / Meditação Bíblica
 
-* **Objetivo:** Edificação pessoal, leitura em pequenos grupos ou meditação rápida.
-* **Tradução padrão para novos materiais:** NVI, salvo sobrescrita explícita.
-* **Composição possível:** passagem bíblica, contexto, meditação, implicações, autoexame, perguntas, imagens e fontes, somente quando ajudarem o material.
-* **Restrições:** não incluir orações guiadas prontas nem jargão técnico sem explicação clara.
+* **Objetivo:** Edificação espiritual madura, meditação contemplativa e autoexame interior para o autor e pequenos grupos.
+* **Tradução padrão para novos materiais:** NVI, salvo sobrescrita explícita, mantendo cotejo exegético discreto da ACF e dos termos originais na prosa quando iluminarem o sentido.
+* **Arquitetura Editorial e Movimentos da Alma:**
+  - **Fim de Rótulos Fixos/Enlatados:** Proibição de títulos corporativos ou infantis como "Contexto em 1 Minuto", "O Coração da Mensagem" ou "Princípios para Guardar no Coração". Os subtítulos (`h2`) devem ser orgânicos, poéticos e derivados do próprio texto bíblico.
+  - **Quatro Movimentos Contemplativos:** O devocional conduz o leitor por uma jornada reflexiva natural:
+    1. *A Cena e a Tensão:* A verdade bíblica em seu cenário humano original e o confronto com a nossa realidade.
+    2. *O Segredo do Texto:* A iluminação da passagem e suas imagens originais.
+    3. *O Espelho do Coração:* Onde a alma se esconde, resiste ou se apega a falsas seguranças (diagnóstico sem moralismo superficial).
+    4. *O Repouso na Graça e a Resposta Silenciosa:* A suficiência de Cristo e perguntas que convidam à quietude.
+* **Informação Técnica a Serviço da Contemplação:**
+  - Nuances de hebraico ou grego e costumes históricos são entretecidos com leveza e beleza na prosa reflexiva como chaves de iluminação moral.
+  - O devocional pode incluir uma gaveta lexical flexível (`<details class="lex-drawer">`), menos rígida e mais narrativa do que a dos estudos exegéticos, focada em aprofundar a compreensão contextual e cultural do termo principal.
+* **Fôlego e Autoexame:**
+  - **Extensão:** Fôlego médio equilibrado (~100 a 160 linhas; 700 a 1.100 palavras; 4 a 6 minutos de leitura lenta e ruminativa).
+  - **Sondagem da Alma:** Conclui com apenas **1 ou 2 perguntas cortantes**, não óbvias e reflexivas, que tocam as motivações secretas e o medo de confiar na graça.
+  - **Sem Orações Guiadas:** Proibição absoluta de orações prontas, deixando a alma em espaço de silêncio para a oração espontânea.
 
 ### Perfil 2: Estudo Exegético
 
@@ -76,11 +88,19 @@ O repositório oferece três perfis editoriais, mas nenhum deles impõe uma quan
 
 ### Perfil 3: Estudo Temático
 
-* **Objetivo:** investigação bíblico-teológica e sistemática de um tema, atributo divino ou doutrina que atravessa o cânon bíblico articulando passagens do Antigo e do Novo Testamento.
+* **Objetivo:** investigação bíblico-teológica e sistemática de um tema, atributo divino ou doutrina que atravessa o cânon bíblico articulando passagens do Antigo e do Novo Testamento em uma linha de pensamento contínua e aprofundada.
 * **Tradução padrão para novos materiais:** ACF, salvo sobrescrita explícita.
 * **Contrato de metadados:** exige obrigatoriamente `tema` no front matter; `passagem` resume as âncoras para o catálogo; `passagens_chave` estrutura o panorama canônico opcional (`antigo_testamento` e `novo_testamento`).
-* **Submissão hermenêutica:** a síntese temática permanece estritamente submetida à exegese de cada texto examinado em seu próprio contexto histórico-gramatical. Não transfere sentidos entre alianças sem demonstração textual nem impõe sistemas teológicos prévios como ponto de partida.
-* **Homilética:** esboço temático, aplicações pastorais, pontos de pregação ou questões para estudo em grupo são opcionais e ativados pelo conteúdo ou por `homiletica: true`.
+* **Arquitetura Narrativa e Conexão Orgânica:**
+  - **Progressão Dialético-Cumulativa:** O estudo não deve ser um catálogo estático ou sumário maior de versículos agrupados mecanicamente por testamento. Ele deve desenvolver uma tese central onde cada seção responde, aprofunda e desdobra o problema teológico anterior com transições argumentativas explícitas.
+  - **Prosa Argumentativa Robusta:** Erradicação de listas enumeradas telegráficas (`1... 2... 3...`) na exegese. A exposição de cada perícope deve ser redigida em prosa reflexiva de alto fôlego (parágrafos articulados de 6 a 12 linhas), explicando o cenário histórico, a sintaxe, o argumento do autor e sua contribuição insubstituível para o tema.
+* **Seletividade de Âncoras e Protocolo Prévio Obrigatório:**
+  - O estudo deve selecionar de 3 a 4 perícopes-âncora principais investigadas com profundidade exegética real. Textos complementares são tecidos organicamente na prosa como citações de sustentação.
+  - **Protocolo de Alinhamento Prévio:** Antes de redigir qualquer novo estudo temático, a IA deve obrigatoriamente apresentar ao autor uma proposta contendo: (1) tese central, (2) âncoras exegéticas justificadas, (3) textos secundários e (4) arco de progressão teológica, aguardando aprovação prévia.
+* **Gavetas Lexicais Densas:** Cada âncora principal possui sua própria gaveta lexical (`<details class="lex-drawer">`) posicionada após a exposição, focada no termo ou raiz nevrálgica da passagem com dados morfológicos, semânticos e fontes acadêmicas (HALOT/DCH para hebraico; BDAG/Louw-Nida para grego).
+* **Integração Pastoral e Homilética Orgânica:**
+  - Proibição absoluta de fórmulas prontas, listas de autoajuda, tópicos clichês ("o que fazer", "como entender hoje") ou quebras artificiais de ritmo. A aplicação existencial (descanso da alma, oração perseverante, fidelidade na aflição) deve fluir naturalmente do texto sagrado.
+  - Quando `homiletica: true`, o estudo encerra com proposição bíblica clara e movimentos expositivos maduros desenvolvidos em prosa substantiva para o púlpito.
 
 Em todos os perfis, a distinção entre observação textual, interpretação, inferência, síntese e aplicação deve aparecer naturalmente na prosa, sem etiquetas repetitivas nem formato de relatório de IA.
 

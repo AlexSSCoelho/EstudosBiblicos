@@ -155,6 +155,14 @@ class BuildRenderingTests(unittest.TestCase):
         self.assertEqual(toc[1]["badge_type"], "verse")
         self.assertTrue(toc[1]["is_verse"])
 
+    def test_numbered_biblical_books_are_not_mistaken_for_verses_in_toc(self) -> None:
+        md = "## 1 Samuel 15.10–31: O mistério das antropopatias\n\nTexto de exposição.\n"
+        _html, toc = build.render_markdown(md)
+        self.assertEqual(len(toc), 1)
+        self.assertEqual(toc[0]["badge"], "01")
+        self.assertEqual(toc[0]["badge_type"], "number")
+        self.assertFalse(toc[0]["is_verse"])
+
     def test_minimal_devotional_and_exegetical_render_without_optional_fields(self) -> None:
         cases = (
             ("devocional", "devocional-minimo", "NVI"),

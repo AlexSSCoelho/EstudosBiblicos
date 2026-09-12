@@ -20,8 +20,10 @@ tags:
   - discipulado
 fontes_textuais:
   - "Almeida Corrigida e Fiel (ACF)"
-  - "Novo Testamento Grego NA28, cotejado com o Textus Receptus quando relevante"
+  - "Novum Testamentum Graece (NA28)"
+  - "Textus Receptus (Stephanus 1550)"
 lexicos:
+  - "BDAG (Bauer, Danker, Arndt, Gingrich)"
   - "Logeion, Universidade de Chicago"
 imagens:
   - src: "https://commons.wikimedia.org/wiki/Special:FilePath/Ancient%20Philippi.jpg?width=1200"

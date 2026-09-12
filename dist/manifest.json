@@ -6,12 +6,12 @@
       "tipo": "estudo_tematico",
       "titulo": "A Imutabilidade de Deus: A Rocha Inabalável em um Mundo Instável",
       "tema": "Teologia Própria · Atributos Divinos",
-      "passagem": "Ml 3.6; Tg 1.17; Sl 102.25-27; Hb 6.17-18; Hb 13.8; Nm 23.19",
+      "passagem": "Ml 3.1-6; Sl 102.1-28; 1Sm 15.10-31; Hb 6.13-20; Hb 13.7-9",
       "traducao": "ACF",
       "traducao_inferida": false,
       "data": "2026-09-10",
       "data_formatada": "10/09/2026",
-      "resumo": "Uma investigação bíblica e sistemática sobre a constância eterna do ser, conselho e promessas de Deus à luz do Antigo e Novo Testamento.",
+      "resumo": "Uma investigação bíblica e teológica sobre a constância eterna do ser, conselho e promessas de Deus à luz do Antigo e Novo Testamento.",
       "status": "revisado",
       "tags": [
         "atributos-de-deus",
@@ -29,7 +29,7 @@
       "tipo": "devocional",
       "titulo": "Não Moldados pelo Mundo: A Mente Renovada e a Vontade de Deus",
       "tema": "Renovação da mente e discernimento da vontade de Deus",
-      "passagem": "Romanos 12:2",
+      "passagem": "Romanos 12.2",
       "traducao": "ACF",
       "traducao_inferida": false,
       "data": "2026-08-23",
@@ -38,8 +38,9 @@
       "status": "revisado",
       "tags": [
         "Romanos",
-        "renovação da mente",
-        "discernimento"
+        "renovacao-da-mente",
+        "discernimento",
+        "devocional"
       ],
       "homiletica": false,
       "html": "estudos/romanos-12-2-devocional/romanos-12-2-devocional.html",

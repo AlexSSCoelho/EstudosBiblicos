@@ -40,9 +40,9 @@
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <div>
-        <strong>{{ metadata.titulo }}</strong>
-        <span>{{ metadata.passagem }} · {{ metadata.traducao }} · {{ metadata.data | date_br }}</span>
+      <div class="footer-meta-primary">
+        <strong class="footer-study-title">{{ metadata.titulo }}</strong>
+        <span class="footer-study-meta">{{ metadata.passagem }} · {{ metadata.traducao }}<span class="footer-meta-date"> · {{ metadata.data | date_br }}</span></span>
       </div>
       {% include "components/credits.html.j2" %}
     </div>

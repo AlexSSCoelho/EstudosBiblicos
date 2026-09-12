@@ -84,10 +84,9 @@
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <div>
-        <strong>{{ metadata.titulo }}</strong>
-        <span>{{ metadata.tema }} · {{ metadata.traducao }} · {{ metadata.data | date_br }}</span>
-        {% if metadata.get("autor") %}<span>{{ metadata.get("autor") }}</span>{% endif %}
+      <div class="footer-meta-primary">
+        <strong class="footer-study-title">{{ metadata.titulo }}</strong>
+        <span class="footer-study-meta">{{ metadata.tema }} · {{ metadata.traducao }}<span class="footer-meta-date"> · {{ metadata.data | date_br }}</span>{% if metadata.get("autor") %} · {{ metadata.get("autor") }}{% endif %}</span>
       </div>
       {% include "components/credits.html.j2" %}
     </div>

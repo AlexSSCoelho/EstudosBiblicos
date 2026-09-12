@@ -40,6 +40,14 @@
   }
 
   function updateActiveSection() {
+    // Se o usuário rolou até próximo ao final do documento, ativa a última seção
+    const scrollBottom = window.innerHeight + window.scrollY;
+    const documentHeight = document.documentElement.scrollHeight;
+    if (documentHeight - scrollBottom < 80) {
+      setActive(sections[sections.length - 1].id);
+      return;
+    }
+
     const line = window.matchMedia("(max-width: 860px)").matches ? 150 : 170;
     let current = sections[0];
     sections.forEach((section) => {
