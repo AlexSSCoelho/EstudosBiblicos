@@ -184,7 +184,7 @@ O template mantém a casca e os estilos comprovados do `study-shell`, introduzin
    - Preserva exatamente a rolagem sincronizada, scrollbar estreita de 4px e isolamento de boundary (`wheel`).
    - Apresenta as seções numeradas (`01`, `02`, `03`...) e mantém referências bíblicas no próprio título dos subtópicos, sem inferência automática.
 4. **Gavetas Lexicais Doutrinárias (`.lex-drawer`):**
-   - Utiliza a mesma UI refinada com botão único superior (`[ Consultar léxico ▾ ]` / `[ Recolher ▴ ]`) e scroll interno contido (`.lex-drawer-body`), sem vazamento superior.
+   - Utiliza a mesma UI refinada com botão único superior (`[ Consultar léxico ▾ ]` / `[ Recolher ▴ ]`) e fluxo natural do documento (`.lex-drawer-body`), sem travamento de scroll.
 
 ### 4.3. Refinamentos CSS (`assets/study.css`)
 Adição de regras pontuais, limpas e não intrusivas:
