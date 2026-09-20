@@ -84,6 +84,7 @@ O repositório oferece três perfis editoriais, mas nenhum deles impõe uma quan
 * **Objetivo:** investigação histórico-gramatical e preparação teológica sólida centrada em uma perícope contínua; a entrega pode ou não incluir material para o púlpito.
 * **Tradução padrão para novos materiais:** ACF, salvo sobrescrita explícita.
 * **Composição possível:** contexto histórico e literário, delimitação, exposição por unidades ou versículos, gavetas lexicais, síntese teológica, limites de aplicação, relações bíblicas, notas, imagens e fontes.
+* **Registro de escrita:** preservar a densidade que a perícope requer, com argumentos desenvolvidos e terminologia técnica quando ela esclarecer o texto. Escrever com sobriedade e precisão: preferir afirmações proporcionais à evidência, verbos concretos e relações lógicas explícitas. Não usar ornamento, metáforas acrescentadas, intensificadores ou contraposições retóricas quando eles não esclarecem a exegese. Rigor não depende de solenidade artificial nem de frases infladas.
 * **Homilética:** proposição, movimentos, ilustrações, perguntas para grupo e apelo são entregáveis opcionais, ativados pelo pedido ou por `homiletica: true`.
 
 ### Perfil 3: Estudo Temático
@@ -93,13 +94,14 @@ O repositório oferece três perfis editoriais, mas nenhum deles impõe uma quan
 * **Contrato de metadados:** exige obrigatoriamente `tema` no front matter; `passagem` resume as âncoras para o catálogo; `passagens_chave` estrutura o panorama canônico opcional (`antigo_testamento` e `novo_testamento`).
 * **Arquitetura Narrativa e Conexão Orgânica:**
   - **Progressão Dialético-Cumulativa:** O estudo não deve ser um catálogo estático ou sumário maior de versículos agrupados mecanicamente por testamento. Ele deve desenvolver uma tese central onde cada seção responde, aprofunda e desdobra o problema teológico anterior com transições argumentativas explícitas.
-  - **Prosa Argumentativa Robusta:** Erradicação de listas enumeradas telegráficas (`1... 2... 3...`) na exegese. A exposição de cada perícope deve ser redigida em prosa reflexiva de alto fôlego (parágrafos articulados de 6 a 12 linhas), explicando o cenário histórico, a sintaxe, o argumento do autor e sua contribuição insubstituível para o tema.
+  - **Prosa Argumentativa Sustentada:** Erradicação de listas enumeradas telegráficas (`1... 2... 3...`) na exegese. A exposição de cada perícope deve ser redigida em prosa reflexiva de alto fôlego (parágrafos articulados de 6 a 12 linhas), explicando o cenário histórico, a sintaxe, o argumento do autor e sua contribuição específica para o tema. A extensão do parágrafo deve servir ao desenvolvimento do raciocínio, não à ornamentação.
 * **Seletividade de Âncoras e Protocolo Prévio Obrigatório:**
   - O estudo deve selecionar de 3 a 4 perícopes-âncora principais investigadas com profundidade exegética real. Textos complementares são tecidos organicamente na prosa como citações de sustentação.
   - **Protocolo de Alinhamento Prévio:** Antes de redigir qualquer novo estudo temático, a IA deve obrigatoriamente apresentar ao autor uma proposta contendo: (1) tese central, (2) âncoras exegéticas justificadas, (3) textos secundários e (4) arco de progressão teológica, aguardando aprovação prévia.
 * **Gavetas Lexicais Densas:** Cada âncora principal possui sua própria gaveta lexical (`<details class="lex-drawer">`) posicionada após a exposição, focada no termo ou raiz nevrálgica da passagem com dados morfológicos, semânticos e fontes acadêmicas (HALOT/DCH para hebraico; BDAG/Louw-Nida para grego).
 * **Integração Pastoral e Homilética Orgânica:**
   - Proibição absoluta de fórmulas prontas, listas de autoajuda, tópicos clichês ("o que fazer", "como entender hoje") ou quebras artificiais de ritmo. A aplicação existencial (descanso da alma, oração perseverante, fidelidade na aflição) deve fluir naturalmente do texto sagrado.
+  - **Registro de escrita:** manter a voz adulta, teológica e acessível, sem simplificar distinções necessárias. Preferir linguagem direta, conexões argumentativas verificáveis e vocabulário preciso. Evitar imagens decorativas, generalizações enfáticas, antagonistas retóricos inventados, sinônimos usados apenas para elevar o tom e conclusões de impacto sem nova informação. A linguagem figurada das próprias Escrituras e metáforas que expliquem o texto permanecem bem-vindas.
   - Quando `homiletica: true`, o estudo encerra com proposição bíblica clara e movimentos expositivos maduros desenvolvidos em prosa substantiva para o púlpito.
 
 Em todos os perfis, a distinção entre observação textual, interpretação, inferência, síntese e aplicação deve aparecer naturalmente na prosa, sem etiquetas repetitivas nem formato de relatório de IA.
