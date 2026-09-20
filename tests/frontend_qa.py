@@ -17,9 +17,16 @@ import server as study_server
 
 DIST_ROOT = ROOT / "dist"
 STUDIES = (
-    "/estudos/filipenses-4-6-9/filipenses-4-6-9.html",
-    "/estudos/romanos-12-2-devocional/romanos-12-2-devocional.html",
-    "/estudos/a-imutabilidade-de-deus/a-imutabilidade-de-deus.html",
+    "/estudos/filipenses-4-6-9/",
+    "/estudos/romanos-12-2-devocional/",
+    "/estudos/a-imutabilidade-de-deus/",
+)
+CATALOGS = (
+    ("/tipos/devocionais.html", 1),
+    ("/tipos/estudos-expositivos.html", 1),
+    ("/tipos/estudos-da-passagem.html", 1),
+    ("/tipos/estudos-tematicos.html", 1),
+    ("/tipos/todas.html", 3),
 )
 VIEWPORTS = ((390, 844), (768, 900), (1440, 900))
 
@@ -121,10 +128,65 @@ def main() -> int:
                     f"favicon SVG não foi servido: HTTP {favicon_response.status}"
                 )
 
+            category_cards = page.locator(".category-card")
+            if category_cards.count() != 3:
+                raise AssertionError(
+                    f"hub da biblioteca deveria ter 3 categorias: {category_cards.count()}"
+                )
+            for index in range(category_cards.count()):
+                href = category_cards.nth(index).get_attribute("href")
+                if not href or not href.startswith("tipos/"):
+                    raise AssertionError(f"link de categoria inválido: {href!r}")
+            expected_kickers = {"Para meditar", "Para compreender", "Para investigar"}
+            actual_kickers = set(
+                page.locator(".category-card-kicker").all_text_contents()
+            )
+            if actual_kickers != expected_kickers:
+                raise AssertionError(
+                    f"rótulos de propósito dos cards divergentes: {actual_kickers}"
+                )
+            expected_titles = {
+                "Devocionais",
+                "Estudos expositivos",
+                "Estudos temáticos",
+            }
+            actual_titles = set(page.locator(".category-card h3").all_text_contents())
+            if actual_titles != expected_titles:
+                raise AssertionError(
+                    f"títulos das categorias divergentes: {actual_titles}"
+                )
+            category_text = " ".join(category_cards.all_text_contents())
+            if page.locator(".category-card-action").count() or "Ver " in category_text:
+                raise AssertionError(
+                    "a home ainda exibe uma ação redundante dentro dos cards"
+                )
+            if page.locator(".study-card").count() != 0:
+                raise AssertionError("a biblioteca inicial ainda expõe cards individuais")
+            all_readings = page.locator(".library-all-link a")
+            if all_readings.get_attribute("href") != "tipos/todas.html":
+                raise AssertionError("link para todas as leituras não foi renderizado")
+
+            page.goto(f"{base_url}/tipos/todas.html", wait_until="domcontentloaded")
+            page.wait_for_timeout(150)
+            if page_errors:
+                raise AssertionError(f"erros JS no catálogo completo: {page_errors}")
             card = page.locator(".study-card").first
+            card_transition = card.evaluate(
+                "element => getComputedStyle(element).transitionProperty"
+            )
+            if "transform" not in card_transition or "box-shadow" not in card_transition:
+                raise AssertionError(
+                    f"card não possui transição de clicabilidade: {card_transition}"
+                )
+            card.hover()
+            hover_transform = card.evaluate(
+                "element => getComputedStyle(element).transform"
+            )
+            if hover_transform == "none":
+                raise AssertionError("card não reage visualmente ao hover")
             card_box = card.bounding_box()
             if card_box is None:
-                raise AssertionError("card da biblioteca não foi renderizado")
+                raise AssertionError("card do catálogo completo não foi renderizado")
             hit = page.evaluate(
                 """([x, y]) => {
                     const element = document.elementFromPoint(x, y);
@@ -136,7 +198,7 @@ def main() -> int:
                     card_box["y"] + card_box["height"] / 2,
                 ],
             )
-            if not hit or not hit.endswith(".html"):
+            if not hit or "estudos/" not in hit or not hit.endswith("/"):
                 raise AssertionError(
                     f"área interna do card não aponta para o estudo: {hit!r}"
                 )
@@ -157,6 +219,38 @@ def main() -> int:
             )
             if pdf_hit != pdf_link.get_attribute("href"):
                 raise AssertionError("link PDF deixou de ser alvo independente no card")
+            if page.locator(".card-read-link").count() != 0:
+                raise AssertionError("o catálogo ainda exibe o link redundante 'Ler estudo'")
+            title_link = card.locator("h3 a")
+            title_link.hover()
+            title_decoration = title_link.evaluate(
+                "element => getComputedStyle(element).textDecorationLine"
+            )
+            if "underline" in title_decoration:
+                raise AssertionError("o título do estudo ainda fica sublinhado no hover")
+
+            for catalog_path, expected_count in CATALOGS:
+                page_errors.clear()
+                page.goto(f"{base_url}{catalog_path}", wait_until="domcontentloaded")
+                page.wait_for_timeout(100)
+                if page_errors:
+                    raise AssertionError(
+                        f"erros JS no catálogo {catalog_path}: {page_errors}"
+                    )
+                actual_count = page.locator(".study-card").count()
+                if actual_count != expected_count:
+                    raise AssertionError(
+                        f"catálogo {catalog_path} deveria ter {expected_count} cards, "
+                        f"mas renderizou {actual_count}"
+                    )
+                if page.locator(".library-back-link").get_attribute("href") != "../":
+                    raise AssertionError(
+                        f"retorno à biblioteca inválido em {catalog_path}"
+                    )
+                if page.locator(".library-footer a").count() != 0:
+                    raise AssertionError(
+                        f"o catálogo {catalog_path} ainda exibe retorno duplicado no rodapé"
+                    )
 
             page_errors.clear()
             romanos = STUDIES[1]

@@ -52,6 +52,7 @@ TEMPLATE_ROOT = ROOT / "templates"
 ASSET_ROOT = ROOT / "assets"
 DIST_ROOT = ROOT / "dist"
 STUDY_OUTPUT_ROOT = DIST_ROOT / "estudos"
+CATEGORY_OUTPUT_ROOT = DIST_ROOT / "tipos"
 
 DEFAULT_TRANSLATIONS = {
     "devocional": "NVI",
@@ -59,6 +60,28 @@ DEFAULT_TRANSLATIONS = {
     "estudo_tematico": "ACF",
 }
 REQUIRED_FIELDS = ("id", "tipo", "titulo", "passagem", "data", "resumo")
+STUDY_TYPE_ORDER = ("devocional", "estudo_exegetico", "estudo_tematico")
+STUDY_TYPE_PRESENTATION = {
+    "devocional": {
+        "slug": "devocionais",
+        "kicker": "Para meditar",
+        "title": "Devocionais",
+        "description": "Uma reflexão breve para meditar em uma passagem e conectá-la à vida.",
+    },
+    "estudo_exegetico": {
+        "slug": "estudos-expositivos",
+        "legacy_slugs": ("estudos-da-passagem",),
+        "kicker": "Para compreender",
+        "title": "Estudos expositivos",
+        "description": "Uma passagem por vez, com contexto, explicação do texto e reflexão sobre sua mensagem.",
+    },
+    "estudo_tematico": {
+        "slug": "estudos-tematicos",
+        "kicker": "Para investigar",
+        "title": "Estudos temáticos",
+        "description": "Um tema bíblico examinado à luz de várias passagens.",
+    },
+}
 DETAIL_BLOCK_RE = re.compile(
     r'<details\s+class="lex-drawer">\s*<summary>(?P<summary>.*?)</summary>'
     r'(?P<body>.*?)</details>',
@@ -578,7 +601,7 @@ def remove_generated_tree(path: Path) -> None:
 
 
 def clean_generated_outputs() -> None:
-    for path in (DIST_ROOT / "assets", STUDY_OUTPUT_ROOT):
+    for path in (DIST_ROOT / "assets", STUDY_OUTPUT_ROOT, CATEGORY_OUTPUT_ROOT):
         remove_generated_tree(path)
     for path in (DIST_ROOT / "index.html", DIST_ROOT / "manifest.json"):
         if path.exists():
@@ -746,7 +769,7 @@ def card_for(study: Study) -> dict[str, Any]:
         "status": study.metadata["status"],
         "tags": study.metadata["tags"],
         "homiletica": study.metadata["homiletica"],
-        "html": f"estudos/{study.study_id}/{study.study_id}.html",
+        "html": f"estudos/{study.study_id}/",
         "pdf": f"estudos/{study.study_id}/{study.study_id}.pdf",
         "fonte": study.source_path.relative_to(ROOT).as_posix(),
     }
@@ -786,8 +809,11 @@ def render_study(study: Study, templates: Environment, skip_pdf: bool) -> dict[s
     html_content = normalize_generated_text(
         templates.get_template(template_name).render(**context)
     )
-    html_path = study.output_dir / f"{study.study_id}.html"
+    html_path = study.output_dir / "index.html"
     html_path.write_text(html_content, encoding="utf-8")
+    # Mantém o endereço antigo funcionando para favoritos e links já compartilhados.
+    legacy_html_path = study.output_dir / f"{study.study_id}.html"
+    legacy_html_path.write_text(html_content, encoding="utf-8")
 
     pdf_path = study.output_dir / f"{study.study_id}.pdf"
     if not skip_pdf:
@@ -796,16 +822,100 @@ def render_study(study: Study, templates: Environment, skip_pdf: bool) -> dict[s
     return card_for(study)
 
 
+def sort_cards(cards: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return sorted(cards, key=lambda card: (card["data"], card["titulo"]), reverse=True)
+
+
+def study_count_label(count: int) -> str:
+    if count == 0:
+        return "Nenhuma leitura disponível"
+    if count == 1:
+        return "1 leitura disponível"
+    return f"{count} leituras disponíveis"
+
+
+def category_cards(cards: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    categories: list[dict[str, Any]] = []
+    for study_type in STUDY_TYPE_ORDER:
+        presentation = STUDY_TYPE_PRESENTATION[study_type]
+        count = sum(1 for card in cards if card["tipo"] == study_type)
+        categories.append(
+            {
+                "type": study_type,
+                "slug": presentation["slug"],
+                "legacy_slugs": presentation.get("legacy_slugs", ()),
+                "kicker": presentation["kicker"],
+                "title": presentation["title"],
+                "description": presentation["description"],
+                "count": count,
+                "count_label": study_count_label(count),
+                "href": f"tipos/{presentation['slug']}.html",
+            }
+        )
+    return categories
+
+
+def render_catalog_page(
+    cards: list[dict[str, Any]],
+    templates: Environment,
+    *,
+    title: str,
+    description: str,
+    output_path: Path,
+) -> None:
+    catalog = normalize_generated_text(
+        templates.get_template("catalog.html.j2").render(
+            title=title,
+            description=description,
+            cards=sort_cards(cards),
+            count_label=study_count_label(len(cards)),
+            asset_prefix="../",
+            root_prefix="../",
+            study_prefix="../",
+        )
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(catalog, encoding="utf-8")
+
+
+def render_catalog_pages(cards: list[dict[str, Any]], templates: Environment) -> None:
+    CATEGORY_OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
+    for category in category_cards(cards):
+        category_studies = [
+            card for card in cards if card["tipo"] == category["type"]
+        ]
+        for slug in (category["slug"], *category["legacy_slugs"]):
+            render_catalog_page(
+                category_studies,
+                templates,
+                title=category["title"],
+                description=category["description"],
+                output_path=CATEGORY_OUTPUT_ROOT / f"{slug}.html",
+            )
+    render_catalog_page(
+        cards,
+        templates,
+        title="Todas as leituras",
+        description="Veja todos os estudos, devocionais e leituras temáticas em um só lugar.",
+        output_path=CATEGORY_OUTPUT_ROOT / "todas.html",
+    )
+
+
 def render_index(cards: list[dict[str, Any]], templates: Environment) -> None:
-    cards = sorted(cards, key=lambda card: (card["data"], card["titulo"]), reverse=True)
+    cards = sort_cards(cards)
     index = normalize_generated_text(
-        templates.get_template("index.html.j2").render(cards=cards, asset_prefix="./")
+        templates.get_template("index.html.j2").render(
+            categories=category_cards(cards),
+            total_count=len(cards),
+            asset_prefix="./",
+        )
     )
     (DIST_ROOT / "index.html").write_text(index, encoding="utf-8")
     (DIST_ROOT / "manifest.json").write_text(
         json.dumps({"version": 1, "studies": cards}, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
+    render_catalog_pages(cards, templates)
 
 
 def select_study(studies: list[Study], selector: str | None) -> Study | None:

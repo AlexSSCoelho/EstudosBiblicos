@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#20372a">
+  <meta name="description" content="{{ description }}">
+  <title>{{ title }} | Estudos Bíblicos</title>
+  <link rel="icon" href="{{ asset_prefix }}assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ asset_prefix }}assets/study.css">
+</head>
+<body class="library-page">
+  <main id="conteudo" class="library-shell">
+    <a class="library-back-link" href="{{ root_prefix }}"><span aria-hidden="true">←</span> Voltar à biblioteca</a>
+
+    <header class="library-header">
+      <p class="eyebrow">Leituras bíblicas</p>
+      <h1>{{ title }}</h1>
+      <p>{{ description }}</p>
+    </header>
+
+    <section class="library-list" aria-labelledby="library-title">
+      <div class="library-list-heading">
+        <h2 id="library-title">Leituras</h2>
+        <span>{{ count_label }}</span>
+      </div>
+
+      {% if cards %}
+      <div class="study-cards">
+        {% from "components/study-card.html.j2" import study_card %}
+        {% for card in cards %}
+        {{ study_card(card, study_prefix) }}
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <h3>Ainda não há leituras publicadas</h3>
+        <p>Esta categoria ainda não tem estudos disponíveis.</p>
+      </div>
+      {% endif %}
+    </section>
+
+    <footer class="library-footer">
+      <p>Cada estudo pode ser lido no navegador e também está disponível em PDF.</p>
+    </footer>
+  </main>
+</body>
+</html>
