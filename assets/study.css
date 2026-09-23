@@ -1077,7 +1077,7 @@ figcaption {
   .toc a:hover .toc-badge--verse, .toc a.active .toc-badge--verse {
     color: #f0bd94;
   }
-  .prose h2, .prose h3, .prose h4, .verse-marker { scroll-margin-top: calc(var(--topbar) + 72px); }
+  .prose h2, .prose h3, .prose h4, .verse-marker { scroll-margin-top: calc(var(--topbar) + 96px); }
   .mobile-toc-wrap { padding: 0 18px; }
   .mobile-toc-wrap .toc { margin-left: -18px; margin-right: -18px; }
   .lex-drawer-body table th:first-child,
