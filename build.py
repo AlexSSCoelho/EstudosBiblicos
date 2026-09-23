@@ -356,6 +356,8 @@ def normalize_metadata(metadata: dict[str, Any], path: Path) -> dict[str, Any]:
     normalized["traducao_inferida"] = not bool(translation_text)
     normalized["traducao"] = translation_text or DEFAULT_TRANSLATIONS[normalized["tipo"]]
     normalized["homiletica"] = bool(metadata.get("homiletica", False))
+    if normalized["tipo"] == "estudo_tematico" and normalized["homiletica"]:
+        raise BuildError(f"{path}: estudos temáticos não incluem proposição ou movimentos homiléticos.")
     normalized["tags"] = [str(item) for item in as_list(metadata.get("tags"))]
     normalized["fontes_textuais"] = [
         str(item) if not isinstance(item, dict) else item

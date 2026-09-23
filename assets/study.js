@@ -14,18 +14,28 @@
 
   let activeId = "";
 
+  function centerMobileLink(link) {
+    const tocNav = link.closest(".toc");
+    if (!tocNav) return;
+    const linkRect = link.getBoundingClientRect();
+    const navRect = tocNav.getBoundingClientRect();
+    const left = tocNav.scrollLeft + linkRect.left - navRect.left
+      - (tocNav.clientWidth - linkRect.width) / 2;
+    tocNav.scrollTo({ left, behavior: "auto" });
+  }
+
   function setActive(sectionId) {
     if (activeId === sectionId) return;
     const isInitialActivation = activeId === "";
     activeId = sectionId;
+    let activeLink = null;
     tocLinks.forEach((link) => {
       const active = link.getAttribute("href") === "#" + sectionId;
       link.classList.toggle("active", active);
       if (active) link.setAttribute("aria-current", "location");
       else link.removeAttribute("aria-current");
-      if (active && !isInitialActivation && window.matchMedia("(max-width: 860px)").matches) {
-        link.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-      } else if (active && !isInitialActivation) {
+      if (active) activeLink = link;
+      if (active && !isInitialActivation && !window.matchMedia("(max-width: 860px)").matches) {
         const tocNav = link.closest(".toc");
         if (tocNav) {
           const linkRect = link.getBoundingClientRect();
@@ -37,6 +47,9 @@
         }
       }
     });
+    if (activeLink && window.matchMedia("(max-width: 860px)").matches) {
+      centerMobileLink(activeLink);
+    }
   }
 
   function updateActiveSection() {
@@ -57,7 +70,13 @@
   }
 
   window.addEventListener("scroll", updateActiveSection, { passive: true });
-  window.addEventListener("resize", updateActiveSection);
+  window.addEventListener("resize", () => {
+    updateActiveSection();
+    if (window.matchMedia("(max-width: 860px)").matches) {
+      const activeLink = tocLinks.find((link) => link.classList.contains("active"));
+      if (activeLink) centerMobileLink(activeLink);
+    }
+  });
   updateActiveSection();
 
   const tocNav = document.querySelector(".toc");
@@ -65,13 +84,13 @@
     tocNav.addEventListener(
       "wheel",
       function (e) {
+        if (window.matchMedia("(max-width: 860px)").matches) return;
         const scrollTop = tocNav.scrollTop;
         const scrollHeight = tocNav.scrollHeight;
         const height = tocNav.clientHeight;
         const delta = e.deltaY;
 
         if (scrollHeight <= height) {
-          e.preventDefault();
           return;
         }
 

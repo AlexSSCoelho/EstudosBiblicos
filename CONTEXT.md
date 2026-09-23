@@ -58,7 +58,7 @@ O repositório deve lidar com qualquer um dos 66 livros da Bíblia, aplicando as
 
 ## 4. Os Três Perfis Oficiais de Entrega
 
-O repositório oferece três perfis editoriais, mas nenhum deles impõe uma quantidade fixa de seções, princípios, movimentos ou perguntas. O front matter registra `tipo` e `homiletica`; o corpo do Markdown determina a composição real.
+O repositório oferece três perfis editoriais, mas nenhum deles impõe uma quantidade fixa de seções, princípios, movimentos ou perguntas. O front matter registra `tipo` e, quando aplicável, `homiletica`; o corpo do Markdown determina a composição real.
 
 ### Perfil 1: Devocional / Meditação Bíblica
 
@@ -99,10 +99,10 @@ O repositório oferece três perfis editoriais, mas nenhum deles impõe uma quan
   - O estudo deve selecionar de 3 a 4 perícopes-âncora principais investigadas com profundidade exegética real. Textos complementares são tecidos organicamente na prosa como citações de sustentação.
   - **Protocolo de Alinhamento Prévio:** Antes de redigir qualquer novo estudo temático, a IA deve obrigatoriamente apresentar ao autor uma proposta contendo: (1) tese central, (2) âncoras exegéticas justificadas, (3) textos secundários e (4) arco de progressão teológica, aguardando aprovação prévia.
 * **Gavetas Lexicais Densas:** Cada âncora principal possui sua própria gaveta lexical (`<details class="lex-drawer">`) posicionada após a exposição, focada no termo ou raiz nevrálgica da passagem com dados morfológicos, semânticos e fontes acadêmicas (HALOT/DCH para hebraico; BDAG/Louw-Nida para grego).
-* **Integração Pastoral e Homilética Orgânica:**
+* **Integração Pastoral Orgânica:**
   - Proibição absoluta de fórmulas prontas, listas de autoajuda, tópicos clichês ("o que fazer", "como entender hoje") ou quebras artificiais de ritmo. A aplicação existencial (descanso da alma, oração perseverante, fidelidade na aflição) deve fluir naturalmente do texto sagrado.
   - **Registro de escrita:** manter a voz adulta, teológica e acessível, sem simplificar distinções necessárias. Preferir linguagem direta, conexões argumentativas verificáveis e vocabulário preciso. Evitar imagens decorativas, generalizações enfáticas, antagonistas retóricos inventados, sinônimos usados apenas para elevar o tom e conclusões de impacto sem nova informação. A linguagem figurada das próprias Escrituras e metáforas que expliquem o texto permanecem bem-vindas.
-  - Quando `homiletica: true`, o estudo encerra com proposição bíblica clara e movimentos expositivos maduros desenvolvidos em prosa substantiva para o púlpito.
+  - Estudos temáticos não incluem proposição nem movimentos homiléticos. A reflexão pastoral permanece ligada ao argumento e às passagens examinadas.
 
 Em todos os perfis, a distinção entre observação textual, interpretação, inferência, síntese e aplicação deve aparecer naturalmente na prosa, sem etiquetas repetitivas nem formato de relatório de IA.
 

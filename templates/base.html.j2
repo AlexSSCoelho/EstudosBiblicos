@@ -18,7 +18,7 @@
     <div class="topbar-inner">
       <a class="brand" href="/" title="Voltar à biblioteca">
         <strong>Estudos Bíblicos</strong>
-        <span>· {{ metadata.passagem }}</span>
+        <span>· {% if metadata.tipo == "estudo_tematico" %}Estudo temático{% else %}{{ metadata.passagem }}{% endif %}</span>
       </a>
       <div class="topbar-actions">
         <a class="pdf-link" href="{{ metadata.id }}.pdf" target="_blank" rel="noopener noreferrer" title="Baixar documento PDF diagramado">

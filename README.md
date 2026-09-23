@@ -4,6 +4,8 @@ Biblioteca local de estudos bíblicos, devocionais e estudos temáticos.
 
 ## Abrir rapidamente os HTML já gerados
 
+No Windows, dê um duplo clique em `Abrir Biblioteca.lnk`. O atalho abre uma aba do PowerShell no Windows Terminal existente ou inicia uma janela maximizada, liga o servidor e abre a biblioteca no navegador padrão. Para encerrar o servidor, pressione `Ctrl+C` na aba. Se a biblioteca já estiver ativa, o comando apenas abre a página existente.
+
 No PowerShell, na pasta raiz do repositório, execute:
 
 ```powershell
