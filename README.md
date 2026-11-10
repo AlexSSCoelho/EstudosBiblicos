@@ -4,12 +4,16 @@ Biblioteca local de estudos bíblicos, devocionais e estudos temáticos.
 
 ## Abrir rapidamente os HTML já gerados
 
-No Windows, dê um duplo clique em `Abrir Biblioteca.lnk`. O atalho abre uma aba do PowerShell no Windows Terminal existente ou inicia uma janela maximizada, liga o servidor e abre a biblioteca no navegador padrão. Para encerrar o servidor, pressione `Ctrl+C` na aba. Se a biblioteca já estiver ativa, o comando apenas abre a página existente.
+No Windows, dê um duplo clique no atalho `Abrir Biblioteca.lnk`. Ele executa `py -X utf8 server.py --open` na pasta do repositório (janela minimizada), inicia o servidor local e abre a biblioteca no navegador. Se a biblioteca já estiver em execução, apenas abre a página existente.
+
+Para encerrar o servidor, feche a janela minimizada do Python na barra de tarefas. Se a pasta for movida, recrie o atalho apontando para `C:\Windows\py.exe` com argumentos `-X utf8 server.py --open` e "Iniciar em" igual à pasta do repositório.
+
+### Execução manual via terminal
 
 No PowerShell, na pasta raiz do repositório, execute:
 
 ```powershell
-py -X utf8 server.py
+py -X utf8 server.py --open
 ```
 
 Depois abra no navegador:
@@ -63,5 +67,6 @@ Esse comando gera novamente o HTML, os PDFs, o manifesto e o índice da bibliote
 - `assets/`: CSS, JavaScript e outros recursos de origem.
 - `dist/`: HTML, PDF, manifesto e índice gerados.
 - `server.py`: servidor local para acessar `dist/` por HTTP.
+- `Abrir Biblioteca.lnk`: atalho único para abrir a biblioteca no Windows.
 
 Edite a fonte em `Pregações/` e os templates; não altere manualmente os HTML dentro de `dist/`.

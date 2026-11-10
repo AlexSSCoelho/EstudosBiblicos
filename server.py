@@ -43,7 +43,7 @@ def ensure_dist() -> None:
     if (DIST_ROOT / "index.html").is_file() and (DIST_ROOT / "manifest.json").is_file():
         return
 
-    command = [sys.executable, str(ROOT / "build.py")]
+    command = [sys.executable, "-X", "utf8", str(ROOT / "build.py")]
     print("Saída gerada não encontrada; executando o build completo...")
     subprocess.run(command, cwd=ROOT, check=True)
 
@@ -75,38 +75,58 @@ def main() -> None:
     args = parse_args()
     ensure_dist()
     handler = functools.partial(UTF8HttpRequestHandler, directory=str(DIST_ROOT))
-    library_url = f"http://127.0.0.1:{args.port}/"
 
     class ReusableThreadingServer(socketserver.ThreadingTCPServer):
         allow_reuse_address = True
         daemon_threads = True
 
-    try:
-        httpd = ReusableThreadingServer(("0.0.0.0", args.port), handler)
-    except OSError as exc:
-        if not args.open or exc.errno not in (errno.EADDRINUSE, errno.EACCES):
-            raise
+    active_port = args.port
+    httpd = None
 
+    for attempt_port in range(args.port, args.port + 10):
+        test_url = f"http://127.0.0.1:{attempt_port}/"
         try:
-            with urllib.request.urlopen(library_url, timeout=2) as response:
-                is_library = b'<body class="library-page">' in response.read(2048)
-        except (OSError, urllib.error.URLError):
-            is_library = False
+            httpd = ReusableThreadingServer(("0.0.0.0", attempt_port), handler)
+            active_port = attempt_port
+            break
+        except OSError:
+            # Se falhar no bind geral, tenta no loopback local (127.0.0.1)
+            try:
+                httpd = ReusableThreadingServer(("127.0.0.1", attempt_port), handler)
+                active_port = attempt_port
+                break
+            except OSError:
+                pass
 
-        if not is_library:
-            raise RuntimeError(f"A porta {args.port} não está disponível para esta biblioteca.") from exc
+            # Verifica se já está rodando a nossa biblioteca nesta porta
+            try:
+                with urllib.request.urlopen(test_url, timeout=2) as response:
+                    is_library = b'<body class="library-page">' in response.read(2048)
+            except (OSError, urllib.error.URLError):
+                is_library = False
 
-        print("A biblioteca já está em execução; abrindo a página existente.")
-        webbrowser.open(library_url)
-        return
+            if is_library:
+                print(f"A biblioteca já está em execução na porta {attempt_port}.")
+                if args.open:
+                    print("Abrindo no navegador...")
+                    webbrowser.open(test_url)
+                return
+
+            print(f"Porta {attempt_port} ocupada; tentando porta {attempt_port + 1}...")
+            continue
+
+    if httpd is None:
+        raise RuntimeError(f"Nenhuma porta disponível entre {args.port} e {args.port + 9}.")
+
+    library_url = f"http://127.0.0.1:{active_port}/"
 
     with httpd:
         local_ip = get_local_ip()
         print("=" * 65)
         print(" SERVIDOR DE ESTUDOS BÍBLICOS INICIADO")
         print("=" * 65)
-        print(f" Computador: http://localhost:{args.port}")
-        print(f" Rede local: http://{local_ip}:{args.port}")
+        print(f" Computador: http://localhost:{active_port}")
+        print(f" Rede local: http://{local_ip}:{active_port}")
         print(" Para acesso externo, use o túnel/Tailscale já configurado.")
         print(" Pressione Ctrl+C para encerrar.")
         print("=" * 65)
