@@ -46,6 +46,19 @@ class BuildMetadataTests(unittest.TestCase):
         self.assertEqual(metadata["traducao"], "ACF")
         self.assertTrue(metadata["traducao_inferida"])
         self.assertEqual(metadata["tema"], "Teologia Própria")
+        self.assertFalse(metadata["homiletica"])
+
+        with self.assertRaisesRegex(build.BuildError, "estudos temáticos não incluem"):
+            build.normalize_metadata(
+                {
+                    **self.base,
+                    "id": "estudo-tematico-teste",
+                    "tipo": "estudo_tematico",
+                    "tema": "Teologia Própria",
+                    "homiletica": True,
+                },
+                self.path,
+            )
 
     def test_thematic_aliases_and_unknown_type_rejection(self) -> None:
         for alias in ("tematico", "estudo_doutrinario"):
@@ -221,15 +234,12 @@ class BuildRenderingTests(unittest.TestCase):
 
 
 class BuildValidationTests(unittest.TestCase):
-    def test_mobile_toc_does_not_scroll_page_on_initial_activation(self) -> None:
+    def test_mobile_toc_centers_inside_bar_without_scrolling_page(self) -> None:
         source_script = Path("assets/study.js").read_text(encoding="utf-8")
         generated_script = Path("dist/assets/study.js").read_text(encoding="utf-8")
-        for script in (source_script, generated_script):
-            self.assertIn('const isInitialActivation = activeId === "";', script)
-            self.assertIn(
-                'active && !isInitialActivation && window.matchMedia("(max-width: 860px)")',
-                script,
-            )
+        self.assertEqual(source_script, generated_script)
+        self.assertIn('tocNav.scrollTo({ left, behavior: "auto" });', source_script)
+        self.assertNotIn('link.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" })', source_script)
 
     def test_workflow_rebuilds_when_any_study_file_changes(self) -> None:
         workflow = Path(".github/workflows/build-estudos.yml").read_text(encoding="utf-8")

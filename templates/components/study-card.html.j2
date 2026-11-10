@@ -1,0 +1,14 @@
+{% macro study_card(card, study_prefix) -%}
+<article class="study-card study-card--{{ card.tipo }}">
+  <div class="card-kicker">{% if card.tipo == "devocional" %}Devocional{% elif card.tipo == "estudo_tematico" %}Estudo temático{% else %}Estudo expositivo{% endif %}</div>
+  <h3><a href="{{ study_prefix }}{{ card.html }}">{{ card.titulo }}</a></h3>
+  <p>{{ card.resumo }}</p>
+  <p class="card-reference"><strong>{% if card.tipo == "estudo_tematico" %}Textos bíblicos{% else %}Passagem{% endif %}:</strong> {{ card.passagem }}</p>
+  <div class="card-footer">
+    <div class="card-meta">
+      <span>Publicado em {{ card.data_formatada or (card.data | date_br) }}</span>
+      {% if card.pdf %}<a href="{{ study_prefix }}{{ card.pdf }}" target="_blank" rel="noopener noreferrer">Abrir PDF</a>{% endif %}
+    </div>
+  </div>
+</article>
+{%- endmacro %}

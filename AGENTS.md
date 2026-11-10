@@ -22,7 +22,7 @@ Repositório pessoal para elaboração, leitura e arquivamento de estudos bíbli
 2. **Estudo Exegético:**
    - A tradução padrão é ACF. Contexto, delimitação, exposição por unidades ou versículos, gavetas lexicais (`<details class="lex-drawer">`), hermenêutica, homilética, perguntas e apelo são blocos opcionais; o conteúdo determina a composição.
 3. **Estudo Temático:**
-   - A tradução padrão é ACF. Investigação bíblico-teológica de um tema ou doutrina articulando passagens do Antigo e do Novo Testamento. O campo `tema` é obrigatório no front matter; `passagens_chave` organiza o panorama canônico opcional. A síntese permanece estritamente submetida à exegese de cada texto em seu contexto histórico-gramatical, com homilética opcional.
+    - A tradução padrão é ACF. Investigação bíblico-teológica de um tema ou doutrina articulando passagens do Antigo e do Novo Testamento. O campo `tema` é obrigatório no front matter; `passagens_chave` organiza o panorama canônico opcional. A síntese permanece estritamente submetida à exegese de cada texto em seu contexto histórico-gramatical. Não inclua proposição nem movimentos homiléticos nesse perfil.
 
 ## Convenções de Pastas e Arquivos
 

@@ -39,7 +39,7 @@ Adotamos a seguinte arquitetura metodológica para todos os estudos temáticos:
    - Cada estudo temático concentrará sua investigação profunda em **3 a 4 passagens-âncora principais**. Passagens de apoio serão integradas organicamente na prosa como citações de suporte.
    - **Protocolo Obrigatório:** Antes de redigir qualquer novo estudo temático, a IA deve apresentar ao autor uma proposta prévia de alinhamento com: tese central, âncoras justificadas, textos secundários e arco teológico. A redação só começa após aprovação explícita.
 4. **Gavetas Lexicais Focadas:** Uma gaveta (`<details class="lex-drawer">`) por âncora principal, detalhando morfologia, acepção ativada e fontes de primeira linha (HALOT/DCH para hebraico; BDAG/Louw-Nida para grego).
-5. **Aplicação Pastoral e Homilética Orgânica:** Rejeição de fórmulas prontas ("o que fazer hoje", listas de autoajuda). A aplicação flui da soberania da graça. Quando `homiletica: true`, a seção final apresenta proposição e movimentos expositivos sólidos em prosa substantiva para o púlpito.
+5. **Aplicação Pastoral Orgânica:** Rejeição de fórmulas prontas ("o que fazer hoje", listas de autoajuda). A aplicação decorre dos textos examinados. Estudos temáticos não incluem proposição nem movimentos homiléticos.
 
 ## 4. Consequências
 

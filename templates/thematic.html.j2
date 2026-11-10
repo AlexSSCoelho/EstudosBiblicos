@@ -5,14 +5,18 @@
 
 {% block content %}
 <main id="conteudo" class="study-page">
-  <header class="hero hero--thematic">
+  <header class="hero hero--thematic{% if not hero_image %} hero--text-only{% endif %}">
     <div class="hero-copy">
-      <p class="eyebrow">Estudo temático · Doutrina bíblica</p>
+      <p class="eyebrow">{{ metadata.tema }}</p>
       <h1>{{ metadata.titulo }}</h1>
       <p class="hero-lead">{{ metadata.resumo }}</p>
+      {% if metadata.get("pergunta") %}
+      <div class="thematic-question">
+        <span class="thematic-question-label">Pergunta central</span>
+        <p>{{ metadata.pergunta }}</p>
+      </div>
+      {% endif %}
       <div class="hero-meta" aria-label="Dados do estudo">
-        <span>Tema: {{ metadata.tema }}</span>
-        <span>Passagens: {{ metadata.passagem }}</span>
         <span>{{ metadata.traducao }}</span>
         <span class="hero-meta-date">{{ metadata.data | date_br }}</span>
         {% if metadata.get("autor") %}<span>Autor: {{ metadata.get("autor") }}</span>{% endif %}
@@ -20,59 +24,11 @@
     </div>
     {% if hero_image %}
     <figure class="hero-figure">
-      <img src="{{ hero_image.get('src') }}" alt="{{ hero_image.get('alt') or 'Imagem de apoio ao estudo temático' }}">
+      <img src="{{ hero_image.get('src') }}" alt="{{ hero_image.get('alt') or 'Imagem de apoio ao estudo temático' }}" decoding="async">
       {% if hero_image.get('legenda') %}<figcaption>{{ hero_image.get('legenda') }}</figcaption>{% endif %}
     </figure>
-    {% else %}
-    <div class="hero-placeholder hero-placeholder--thematic" aria-label="Sem imagem de abertura">
-      <span>Investigação bíblico-teológica</span>
-      <small>Articulação de passagens do Antigo e Novo Testamento em seu contexto original.</small>
-    </div>
     {% endif %}
   </header>
-
-  {% if metadata.get("passagens_chave") and (metadata.passagens_chave.get("antigo_testamento") or metadata.passagens_chave.get("novo_testamento")) %}
-  <section class="canonical-matrix-wrap" aria-label="Panorama canônico de passagens">
-    <div class="canonical-matrix">
-      <div class="canonical-matrix-header">
-        <span class="canonical-matrix-kicker">Panorama Canônico</span>
-        <h2 class="canonical-matrix-title">Passagens Fundamentais em Análise</h2>
-      </div>
-      <div class="canonical-matrix-grid{% if not metadata.passagens_chave.get('antigo_testamento') or not metadata.passagens_chave.get('novo_testamento') %} canonical-matrix-grid--single{% endif %}">
-        {% if metadata.passagens_chave.get("antigo_testamento") %}
-        <div class="canonical-testament canonical-testament--ot">
-          <h3 class="canonical-testament-heading">Antigo Testamento</h3>
-          <ul class="canonical-passages-list">
-            {% for item in metadata.passagens_chave.antigo_testamento %}
-            <li class="canonical-passage-card">
-              <strong class="canonical-ref">{{ item.ref }}</strong>
-              {% if item.get("texto") %}
-              <blockquote class="canonical-quote">“{{ item.texto }}”</blockquote>
-              {% endif %}
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-        {% endif %}
-        {% if metadata.passagens_chave.get("novo_testamento") %}
-        <div class="canonical-testament canonical-testament--nt">
-          <h3 class="canonical-testament-heading">Novo Testamento</h3>
-          <ul class="canonical-passages-list">
-            {% for item in metadata.passagens_chave.novo_testamento %}
-            <li class="canonical-passage-card">
-              <strong class="canonical-ref">{{ item.ref }}</strong>
-              {% if item.get("texto") %}
-              <blockquote class="canonical-quote">“{{ item.texto }}”</blockquote>
-              {% endif %}
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-        {% endif %}
-      </div>
-    </div>
-  </section>
-  {% endif %}
 
   <div class="study-shell">
     {% include "components/toc.html.j2" %}
