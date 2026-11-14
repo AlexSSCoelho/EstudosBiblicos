@@ -116,6 +116,20 @@ class BuildMetadataTests(unittest.TestCase):
         self.assertNotIn('href="./mapa.png" target="_blank"', html)
         self.assertNotIn('href="#sec" target="_blank"', html)
 
+    def test_semantic_units_preserve_non_breaking_spaces_in_prose_and_tables(self) -> None:
+        md = (
+            "## Mateus 24.3–14\n\n"
+            "| Unidade e Paralelos | Movimento |\n"
+            "| :--- | :--- |\n"
+            "| **vv. 4–5** (Mc 13.5–6; Lc 21.8) | Confira 1 Co 15.1–4 em 70 d.C. |\n\n"
+            "Código `Lc 21.8` não é alterado.\n"
+        )
+        html, _ = build.render_markdown(md)
+        self.assertIn("<strong>vv.\u00a04–5</strong> (Mc\u00a013.5–6; Lc\u00a021.8)", html)
+        self.assertIn("1\u00a0Co\u00a015.1–4 em 70\u00a0d.C.", html)
+        self.assertIn("<code>Lc 21.8</code>", html)
+        self.assertIn(">Mateus 24.3–14</h2>", html)
+
     def test_explicit_translation_wins(self) -> None:
         metadata = build.normalize_metadata(
             {**self.base, "traducao": "ARA"},

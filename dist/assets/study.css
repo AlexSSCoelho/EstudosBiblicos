@@ -37,6 +37,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   outline-offset: 4px;
 }
 button { font: inherit; }
+.nowrap { white-space: nowrap; }
 
 .skip-link {
   position: fixed;
@@ -678,7 +679,7 @@ figcaption strong {
   padding: 9px 10px;
   border: 1px solid var(--line);
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
 }
 .prose th { background: var(--paper-2); color: var(--forest-2); }
 
