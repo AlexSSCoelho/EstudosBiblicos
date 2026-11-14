@@ -17,16 +17,18 @@ import server as study_server
 
 DIST_ROOT = ROOT / "dist"
 STUDIES = (
+    "/estudos/mateus-24-3-14/",
+    "/estudos/daniel-3-16-18/",
     "/estudos/filipenses-4-6-9/",
     "/estudos/romanos-12-2-devocional/",
     "/estudos/a-imutabilidade-de-deus/",
 )
 CATALOGS = (
     ("/tipos/devocionais.html", 1),
-    ("/tipos/estudos-expositivos.html", 1),
-    ("/tipos/estudos-da-passagem.html", 1),
+    ("/tipos/estudos-expositivos.html", 3),
+    ("/tipos/estudos-da-passagem.html", 3),
     ("/tipos/estudos-tematicos.html", 1),
-    ("/tipos/todas.html", 3),
+    ("/tipos/todas.html", 5),
 )
 VIEWPORTS = ((390, 844), (768, 900), (1440, 900))
 
@@ -253,7 +255,7 @@ def main() -> int:
                     )
 
             page_errors.clear()
-            romanos = STUDIES[1]
+            romanos = "/estudos/romanos-12-2-devocional/"
             page.goto(f"{base_url}{romanos}", wait_until="domcontentloaded")
             page.wait_for_timeout(150)
             if page_errors:
@@ -290,23 +292,17 @@ def main() -> int:
                         )
 
                     if width == 390:
-                        if "filipenses" in path:
-                            numeric_indices = [
-                                index
-                                for index, href in enumerate(hrefs)
-                                if href and len(href) > 1 and href[1].isdigit()
-                            ]
-                            if not numeric_indices:
-                                raise AssertionError(
-                                    "Filipenses não expôs o caso de regressão com id numérico"
-                                )
-                            assert_mobile_anchor_clear(
-                                page, numeric_indices[0], path
-                            )
-                        else:
-                            assert_mobile_anchor_clear(
-                                page, min(2, len(hrefs) - 1), path
-                            )
+                        numeric_indices = [
+                            index
+                            for index, href in enumerate(hrefs)
+                            if href and len(href) > 1 and href[1].isdigit()
+                        ]
+                        target_index = (
+                            numeric_indices[0]
+                            if numeric_indices
+                            else min(2, len(hrefs) - 1)
+                        )
+                        assert_mobile_anchor_clear(page, target_index, path)
 
             browser.close()
     finally:

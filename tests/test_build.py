@@ -156,17 +156,19 @@ class BuildRenderingTests(unittest.TestCase):
         self.assertEqual(toc[0]["name"], "Unidade")
 
     def test_verse_detection_and_badges_in_toc_and_body(self) -> None:
-        md = "## Contexto\n\nVisão geral.\n\n4.6\n\n### Oração e gratidão\n\nTexto de exposição.\n"
+        md = "## Contexto\n\nVisão geral.\n\n4.6\n\n### Oração e gratidão\n\nTexto de exposição.\n\n4.6–7\n\n### Oração e paz\n\nTexto da unidade.\n"
         html, toc = build.render_markdown(md)
         self.assertIn('class="verse-marker"', html)
-        self.assertIn('Versículo', html)
-        self.assertIn('4.6', html)
-        self.assertEqual(len(toc), 2)
+        self.assertIn('>Versículo</span> 4.6', html)
+        self.assertIn('>Versículos</span> 4.6–7', html)
+        self.assertEqual(len(toc), 3)
         self.assertEqual(toc[0]["badge"], "01")
         self.assertEqual(toc[0]["badge_type"], "number")
         self.assertEqual(toc[1]["badge"], "v. 6")
         self.assertEqual(toc[1]["badge_type"], "verse")
         self.assertTrue(toc[1]["is_verse"])
+        self.assertEqual(toc[2]["badge"], "·")
+        self.assertEqual(toc[2]["verse_range"], "4.6–7")
 
     def test_numbered_biblical_books_are_not_mistaken_for_verses_in_toc(self) -> None:
         md = "## 1 Samuel 15.10–31: O mistério das antropopatias\n\nTexto de exposição.\n"

@@ -20,9 +20,10 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 body {
   margin: 0;
+  overflow-x: clip;
   background: var(--bg);
   color: var(--ink);
   font: 400 var(--reading-size)/1.75 "DM Sans", system-ui, -apple-system, sans-serif;
@@ -196,9 +197,11 @@ button { font: inherit; }
   filter: none;
 }
 .hero--thematic .hero-figure figcaption {
-  margin: 9px 0 0;
-  font-size: .73rem;
-  line-height: 1.4;
+  margin: 11px 0 0;
+  color: #2b3a32;
+  font-family: var(--font-sans);
+  font-size: .86rem;
+  line-height: 1.5;
 }
 .hero-copy { min-width: 0; }
 .eyebrow, .card-kicker, .section-kicker {
@@ -277,10 +280,16 @@ h1 {
   filter: saturate(.88) contrast(1.02);
 }
 figcaption {
-  margin-top: 10px;
-  color: var(--muted);
-  font-size: .78rem;
-  line-height: 1.5;
+  margin-top: 11px;
+  color: #2b3a32;
+  font-family: var(--font-sans);
+  font-size: .88rem;
+  line-height: 1.55;
+  letter-spacing: .01em;
+}
+figcaption strong {
+  color: var(--forest-2);
+  font-weight: 700;
 }
 .hero-placeholder {
   min-height: 230px;
@@ -616,6 +625,40 @@ figcaption {
   border: 1px solid var(--line);
   background: var(--paper);
   box-shadow: 0 8px 18px rgba(22, 32, 28, .06);
+}
+.study-figure,
+.prose figure {
+  min-width: 0;
+  margin: 2.2rem 0;
+  padding: 12px 12px 14px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: 0 6px 18px rgba(22, 32, 28, .06);
+}
+.study-figure img,
+.prose figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  border: none;
+  box-shadow: none;
+  background: var(--paper-2);
+}
+.study-figure figcaption,
+.prose figure figcaption {
+  margin-top: 11px;
+  padding: 0 2px;
+  color: #2b3a32;
+  font-family: var(--font-sans);
+  font-size: .88rem;
+  line-height: 1.55;
+  letter-spacing: .01em;
+}
+.study-figure figcaption strong,
+.prose figure figcaption strong {
+  color: var(--forest-2);
+  font-weight: 700;
 }
 .prose hr { margin: 3em 0; border: 0; border-top: 1px solid var(--line); }
 .prose code {
@@ -1082,6 +1125,13 @@ figcaption {
   .mobile-toc-wrap .toc { margin-left: -18px; margin-right: -18px; }
   .lex-drawer-body table th:first-child,
   .lex-drawer-body table td:first-child { width: 36%; }
+  .prose table {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  .prose table th,
+  .prose table td,
   .lex-drawer-body table th,
   .lex-drawer-body table td {
     padding: 9px 8px;
@@ -1204,11 +1254,15 @@ figcaption {
   .hero-figure img {
     max-height: 200pt;
   }
-  .hero-figure figcaption {
-    font-size: 7.5pt;
-    line-height: 1.3;
-    color: #666;
-    margin-top: 3pt;
+  .hero-figure figcaption,
+  .study-figure figcaption,
+  .prose figure figcaption,
+  figcaption {
+    font-family: var(--font-sans);
+    font-size: 8.5pt;
+    line-height: 1.35;
+    color: #24342a;
+    margin-top: 4pt;
   }
   .hero--thematic .thematic-question { max-width: none; }
   .hero--thematic .hero-figure {
@@ -1323,9 +1377,27 @@ figcaption {
     font-size: 9.5pt;
     break-inside: auto;
   }
-  .prose img {
+  .prose img,
+  .study-figure,
+  .prose figure {
     break-inside: avoid;
     page-break-inside: avoid;
+  }
+  .study-figure,
+  .prose figure {
+    margin: 12pt 0;
+    padding: 8pt;
+    border: 0.5pt solid #c9c8bd;
+    background: #fffdf8;
+    box-shadow: none;
+  }
+  .study-figure img,
+  .prose figure img {
+    max-height: 220pt;
+    object-fit: contain;
+    border: none;
+    box-shadow: none;
+    margin: 0;
   }
 
   /* Gavetas Lexicais no PDF */
