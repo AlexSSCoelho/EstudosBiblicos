@@ -167,6 +167,9 @@ Todos os arquivos HTML devem seguir rigorosamente este design system editorial c
    - Em todas as superfícies visuais (hero meta, rodapés e cartões da biblioteca), a data é apresentada no formato brasileiro `DD/MM/AAAA` (ex.: `10/09/2026`).
 5. **Apresentação em Impressão e PDF:**
    - No PDF e modo de impressão, suprime-se a data e a hora do cabeçalho (`.hero-meta-date { display: none !important; }`), mantendo apenas os dados centrais do tema/título/passagem e garantindo um cabeçalho limpo sem carimbos de geração.
+6. **Quebra Semântica em Grades e Rótulos Curtos:**
+   - Em colunas estreitas de tabelas e rótulos compostos, uma quebra de linha nunca deve mutilar uma unidade de sentido (como separar o nome/sigla do livro do número do capítulo e versículo).
+   - O processo de build (`protect_semantic_units` em `build.py`) une automaticamente referências bíblicas, marcadores (`v.`, `vv.`, `cap.`, `cf.`) e datas (`a.C.`, `d.C.`) com espaço não-quebrável, deixando espaços quebráveis apenas nos limites lógicos (após `;` ou entre o título da unidade e seus paralelos). Para pares simbólicos ou rótulos curtos customizados (ex.: `A / A'`), utilize `&nbsp;` no Markdown.
 
 ---
 

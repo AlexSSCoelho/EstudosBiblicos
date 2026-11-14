@@ -91,6 +91,36 @@ VERSE_HEADING_RE = re.compile(
     r'(?m)^(?:v\.|vv\.|versículo|versículos)?\s*(\d+(?:[.:]\d+)?(?:[–—\-]\d+(?:[.:]\d+)?)?)\s*\n+(#{2,4}\s+(.+))$'
 )
 MARKDOWN_EXTENSIONS = ["extra", "sane_lists", "toc", "smarty"]
+SEMANTIC_SKIP_TAGS = frozenset({"pre", "code", "script", "style", "h1", "h2"})
+BIBLICAL_ABBREV_AMBIGUOUS = "At|Am|Ed|Et|Ex|Na|Os"
+BIBLICAL_ABBREV_SAFE = (
+    "Gn|Êx|Lv|Nm|Dt|Js|Jz|Rt|Sm|Rs|Cr|Ne|Jó|Sl|Pv|Ec|Ct|Is|Jr|Lm|Ez|Dn|Jl|Ob|Jn|Mq|"
+    "Hc|Sf|Ag|Zc|Ml|Mt|Mc|Lc|Jo|Rm|Co|Gl|Ef|Fp|Cl|Ts|Tm|Tt|Fm|Hb|Tg|Pe|Jd|Ap"
+)
+BIBLICAL_FULL_BOOKS = (
+    "Gênesis|Êxodo|Levítico|Números|Deuteronômio|Josué|Juízes|Rute|Samuel|Reis|Crônicas|"
+    "Esdras|Neemias|Ester|Jó|Salmos|Salmo|Provérbios|Eclesiastes|Cantares|Isaías|Jeremias|"
+    "Lamentações|Ezequiel|Daniel|Oseias|Oséias|Joel|Amós|Obadias|Jonas|Miqueias|Miquéias|"
+    "Naum|Habacuque|Sofonias|Ageu|Zacarias|Malaquias|Mateus|Marcos|Lucas|João|Atos|"
+    "Romanos|Coríntios|Gálatas|Efésios|Filipenses|Colossenses|Tessalonicenses|Timóteo|Tito|"
+    "Filemom|Hebreus|Tiago|Pedro|Judas|Apocalipse"
+)
+ATOMIC_UNIT_PATTERNS = (
+    re.compile(
+        rf"(?<![\wÀ-ÿ])(?:([1-3])\s+)?({BIBLICAL_FULL_BOOKS}|{BIBLICAL_ABBREV_SAFE})\s+"
+        rf"(\d+(?:[.:]\d+)?(?:[–—\-]\d+(?:[.:]\d+)?)?)"
+    ),
+    re.compile(
+        rf"(?<![\wÀ-ÿ])(?:([1-3])\s+)?({BIBLICAL_ABBREV_AMBIGUOUS})\s+"
+        rf"(\d+[.:]\d+(?:[–—\-]\d+(?:[.:]\d+)?)?)"
+    ),
+    re.compile(
+        r"(?<![\wÀ-ÿ])(vv?\.|caps?\.|capítulos?|versículos?|cf\.)\s+(?=[A-ZÁÉÍÓÚÂÊÔÃÕ\d])"
+    ),
+    re.compile(r"(?<![\wÀ-ÿ])(\d+)\s+(a\.C\.|d\.C\.)"),
+)
+HTML_TAG_TOKEN_RE = re.compile(r"(<[^>]+>)")
+HTML_TAG_NAME_RE = re.compile(r"^<\s*(/)?\s*([a-zA-Z0-9]+)")
 PDF_DATE_RE = re.compile(
     rb"/(CreationDate|ModDate) \(D:\d{14}[+-]\d{2}'\d{2}'\)"
 )
@@ -493,6 +523,52 @@ def markdown_parser() -> markdown.Markdown:
     )
 
 
+def protect_semantic_units_in_text(text: str) -> str:
+    """Bind atomic biblical and editorial units with NBSP to avoid orphan breaks."""
+    for pattern in ATOMIC_UNIT_PATTERNS[:2]:
+        text = pattern.sub(
+            lambda m: (
+                f"{m.group(1)}\u00a0{m.group(2)}\u00a0{m.group(3)}"
+                if m.group(1)
+                else f"{m.group(2)}\u00a0{m.group(3)}"
+            ),
+            text,
+        )
+    text = ATOMIC_UNIT_PATTERNS[2].sub(lambda m: f"{m.group(1)}\u00a0", text)
+    text = ATOMIC_UNIT_PATTERNS[3].sub(lambda m: f"{m.group(1)}\u00a0{m.group(2)}", text)
+    return text
+
+
+def protect_semantic_units(html: str) -> str:
+    """Apply atomic line-break protection only to prose text nodes."""
+    tokens = HTML_TAG_TOKEN_RE.split(html)
+    skip_stack: list[str] = []
+    output: list[str] = []
+
+    for token in tokens:
+        if not token:
+            continue
+        if token.startswith("<"):
+            tag_match = HTML_TAG_NAME_RE.match(token)
+            if tag_match:
+                is_closing = bool(tag_match.group(1))
+                tag_name = tag_match.group(2).lower()
+                if tag_name in SEMANTIC_SKIP_TAGS:
+                    if is_closing:
+                        if tag_name in skip_stack:
+                            while skip_stack:
+                                popped = skip_stack.pop()
+                                if popped == tag_name:
+                                    break
+                    elif not token.rstrip().endswith("/>"):
+                        skip_stack.append(tag_name)
+            output.append(token)
+        else:
+            output.append(token if skip_stack else protect_semantic_units_in_text(token))
+
+    return "".join(output)
+
+
 def render_markdown(body: str) -> tuple[str, list[dict[str, Any]]]:
     def render_lexical_drawer(match: re.Match[str]) -> str:
         inner_parser = markdown_parser()
@@ -530,6 +606,7 @@ def render_markdown(body: str) -> tuple[str, list[dict[str, Any]]]:
         return f'<a {tag_content.strip()}>'
 
     body_html = re.sub(r'<a\s+([^>]+)>', external_link_replacer, raw_html)
+    body_html = protect_semantic_units(body_html)
     return body_html, enrich_toc(flatten_toc(parser.toc_tokens), verse_map)
 
 

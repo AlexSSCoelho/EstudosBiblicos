@@ -37,6 +37,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   outline-offset: 4px;
 }
 button { font: inherit; }
+.nowrap { white-space: nowrap; }
 
 .skip-link {
   position: fixed;
