@@ -23,6 +23,7 @@
 html { scroll-behavior: smooth; overflow-x: clip; }
 body {
   margin: 0;
+  overflow-x: clip;
   background: var(--bg);
   color: var(--ink);
   font: 400 var(--reading-size)/1.75 "DM Sans", system-ui, -apple-system, sans-serif;
@@ -1124,6 +1125,11 @@ figcaption strong {
   .mobile-toc-wrap .toc { margin-left: -18px; margin-right: -18px; }
   .lex-drawer-body table th:first-child,
   .lex-drawer-body table td:first-child { width: 36%; }
+  .prose table {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+  }
   .prose table th,
   .prose table td,
   .lex-drawer-body table th,
