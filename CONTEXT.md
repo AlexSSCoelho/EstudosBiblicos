@@ -170,6 +170,7 @@ Todos os arquivos HTML devem seguir rigorosamente este design system editorial c
 6. **Quebra Semântica em Grades e Rótulos Curtos:**
    - Em colunas estreitas de tabelas e rótulos compostos, uma quebra de linha nunca deve mutilar uma unidade de sentido (como separar o nome/sigla do livro do número do capítulo e versículo).
    - O processo de build (`protect_semantic_units` em `build.py`) une automaticamente referências bíblicas, marcadores (`v.`, `vv.`, `cap.`, `cf.`) e datas (`a.C.`, `d.C.`) com espaço não-quebrável, deixando espaços quebráveis apenas nos limites lógicos (após `;` ou entre o título da unidade e seus paralelos). Para pares simbólicos ou rótulos curtos customizados (ex.: `A / A'`), utilize `&nbsp;` no Markdown.
+   - As células de tabelas (`.prose th, .prose td` e `.lex-drawer-body table`) utilizam `vertical-align: middle`, garantindo equilíbrio visual entre linhas curtas e colunas de múltiplas linhas.
 
 ---
 

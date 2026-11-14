@@ -679,7 +679,7 @@ figcaption strong {
   padding: 9px 10px;
   border: 1px solid var(--line);
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
 }
 .prose th { background: var(--paper-2); color: var(--forest-2); }
 
