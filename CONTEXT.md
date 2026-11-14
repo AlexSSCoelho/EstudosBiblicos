@@ -83,7 +83,14 @@ O repositório oferece três perfis editoriais, mas nenhum deles impõe uma quan
 
 * **Objetivo:** investigação histórico-gramatical e preparação teológica sólida centrada em uma perícope contínua; a entrega pode ou não incluir material para o púlpito.
 * **Tradução padrão para novos materiais:** ACF, salvo sobrescrita explícita.
-* **Composição possível:** contexto histórico e literário, delimitação, exposição por unidades ou versículos, gavetas lexicais, síntese teológica, limites de aplicação, relações bíblicas, notas, imagens e fontes.
+* **Progressão em Funil e Eliminação de Redundância:**
+  - O estudo deve progredir em entendimento sem repetir informações: parte do cenário histórico e da ocasião concreta da escrita, avança pelo argumento do livro até a delimitação da perícope, aprofunda a exegese versículo a versículo (ou por unidades do texto) e culmina na síntese teológica e horizonte pastoral.
+  - Não abrir o estudo com fichas catalográficas (`**Autor**`, `**Destinatários**`, `**Data**`, `**Ocasião**` seguidos de uma linha) que duplicam metadados do cabeçalho ou antecipam de forma telegráfica o que será explicado nas seções históricas.
+* **Prosa Argumentativa e Hierarquia de Subtítulos (`h2` e `h3`):**
+  - Erradicação de *bullet points* disfarçados: não usar sequências de subtítulos `###`, rótulos isolados em negrito ou pílulas soltas seguidos de apenas uma ou duas frases (como resumos capítulo a capítulo, cartões de "Certo / Provável / Em debate" ou listas numeradas de passos hermenêuticos).
+  - Subtítulos `###` entram no índice lateral e devem ser reservados exclusivamente para subseções que sustentem múltiplos parágrafos de desenvolvimento e para cada versículo ou unidade da exegese central. Panoramas do argumento do livro, discussões de datação/autoria e desdobramentos pastorais devem ser redigidos em prosa contínua e articulada (recorrendo a listas ou tabelas apenas quando a comparação pontual for indispensável).
+* **Gavetas Lexicais Padronizadas (`<details class="lex-drawer">`):**
+  - Cada versículo ou unidade exegética possui sua gaveta lexical com `<summary>` limpo e conciso (ex.: `Referência lexical e morfológica · μεριμνάω, προσευχή, γνωρίζω`), sem siglas de léxicos no título, apresentando no interior quadro ou tabela estruturada com lema, morfologia/sintaxe, campo semântico, sentido contextual e fontes acadêmicas consultadas (BDAG, Louw-Nida, HALOT, DCH, etc.).
 * **Registro de escrita:** preservar a densidade que a perícope requer, com argumentos desenvolvidos e terminologia técnica quando ela esclarecer o texto. Escrever com sobriedade e precisão: preferir afirmações proporcionais à evidência, verbos concretos e relações lógicas explícitas. Não usar ornamento, metáforas acrescentadas, intensificadores ou contraposições retóricas quando eles não esclarecem a exegese. Rigor não depende de solenidade artificial nem de frases infladas.
 * **Homilética:** proposição, movimentos, ilustrações, perguntas para grupo e apelo são entregáveis opcionais, ativados pelo pedido ou por `homiletica: true`.
 

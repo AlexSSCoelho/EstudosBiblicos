@@ -153,9 +153,11 @@ def extract_and_inject_verse_markers(text: str) -> tuple[str, dict[str, str]]:
         heading_title = m.group(3).strip()
         verse_map[slugify(heading_title)] = verse
         anchor_id = f"v-{slugify(verse)}"
+        is_range = any(sep in verse for sep in ("–", "-", "—"))
+        prefix = "Versículos" if is_range else "Versículo"
         return (
             f'<div class="verse-marker" id="{anchor_id}">'
-            f'<span class="verse-tag"><span class="verse-tag-prefix">Versículo</span> {verse}</span>'
+            f'<span class="verse-tag"><span class="verse-tag-prefix">{prefix}</span> {verse}</span>'
             f"</div>\n\n{heading_line}"
         )
 
