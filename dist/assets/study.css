@@ -1819,7 +1819,7 @@ figcaption strong {
 .lex-tooltip {
   position: fixed;
   z-index: 120;
-  max-width: min(340px, calc(100vw - 24px));
+  max-width: min(390px, calc(100vw - 24px));
   padding: 10px 14px;
   border-radius: 8px;
   border: 1px solid rgba(255, 253, 248, 0.16);
