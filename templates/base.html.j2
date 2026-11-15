@@ -35,7 +35,7 @@
           </svg>
         </button>
         {% endif %}
-        <a class="brand" href="/" title="Voltar à biblioteca">
+        <a class="brand" href="{{ asset_prefix }}" title="Voltar à biblioteca">
           <strong>Estudos Bíblicos</strong>
           <span>· {% if metadata.tipo == "estudo_tematico" %}Estudo temático{% else %}{{ metadata.passagem }}{% endif %}</span>
         </a>

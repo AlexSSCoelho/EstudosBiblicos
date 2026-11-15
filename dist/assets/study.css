@@ -826,14 +826,6 @@ figcaption strong {
 }
 .lex-drawer-body table th:first-child,
 .lex-drawer-body table td:first-child { width: 26%; }
-.lex-drawer-body tr:last-child td {
-  background: var(--paper-2);
-  font-size: .84rem;
-  color: var(--muted);
-}
-.lex-drawer-body tr:last-child td strong {
-  color: var(--forest-2);
-}
 
 .site-footer {
   background: var(--forest-2);
