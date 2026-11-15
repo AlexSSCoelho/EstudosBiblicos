@@ -271,3 +271,52 @@
     if (activeTerm) positionTooltip(activeTerm);
   });
 })();
+
+(function () {
+  "use strict";
+
+  const THEME_STORAGE_KEY = "estudos_theme_v1";
+  const toggleBtn = document.getElementById("theme-toggle-btn");
+  const root = document.documentElement;
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+  function getPreferredTheme() {
+    try {
+      const saved = window.localStorage.getItem(THEME_STORAGE_KEY);
+      if (saved === "dark" || saved === "light") return saved;
+    } catch {
+      // Ignora indisponibilidade de localStorage
+    }
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+
+  function applyTheme(theme) {
+    const isDark = theme === "dark";
+    root.setAttribute("data-theme", theme);
+    if (themeMeta) {
+      themeMeta.setAttribute("content", isDark ? "#111613" : "#20372a");
+    }
+    if (toggleBtn) {
+      const label = isDark ? "Ativar modo claro" : "Ativar modo escuro";
+      toggleBtn.setAttribute("aria-label", label);
+      toggleBtn.setAttribute("aria-pressed", isDark ? "true" : "false");
+      toggleBtn.setAttribute("title", label);
+    }
+  }
+
+  applyTheme(getPreferredTheme());
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      const nextTheme = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      applyTheme(nextTheme);
+      try {
+        window.localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+      } catch {
+        // Ignora indisponibilidade de localStorage
+      }
+    });
+  }
+})();

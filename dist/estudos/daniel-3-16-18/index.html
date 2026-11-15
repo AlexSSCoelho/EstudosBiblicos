@@ -6,6 +6,18 @@
   <meta name="theme-color" content="#20372a">
   <meta name="description" content="Na campina de Dura, diante do ultimato de Nabucodonosor e da fornalha acesa, Hananias, Misael e Azarias afirmam o poder de Deus para livrá-los e recusam a idolatria mesmo sem garantia de livramento.">
   <title>Daniel 3.16–18: fidelidade sem barganha diante da fornalha | Estudo exegético</title>
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("estudos_theme_v1");
+        var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var theme = saved === "dark" || saved === "light" ? saved : (prefersDark ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", theme === "dark" ? "#111613" : "#20372a");
+      } catch (e) {}
+    })();
+  </script>
   <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../../assets/study.css">
   <script defer src="../../assets/study.js"></script>
@@ -41,6 +53,22 @@
         </a>
       </div>
       <div class="topbar-actions">
+        <button
+          type="button"
+          class="theme-toggle-btn"
+          id="theme-toggle-btn"
+          aria-label="Ativar modo escuro"
+          aria-pressed="false"
+          title="Alternar modo claro/escuro"
+        >
+          <svg class="theme-icon theme-icon--moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+          <svg class="theme-icon theme-icon--sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+          </svg>
+        </button>
         <a class="pdf-link" href="daniel-3-16-18.pdf" target="_blank" rel="noopener noreferrer" title="Baixar documento PDF diagramado">
           Baixar PDF
         </a>
