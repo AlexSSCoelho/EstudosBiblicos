@@ -1,0 +1,43 @@
+<div class="review-backdrop" id="review-backdrop" hidden></div>
+<aside
+  class="review-drawer"
+  id="review-drawer"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="review-drawer-title"
+  hidden
+>
+  <header class="review-drawer-header">
+    <div class="review-drawer-heading">
+      <p class="review-drawer-kicker">Revisão ativa da seção</p>
+      <h2 class="review-drawer-title" id="review-drawer-title"></h2>
+    </div>
+    <div class="review-drawer-controls">
+      <button type="button" class="review-reset-btn" id="review-reset-btn" title="Embaralhar e refazer esta seção">
+        Refazer sorteio
+      </button>
+      <button type="button" class="review-close-btn" id="review-close-btn" aria-label="Fechar painel de revisão">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="review-progress-wrap" id="review-progress-wrap">
+    <div class="review-progress-meta">
+      <span id="review-progress-label">Questão 1 de 6</span>
+      <span id="review-answered-label">0 respondidas</span>
+    </div>
+    <div class="review-progress-track" aria-hidden="true">
+      <div class="review-progress-fill" id="review-progress-fill"></div>
+    </div>
+  </div>
+
+  <div class="review-drawer-body" id="review-drawer-body"></div>
+
+  <footer class="review-drawer-footer" id="review-drawer-footer">
+    <button type="button" class="review-nav-btn review-nav-btn--secondary" id="review-prev-btn">Anterior</button>
+    <div class="review-footer-right">
+      <button type="button" class="review-nav-btn review-nav-btn--primary" id="review-next-btn">Próxima</button>
+    </div>
+  </footer>
+</aside>

@@ -1,0 +1,520 @@
+version: 1
+
+leitura_ativa:
+  - target_id: o-caminho-de-mateus-2123-ate-a-ruptura-no-monte-das-oliveiras
+    perguntas:
+      - "Observe como a saída de Jesus do Templo em 24.1 reproduz o padrão profético de Ezequiel 10–11 e prepara o juízo anunciado no Monte das Oliveiras."
+  - target_id: delimitacao-e-ideia-exegetica-de-mateus-24314
+    perguntas:
+      - "Note os quatro marcos verbais dos versículos 4, 6, 13 e 14: qual mudança ocorre entre 'ainda não é o fim' (v. 6) e 'e então virá o fim' (v. 14)?"
+  - target_id: a-pergunta-no-monte-das-oliveiras-o-templo-a-parousia-e-a-consumacao-do-seculo
+    perguntas:
+      - "Repare na pressuposição embutida na dupla pergunta dos discípulos no versículo 3 e no sentido régio do termo parousía."
+  - target_id: o-primeiro-imperativo-pastoral-vigilancia-contra-o-engano
+    perguntas:
+      - "Por que a primeira resposta de Jesus diante da curiosidade sobre datas não é um calendário, mas uma ordem de vigilância contra o extravio (planáō)?"
+  - target_id: a-usurpacao-do-titulo-messianico-e-os-falsos-libertadores
+    perguntas:
+      - "Observe o sentido histórico de vir 'em meu nome' no versículo 5 e por que o ambiente da Judeia tornava essa ilusão especialmente perigosa."
+  - target_id: guerras-e-rumores-de-guerras-sob-o-decreto-divino-ainda-nao-e-o-fim
+    perguntas:
+      - "Note o papel conjunto de mē throeîsthe ('não vos assusteis') e deî ('é necessário'): como o governo de Deus impede tanto o pânico quanto o fatalismo?"
+  - target_id: conflitos-entre-reinos-fomes-pestes-e-abalos-na-terra
+    perguntas:
+      - "Observe a abrangência da expressão katà tópous ('em vários lugares') e o paralelo entre a variante textual do v. 7 e Lucas 21.11."
+  - target_id: o-principio-das-dores-de-parto-da-nova-criacao
+    perguntas:
+      - "Por que a metáfora das dores de parto (ōdínōn) afasta ao mesmo tempo a desesperança niilista e o alarme de que o fim imediato já chegou?"
+  - target_id: da-crise-do-mundo-a-tribulacao-e-ao-martirio-dos-discipulos
+    perguntas:
+      - "Repare no valor de tóte ('então') em Mateus e no peso contínuo da hostilidade das nações 'por causa do meu nome'."
+  - target_id: o-escandalo-a-delacao-mutua-e-a-fratura-interna-sob-pressao
+    perguntas:
+      - "Note quais dois verbos do versículo 9 reaparecem no versículo 10 e o que muda drasticamente no sujeito que os pratica."
+  - target_id: o-surgimento-de-falsos-profetas-e-a-seducao-doutrinaria
+    perguntas:
+      - "Compare os impostores do versículo 5 com os falsos profetas do versículo 11: em que difere a estratégia de engano de cada grupo?"
+  - target_id: a-multiplicacao-da-iniquidade-e-o-resfriamento-do-amor
+    perguntas:
+      - "Observe a relação causal estabelecida no versículo 12 entre o avanço da anomía e o esfriamento do amor fraternal."
+  - target_id: a-perseveranca-ate-o-fim-e-a-promessa-da-salvacao-escatologica
+    perguntas:
+      - "Diante da advertência prévia de martírio no versículo 9, o que significa exatamente 'esse será salvo' no versículo 13?"
+  - target_id: o-evangelho-do-reino-em-todo-o-mundo-habitado-e-entao-vira-o-fim
+    perguntas:
+      - "Note como o versículo 14 liga o fim da história não às catástrofes militares, mas ao testemunho missionário a todas as nações."
+
+revisao_secoes:
+  - section_id: jerusalem-o-complexo-herodiano-e-o-fermento-apocaliptico-do-primeiro-seculo
+    itens:
+      - id: mt-s1-q1
+        tipo: quiz
+        dificuldade: intermediario
+        enunciado: "O que significa o uso evangélico de termos da ideologia imperial romana (parousía, euangélion e oikouménē) em Mateus 24.3–14?"
+        alternativas:
+          - texto: "Subverte a reivindicação de César e declara que a história gira em torno do senhorio de Cristo e do evangelho do Reino."
+            correta: true
+          - texto: "Demonstra a adoção de títulos administrativos romanos para organizar a hierarquia eclesiástica nas cidades da Síria."
+            correta: false
+          - texto: "Revela uma tentativa de conciliar o messianismo armado dos zelotas com as homenagens cívicas prestadas ao imperador Augusto."
+            correta: false
+          - texto: "Indica que o discurso foi composto originalmente em latim oficial antes de receber tradução livre para o grego popular."
+            correta: false
+        justificativa: "Na cultura greco-romana, parousía celebrava a visita régia, euangélion anunciava as vitórias do imperador (como na inscrição de Priene) e oikouménē designava o mundo imperial; Mateus os aplica ao Reino de Cristo."
+
+      - id: mt-s1-q2
+        tipo: quiz
+        dificuldade: facil
+        enunciado: "Qual episódio veterotestamentário ajuda a ler a saída física de Jesus do recinto do Templo entre Mateus 23.38 e 24.1?"
+        alternativas:
+          - texto: "A retirada gradual da glória do Senhor (kāḇôḏ YHWH) do santuário antes da destruição de Jerusalém em Ezequiel 10–11."
+            correta: true
+          - texto: "A dedicação solene do primeiro Templo sob Salomão com a nuvem enchendo o Lugar Santíssimo em 1 Reis 8."
+            correta: false
+          - texto: "O decreto persa de Ciro autorizando os exilados a reconstruírem os muros e o altar em Esdras 1."
+            correta: false
+          - texto: "A visão do candelabro de ouro e das duas oliveiras dada a Zacarias durante a restauração pós-exílica."
+            correta: false
+        justificativa: "Após declarar que a casa ficaria deserta (23.38) e sair do santuário rumo ao Monte das Oliveiras (24.1–3), Jesus encena o mesmo abandono da glória visto em Ezequiel 10–11."
+
+      - id: mt-s1-f1
+        tipo: flashcard
+        dificuldade: dificil
+        frente: "Na seção de contexto de Mateus 24, qual evento político de 6 d.C. intensificou a ebulição apocalíptica na Judeia?"
+        resposta_principal: "A passagem da Judeia à administração direta de prefeitos e procuradores romanos"
+        aceitas:
+          - "administracao direta romana"
+          - "prefeitos e procuradores romanos"
+          - "procuradores romanos"
+          - "dominio direto de roma"
+        parciais:
+          - "impostos romanos"
+          - "ocupacao romana"
+        nota_explicativa: "Desde Pompeu (63 a.C.) e especialmente com o governo direto de prefeitos/procuradores em 6 d.C., a tensão entre a glória aparente do Templo e o domínio romano alimentava movimentos revolucionários."
+
+      - id: mt-s1-f2
+        tipo: flashcard
+        dificuldade: facil
+        frente: "Qual palavra grega designava originalmente o anúncio das vitórias imperiais (como na inscrição de Priene) e aparece em Mateus 24.14?"
+        resposta_principal: "euangélion (evangelho)"
+        aceitas:
+          - "euangelion"
+          - "evangelho"
+        parciais:
+          - "boas novas"
+          - "noticia"
+        nota_explicativa: "Em contraste com a propaganda da Pax Romana, o euangélion do Reino anuncia o senhorio legítimo de Jesus Cristo a todas as nações."
+
+      - id: mt-s1-a1
+        tipo: aberta
+        dificuldade: dificil
+        enunciado: "Explique a unidade dramática que liga Mateus 21–23 à cena de abertura do capítulo 24 no Monte das Oliveiras."
+        resposta_modelo: "Desde a entrada em Jerusalém (cap. 21), Jesus entra no Templo, purifica-o, confronta a liderança religiosa com parábolas de juízo (caps. 21–22) e pronuncia os sete ais culminando no lamento de 23.37–39. Quando declara a casa deserta e sai para o Monte das Oliveiras, o anúncio da queda do santuário em 24.2 sela esse conflito pactual."
+        trecho_ancora: "Seção 1.1 — O caminho de Mateus 21–23 até a ruptura no Monte das Oliveiras"
+        rubrica:
+          nucleos:
+            - rotulo: "Intensificação do conflito pactual e lamento sobre Jerusalém nos caps. 21–23"
+              termos: ["conflito", "pactual", "templo", "lideranca", "ais", "lamento", "deserta", "juizo"]
+              expressoes: ["casa deserta", "sete ais", "conflito pactual"]
+            - rotulo: "Continuidade da saída física de Jesus rumo ao Monte das Oliveiras"
+              termos: ["saida", "saiu", "abandono", "gloria", "ezequiel", "oliveiras", "ruina"]
+              expressoes: ["monte das oliveiras", "gloria do senhor", "queda do templo"]
+          sinais_erro:
+            - ["conversa isolada sem relacao com o capitulo 23", "elogio a estabilidade do templo"]
+
+      - id: mt-s1-a2
+        tipo: aberta
+        dificuldade: intermediario
+        enunciado: "Por que a grandiosidade do complexo do Templo herodiano aumentava o choque dos discípulos diante da profecia de Mateus 24.2?"
+        resposta_modelo: "O Segundo Templo reformado por Herodes era uma maravilha arquitetônica colossal que sustentava orgulho nacional e ilusão de inviolabilidade espiritual. Anunciar que não ficaria pedra sobre pedra parecia inimaginável, levando os discípulos a associarem sua queda ao fim da própria ordem presente."
+        trecho_ancora: "Seção 1 — Jerusalém, o complexo herodiano e o fermento apocalíptico"
+        rubrica:
+          nucleos:
+            - rotulo: "Magnitude monumental do Templo reformado por Herodes"
+              termos: ["herodes", "monumental", "grandioso", "pedras", "arquitetura", "complexo", "orgulho"]
+              expressoes: ["reforma de herodes", "pedra sobre pedra"]
+            - rotulo: "Associação judaica da queda do santuário ao colapso do século presente"
+              termos: ["inimaginavel", "fim", "era", "seculo", "choque", "inviolavel"]
+              expressoes: ["fim do mundo", "ordem presente"]
+          sinais_erro:
+            - ["templo era simples e desprezado pelos judeus", "discipulos esperavam a destruicao iminente"]
+
+  - section_id: a-estrutura-do-discurso-das-oliveiras-e-a-delimitacao-de-mateus-24314
+    itens:
+      - id: mt-s2-q1
+        tipo: quiz
+        dificuldade: dificil
+        enunciado: "Qual erro cronológico cometido pelos discípulos na pergunta de Mateus 24.3 o discurso inteiro precisa desmontar?"
+        alternativas:
+          - texto: "Fundiam a destruição do Templo, a vinda gloriosa de Jesus e a consumação do século em um único evento simultâneo."
+            correta: true
+          - texto: "Supunham que o Templo seria destruído séculos antes da primeira vinda do Messias à cidade de Jerusalém."
+            correta: false
+          - texto: "Acreditavam que o Evangelho já havia sido pregado a todas as nações antes mesmo da ressurreição de Jesus."
+            correta: false
+          - texto: "Defendiam que a perseguição apostólica ocorreria apenas depois da instauração visível do juízo final universal."
+            correta: false
+        justificativa: "Os discípulos reuniram em bloco a ruína do santuário ('quando serão essas coisas') e o sinal da parousía/fim do século; Jesus distingue o princípio das dores (vv. 4–14), o juízo sobre Jerusalém e o retorno futuro."
+
+      - id: mt-s2-q2
+        tipo: quiz
+        dificuldade: intermediario
+        enunciado: "Em que lugar literário se encontra o Discurso das Oliveiras na macroestrutura do Evangelho de Mateus?"
+        alternativas:
+          - texto: "É o quinto e último grande bloco de ensino de Mateus, fechado pela fórmula narrativa de transição em 26.1."
+            correta: true
+          - texto: "É um apêndice tardio sem ligação com os quatro discursos anteriores sobre o Reino e a missão apostólica."
+            correta: false
+          - texto: "Funciona como prólogo introdutório ao ministério público de Jesus na Galileia antes do Sermão do Monte."
+            correta: false
+          - texto: "Representa o único discurso do Evangelho composto inteiramente para responder a opositores fariseus no pátio do Templo."
+            correta: false
+        justificativa: "Concluído por 'tendo Jesus acabado todos estes discursos' (26.1), forma o quinto grande bloco de ensino (caps. 24–25), correspondendo ao Sermão do Monte que inaugurou o ministério."
+
+      - id: mt-s2-f1
+        tipo: flashcard
+        dificuldade: facil
+        frente: "Qual frase marca o encerramento literário da unidade de Mateus 24.3–14 antes do foco específico na abominação da desolação (v. 15)?"
+        resposta_principal: "\"e então virá o fim\" (v. 14)"
+        aceitas:
+          - "e entao vira o fim"
+          - "entao vira o fim"
+          - "vira o fim"
+        parciais:
+          - "o fim"
+          - "versiculo 14"
+        nota_explicativa: "Essa cláusula fecha o arco aberto por 'ainda não é o fim' (v. 6), mostrando que a proclamação do evangelho às nações governa o desfecho escatológico."
+
+      - id: mt-s2-f2
+        tipo: flashcard
+        dificuldade: intermediario
+        frente: "O que significa a perspectiva hermenêutica de 'duplo horizonte' aplicada ao Discurso das Oliveiras?"
+        resposta_principal: "Ler o texto respeitando tanto a crise histórica do século I (até 70 d.C.) quanto o padrão contínuo até a volta de Cristo"
+        aceitas:
+          - "seculo i e volta de cristo"
+          - "70 dc e retorno de cristo"
+          - "duplo horizonte"
+          - "historico e escatologico"
+        parciais:
+          - "dois cumprimentos"
+          - "futuro e passado"
+        nota_explicativa: "A perspectiva evita tanto reduzir tudo a 70 d.C. (preterismo rígido) quanto apagar a urgência histórica vivida pelos discípulos de Jerusalém (futurismo desconectado)."
+
+      - id: mt-s2-a1
+        tipo: aberta
+        dificuldade: facil
+        enunciado: "Formule a ideia exegética central de Mateus 24.3–14 quanto ao comportamento esperado dos discípulos diante das crises da história."
+        resposta_modelo: "Respondendo à curiosidade sobre datas e sinais, Jesus proíbe o pânico e o engano diante de falsos messias, guerras, fomes e perseguições — tratando tudo como o princípio das dores sob governo divino — e chama a igreja a perseverar em amor e santidade enquanto proclama o evangelho do Reino a todas as nações."
+        trecho_ancora: "Seção 2.1 — Delimitação e ideia exegética de Mateus 24.3–14"
+        rubrica:
+          nucleos:
+            - rotulo: "Rejeição ao pânico escatológico e ao engano de falsos messias"
+              termos: ["panico", "engano", "seducao", "principio das dores", "nao e o fim", "sobriedade"]
+              expressoes: ["nao vos assusteis", "principio das dores", "ninguem vos engane"]
+            - rotulo: "Perseverança fiel e missão universal do evangelho do Reino"
+              termos: ["perseverar", "perseveranca", "missao", "evangelho", "nacoes", "amor", "proclamar"]
+              expressoes: ["todas as nacoes", "evangelho do reino", "ate o fim"]
+          sinais_erro:
+            - ["calcular datas exatas do arrebatamento", "abandonar a missao em fuga"]
+
+      - id: mt-s2-a2
+        tipo: aberta
+        dificuldade: dificil
+        enunciado: "Compare o papel estrutural do Sermão do Monte (Mateus 5–7) e do Discurso das Oliveiras (Mateus 24–25) na arquitetura do Evangelho de Mateus."
+        resposta_modelo: "O Sermão do Monte abre os cinco grandes discursos expondo a justiça e a ética do Reino no início do ministério de Jesus; o Discurso das Oliveiras encerra o bloco de ensino na véspera da Paixão preparando a comunidade para perseverar, vigiar e cumprir a missão entre a rejeição de Israel e a vinda consumadora do Filho do Homem."
+        trecho_ancora: "Seção 2 — A estrutura do Discurso das Oliveiras e a delimitação de Mateus 24.3–14"
+        rubrica:
+          nucleos:
+            - rotulo: "Sermão do Monte como abertura programática sobre a ética/justiça do Reino"
+              termos: ["abertura", "inicio", "justica", "etica", "monte", "cinco", "discursos"]
+              expressoes: ["sermao do monte", "cinco grandes blocos"]
+            - rotulo: "Discurso das Oliveiras como encerramento sobre vigilância e perseverança até a consumação"
+              termos: ["ultimo", "encerramento", "vigiar", "perseverar", "consumacao", "paixao"]
+              expressoes: ["ultimo grande bloco", "vigilancia", "consumacao do seculo"]
+          sinais_erro:
+            - ["discurso das oliveiras revoga a etica do sermao do monte", "mateus nao possui estrutura de discursos"]
+
+  - section_id: exegese-de-mateus-24314
+    itens:
+      - id: mt-s3-q1
+        tipo: quiz
+        dificuldade: facil
+        enunciado: "O que indica o uso do verbo deî ('é mister / é necessário') em Mateus 24.6 diante de guerras e rumores de guerras?"
+        alternativas:
+          - texto: "Esses conflitos não escapam ao controle da história, mas inserem-se no plano soberano de Deus antes da consumação."
+            correta: true
+          - texto: "Deus aprova moralmente a violência militar das nações como forma legítima de acelerar a volta de Cristo."
+            correta: false
+          - texto: "A igreja deve aceitar o pânico como inevitável porque nenhuma oração pode sustentar a fé em tempos de guerra."
+            correta: false
+          - texto: "Cada conflito bélico isolado funciona como cronômetro exato que fixa o ano em que o fim do mundo ocorrerá."
+            correta: false
+        justificativa: "Na literatura bíblica e apocalíptica (cf. Dn 2.28), deî expressa necessidade inserida no desígnio divino: guerras pertencem à era intermediária e não invalidam o governo de Deus."
+
+      - id: mt-s3-q2
+        tipo: quiz
+        dificuldade: intermediario
+        enunciado: "Qual variante textual ocorre entre o Textus Receptus (ACF) e o texto crítico (NA28) em Mateus 24.7?"
+        alternativas:
+          - texto: "O Textus Receptus lê 'fomes, e pestes, e terremotos' (limoì kaì loimoì kaì seismoí), enquanto o NA28 omite 'e pestes'."
+            correta: true
+          - texto: "O Textus Receptus omite a menção a terremotos em vários lugares, mantendo apenas guerras e conflitos entre reinos."
+            correta: false
+          - texto: "O texto crítico NA28 substitui a palavra 'nação contra nação' por uma alusão direta às legiões romanas de Tito."
+            correta: false
+          - texto: "Os manuscritos alexandrinos acrescentam o termo 'pragas urbanas' que havia sido omitido pelos escribas bizantinos."
+            correta: false
+        justificativa: "O TR/ACF preserva a assonância limoì kaì loimoì ('fomes e pestes', idêntica a Lc 21.11), ao passo que o NA28 segue א, B e D omitindo kaì loimoì sem mudar o sentido da tríade de calamidades."
+
+      - id: mt-s3-q3
+        tipo: quiz
+        dificuldade: dificil
+        enunciado: "Qual aspecto torna os falsos profetas do v. 11 distintos dos falsos messias do v. 5 no argumento de Mateus 24?"
+        alternativas:
+          - texto: "Em vez de reivindicarem o trono messiânico, falam como intérpretes inspirados para legitimar atalhos espirituais e erosão ética."
+            correta: true
+          - texto: "Limitam sua atuação apenas ao território pagão fora de Israel, enquanto os falsos messias atuam nas sinagogas da diáspora."
+            correta: false
+          - texto: "Negam publicamente qualquer uso das Escrituras proféticas, recorrendo somente à astrologia caldeia e à filosofia grega."
+            correta: false
+          - texto: "Surgem exclusivamente após a pregação completa do evangelho a todas as nações mencionada no encerramento do versículo 14."
+            correta: false
+        justificativa: "Ligado a Mateus 7.15–23 e aos profetas de ilusão do AT, o pseudoprophḗtēs seduz por dentro da linguagem religiosa, dissociando milagres ou visões da obediência à vontade de Deus."
+
+      - id: mt-s3-q4
+        tipo: quiz
+        dificuldade: facil
+        enunciado: "Que ligação teológica Mateus 24.12 estabelece entre o crescimento da iniquidade (anomía) e a vida comunitária?"
+        alternativas:
+          - texto: "À medida que o desprezo prático pela lei e vontade de Deus se multiplica, o amor fraternal da maioria resfria."
+            correta: true
+          - texto: "A multiplicação da perseguição externa fortalece automaticamente o amor cristão sem exigir vigilância moral interna."
+            correta: false
+          - texto: "O esfriamento do amor ocorre apenas em igrejas que discutem questões teológicas em vez de promoverem o jejum."
+            correta: false
+          - texto: "A falta de leis civis rígidas no Império Romano foi a causa direta da divisão doutrinária entre judeus e gentios."
+            correta: false
+        justificativa: "Na teologia pactual de Mateus (cf. 22.37–40), o amor a Deus e ao próximo resume a Lei; por isso o avanço da anomía ('desprezo à vontade de Deus') congela (psýchō) a agápē."
+
+      - id: mt-s3-f1
+        tipo: flashcard
+        dificuldade: intermediario
+        frente: "Qual palavra grega em Mateus 24.4 traduz o 'enganar / fazer errar o caminho' que atravessa toda a primeira metade do discurso?"
+        resposta_principal: "πλανάω (planáō)"
+        aceitas:
+          - "planao"
+          - "planesis"
+          - "engano"
+          - "fazer errar"
+        parciais:
+          - "desviar"
+          - "seduzir"
+        nota_explicativa: "Presente nos vv. 4, 5, 11 e 24, planáō retrata o risco central deste tempo: perder o rumo do discipulado por messianismos falsos ou especulações enganosas."
+
+      - id: mt-s3-f2
+        tipo: flashcard
+        dificuldade: dificil
+        frente: "Qual verbo raro é usado no imperativo em Mateus 24.6 ('não vos assusteis') para proibir o terror coletivo diante de boatos de guerra?"
+        resposta_principal: "θροέομαι (throéomai)"
+        aceitas:
+          - "throeomai"
+          - "throeisthe"
+          - "nao vos assusteis"
+          - "assustar"
+        parciais:
+          - "panico"
+          - "medo"
+        nota_explicativa: "Throéomai (também em Mc 13.7 e 2Ts 2.2) descreve o sobressalto alarmista provocado por rumores; Jesus ordena serenidade lúcida mesmo quando o mundo treme."
+
+      - id: mt-s3-f3
+        tipo: flashcard
+        dificuldade: facil
+        frente: "Que imagem no versículo 8 ('princípio de dores', archḕ ōdínōn) explica o sentido de guerras, fomes e terremotos?"
+        resposta_principal: "Dores de parto da nova criação (não agonia terminal sem propósito)"
+        aceitas:
+          - "dores de parto"
+          - "principio das dores de parto"
+          - "odinon"
+          - "odin"
+        parciais:
+          - "dores"
+          - "sofrimento"
+        nota_explicativa: "Como em Romanos 8.22, as dores de parto indicam tanto sofrimento real e progressivo quanto a certeza de que a história caminha para o nascimento do Reino consumado."
+
+      - id: mt-s3-f4
+        tipo: flashcard
+        dificuldade: dificil
+        frente: "Qual verbo grego no versículo 13 ('aquele que perseverar até ao fim') descreve permanecer firme sob o peso sem desertar?"
+        resposta_principal: "ὑπομένω (hypoménō)"
+        aceitas:
+          - "hypomeno"
+          - "upomeno"
+          - "perseverar"
+          - "permanecer firme"
+        parciais:
+          - "resistir"
+          - "suportar"
+        nota_explicativa: "Não é estoicismo passivo, mas constância leal a Cristo e ao amor fraternal em meio à tribulação, traição mútua e falsos profetas."
+
+      - id: mt-s3-a1
+        tipo: aberta
+        dificuldade: facil
+        enunciado: "Explique a diferença entre a gravidade interna descrita no versículo 10 e a perseguição externa do versículo 9."
+        resposta_modelo: "No versículo 9, os discípulos sofrem tribulação, entrega, morte e ódio da parte de autoridades e nações externas. No versículo 10, a pressão externa provoca escândalo (abandono da fé) e fratura interna: Jesus repete os mesmos verbos ('entregar/trair' e 'odiar'), agora com pronome recíproco dentro da própria comunidade."
+        trecho_ancora: "Seção 3.8 — O escândalo, a delação mútua e a fratura interna sob pressão"
+        rubrica:
+          nucleos:
+            - rotulo: "Hostilidade vinda de fora no v. 9 (tribulação e ódio das nações)"
+              termos: ["externa", "fora", "nacoes", "martirio", "tribulacao", "perseguidores", "v. 9"]
+              expressoes: ["perseguicao externa", "todas as nacoes"]
+            - rotulo: "Crise interna e traição mútua no v. 10 (mesmos verbos entre irmãos)"
+              termos: ["interna", "dentro", "escandalo", "trair", "delacao", "mutua", "reciproco", "odiar", "v. 10"]
+              expressoes: ["uns aos outros", "fratura interna", "delacao mutua"]
+          sinais_erro:
+            - ["o v. 10 trata apenas de guerras politicas", "nao ha queda dentro da igreja"]
+
+      - id: mt-s3-a2
+        tipo: aberta
+        dificuldade: intermediario
+        enunciado: "Como devemos entender a promessa 'esse será salvo' (v. 13) sem entrar em contradição com o anúncio prévio de que discípulos serão mortos (v. 9)?"
+        resposta_modelo: "Como Jesus já advertira no versículo 9 que fiéis seriam entregues à morte, a promessa de salvação em passivo divino no versículo 13 não garante escape da perseguição ou do martírio físico, mas a preservação escatológica e a vindicação eterna dadas por Deus aos que permanecem leais até o fim."
+        trecho_ancora: "Seção 3.11 — A perseverança até o fim e a promessa da salvação escatológica"
+        rubrica:
+          nucleos:
+            - rotulo: "Não garante imunidade contra o martírio anunciado no v. 9"
+              termos: ["morte", "martirio", "imunidade", "v. 9", "fisica", "escapar"]
+              expressoes: ["serao mortos", "nao promete imunidade"]
+            - rotulo: "Refere-se à salvação/vindicação escatológica pela fidelidade de Deus"
+              termos: ["escatologica", "eterna", "reino", "deus", "perseverar", "passivo", "vindicação", "vindicacao"]
+              expressoes: ["salvacao escatologica", "acao soberana de deus"]
+          sinais_erro:
+            - ["quem perseverar nunca morrera fisicamente", "a salvacao depende de merito sem graca"]
+
+      - id: mt-s3-a3
+        tipo: aberta
+        dificuldade: dificil
+        enunciado: "De que modo o versículo 14 reorienta a esperança escatológica dos discípulos em relação ao 'sinal do fim' pedido no versículo 3?"
+        resposta_modelo: "Em vez de apontar guerras ou abalos cósmicos como marca definitiva do fim ('ainda não é o fim', v. 6), Jesus coloca o cumprimento missional da proclamação do evangelho do Reino em todo o mundo habitado como testemunho a todas as nações antes que 'então venha o fim' — ligando a agenda da história à promessa abraâmica e ao Servo de Isaías."
+        trecho_ancora: "Seção 3.12 — O evangelho do Reino em todo o mundo habitado"
+        rubrica:
+          nucleos:
+            - rotulo: "Desloca o marcador do fim das guerras/catástrofes (v. 6) para a missão universal (v. 14)"
+              termos: ["missao", "proclamacao", "evangelho", "nacoes", "mundo", "oikoumene", "testemunho", "v. 6", "v. 14"]
+              expressoes: ["todas as nacoes", "evangelho do reino", "ainda nao e o fim"]
+            - rotulo: "Conexão canônica com Abraão (Gn 12.3) / Isaías ou com o duplo horizonte"
+              termos: ["abraao", "isaias", "servo", "promessa", "horizonte", "seculo", "70"]
+              expressoes: ["familias da terra", "duplo horizonte"]
+          sinais_erro:
+            - ["o fim depende apenas de sinais militares", "a igreja pode forcar datas pelo calendario"]
+
+      - id: mt-s3-a4
+        tipo: aberta
+        dificuldade: intermediario
+        enunciado: "Por que a expressão 'em meu nome' (epì tô onómatí mou) no versículo 5 é mais do que falar com simpatia sobre Jesus?"
+        resposta_modelo: "No contexto bíblico e histórico da Judeia sob domínio romano, vir 'em nome de' associava o título, a autoridade e a dignidade real de Cristo a si próprio: os impostores usurpam o posto e o título messiânico ('Eu sou o Cristo'), oferecendo libertação político-militar imediata e enganando multidões."
+        trecho_ancora: "Seção 3.3 — A usurpação do título messiânico e os falsos libertadores"
+        rubrica:
+          nucleos:
+            - rotulo: "Usurpação direta do título e autoridade do Messias ('Eu sou o Cristo')"
+              termos: ["titulo", "messias", "cristo", "usurpacao", "autoridade", "impostores"]
+              expressoes: ["eu sou o cristo", "usurpam o titulo"]
+            - rotulo: "Expectativa judaica de libertação militar ou política sob domínio romano"
+              termos: ["libertacao", "militar", "politica", "roma", "romano", "judeia", "filho de davi"]
+              expressoes: ["libertacao militar", "restauracao territorial"]
+          sinais_erro:
+            - ["refere-se a qualquer pregador cristao comum", "eram apenas filosofos pagãos"]
+
+  - section_id: sintese-teologica-horizonte-canonico-e-implicacoes-pastorais
+    itens:
+      - id: mt-s4-q1
+        tipo: quiz
+        dificuldade: dificil
+        enunciado: "Segundo a síntese de Mateus 24.3–14, por que a leitura sensacionalista dos noticiários distorce o propósito do discurso?"
+        alternativas:
+          - texto: "Porque Jesus explicitamente chamou guerras, fomes e abalos de 'ainda não é o fim', proibindo que sejam usados como termômetro de datas."
+            correta: true
+          - texto: "Porque o discurso tratava apenas de metáforas psicológicas interiores sem qualquer vínculo com eventos históricos reais."
+            correta: false
+          - texto: "Porque todas as catástrofes descritas nos versículos 6 e 7 foram suspensas definitivamente após o ano 70 d.C."
+            correta: false
+          - texto: "Porque a interpretação dos sinais escatológicos foi reservada exclusivamente aos apóstolos durante o período apostólico."
+            correta: false
+        justificativa: "Jesus oferece uma bússola pastoral para obediência e missão entre o juízo sobre Jerusalém e a parousía, não um código cifrado para especular datas a partir de crises mundiais."
+
+      - id: mt-s4-q2
+        tipo: quiz
+        dificuldade: facil
+        enunciado: "Quais quatro atitudes práticas a exposição de Mateus 24.3–14 requer da igreja contemporânea?"
+        alternativas:
+          - texto: "Sobriedade diante das crises, resistência a falsos messias e profetas, vigilância contra o resfriamento do amor e prioridade da missão."
+            correta: true
+          - texto: "Retiro comunitário no deserto, cálculo minucioso de profecias geopolíticas, defesa armada e suspensão do contato com as nações."
+            correta: false
+          - texto: "Indiferença aos sofrimentos sociais, aceitação acrílica de líderes carismáticos, foco em riquezas e silêncio sobre o juízo divino."
+            correta: false
+          - texto: "Reconstrução literal do sistema sacrificial do Templo, abandono das cidades romanas e substituição da pregação por sinais miraculosos."
+            correta: false
+        justificativa: "A conclusão pastoral aplica os vv. 4–14 em quatro frentes: sobriedade nas crises, discernimento contra enganos, guarda do amor frente à anomía e centralidade da missão."
+
+      - id: mt-s4-f1
+        tipo: flashcard
+        dificuldade: intermediario
+        frente: "Qual palavra resume a doença espiritual interna mais temida no versículo 12, quando a polarização e a desobediência crescem?"
+        resposta_principal: "Erosão / esfriamento do amor (agápē) pelo avanço da iniquidade (anomía)"
+        aceitas:
+          - "esfriamento do amor"
+          - "erosao do amor"
+          - "amor esfriara"
+          - "anomia e esfriamento do amor"
+        parciais:
+          - "desamor"
+          - "iniquidade"
+        nota_explicativa: "O maior risco espiritual para a igreja muitas vezes não vem da perseguição externa, mas da frieza interna gerada pelo desprezo cotidiano à vontade de Deus."
+
+      - id: mt-s4-f2
+        tipo: flashcard
+        dificuldade: dificil
+        frente: "Qual termo grego de Mateus 24.14 indica o escopo geográfico-cultural da missão ('todo o mundo habitado') antes que venha o fim?"
+        resposta_principal: "οἰκουμένη (oikouménē)"
+        aceitas:
+          - "oikoumene"
+          - "mundo habitado"
+          - "todo o mundo habitado"
+        parciais:
+          - "nacoes"
+          - "terra"
+        nota_explicativa: "No horizonte do século I, o evangelho alcançou a oikouménē mediterrânea antes de 70 d.C.; no horizonte final, o testemunho prossegue até alcançar todos os povos."
+
+      - id: mt-s4-a1
+        tipo: aberta
+        dificuldade: intermediario
+        enunciado: "De que maneira Mateus 24.14 redefine o que faz o 'relógio da história' avançar diante das crises mundiais?"
+        resposta_modelo: "O compasso final da história não é ditado pelo ritmo das guerras ou calamidades entre as nações, mas pela fidelidade da proclamação do evangelho do Reino como testemunho a todos os povos sob o senhorio de Cristo, deslocando a igreja da especulação ansiosa para a missão."
+        trecho_ancora: "Seção 4 — Síntese teológica, horizonte canônico e implicações pastorais"
+        rubrica:
+          nucleos:
+            - rotulo: "Guerras e catástrofes não determinam o término imediato da história"
+              termos: ["guerras", "crises", "calendario", "especular", "catastrofes", "datas"]
+              expressoes: ["nao avanca pelo ritmo das guerras", "especulacao"]
+            - rotulo: "Centralidade da missão e do testemunho do evangelho a todas as nações"
+              termos: ["missao", "evangelho", "testemunho", "povos", "nacoes", "proclamacao", "reino"]
+              expressoes: ["centralidade da missao", "todos os povos"]
+          sinais_erro:
+            - ["a missao termina antes das dores de parto", "os discipulos devem prever o dia exato"]
+
+      - id: mt-s4-a2
+        tipo: aberta
+        dificuldade: facil
+        enunciado: "Por que o chamado de Jesus à 'vigilância contra messianismos enganosos e falsos profetas' permanece atual em épocas de crise política ou cultural?"
+        resposta_modelo: "Em momentos de instabilidade social, crescem vozes religiosas e políticas que prometem salvação rápida, imunidade contra o sofrimento ou atalhos espirituais fora da ética do Evangelho; a igreja precisa discernir esses discursos pela fidelidade à cruz, à Palavra e ao amor prático."
+        trecho_ancora: "Seção 4 — Síntese teológica, horizonte canônico e implicações pastorais"
+        rubrica:
+          nucleos:
+            - rotulo: "Surgimento de soluções carismáticas/políticas ou atalhos sem cruz em crises"
+              termos: ["crises", "atalhos", "imunidade", "carismaticas", "politico", "salvacao rapida", "ilusao"]
+              expressoes: ["atalhos espirituais", "messianismos enganosos"]
+            - rotulo: "Discernimento ancorado na fidelidade ao Evangelho e à ética de Cristo"
+              termos: ["discernimento", "evangelho", "cruz", "obediencia", "palavra", "etica", "vigiar"]
+              expressoes: ["etica do evangelho", "discernimento espiritual"]
+          sinais_erro:
+            - ["o perigo restringiu-se apenas ao ano 70", "todo movimento religioso traz verdade"]

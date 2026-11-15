@@ -1,0 +1,555 @@
+version: 1
+
+leitura_ativa:
+  - target_id: da-segunda-viagem-missionaria-ao-nascimento-da-igreja-em-atos-16
+    perguntas:
+      - "Observe os três perfis alcançados em Atos 16 (Lídia, a escrava e o carcereiro): o que essa origem mista explica sobre os conflitos e a comunhão da igreja em Filipos?"
+  - target_id: local-da-prisao-datacao-e-o-papel-de-epafrodito
+    perguntas:
+      - "Ao ler as três hipóteses de prisão (Roma, Éfeso e Cesareia), note o que muda na reconstrução histórica e o que permanece inalterado na ocasião pastoral da carta."
+  - target_id: delimitacao-e-ideia-exegetica-de-filipenses-469
+    perguntas:
+      - "Repare na conexão entre Filipenses 4.2–5 e 4.6–9: por que a ordem contra a ansiedade surge logo depois de um conflito entre Evódia e Síntique?"
+  - target_id: da-inquietacao-a-oracao-agradecida
+    perguntas:
+      - "Compare os dois sentidos possíveis de merimnáō na carta (2.20 vs. 4.6) e observe por que a gratidão acompanha a súplica antes mesmo de a crise passar."
+  - target_id: a-paz-de-deus-como-sentinela
+    perguntas:
+      - "Por que a metáfora militar de phrouréō tinha ressonância imediata em Filipos e o que exatamente essa guarda protege (e o que não promete)?"
+  - target_id: uma-mente-treinada-para-reconhecer-o-bem
+    perguntas:
+      - "Note os dois primeiros adjetivos da lista do v. 8: por que verdade e honestidade vêm antes de amabilidade e boa fama?"
+  - target_id: do-ensino-observado-a-pratica-perseverante
+    perguntas:
+      - "Compare a promessa do v. 7 com a do v. 9: qual avanço ocorre entre 'a paz de Deus' e 'o Deus de paz'?"
+
+revisao_secoes:
+  - section_id: filipos-colonia-romana-e-berco-da-igreja
+    itens:
+      - id: fp-s1-q1
+        tipo: quiz
+        dificuldade: dificil
+        enunciado: "Como o estatuto de colônia romana e o papel da Via Egnácia iluminam a leitura de Filipenses 4.6–9?"
+        alternativas:
+          - texto: "Mostram que a igreja vivia sob pressão cívica romana, exigindo lealdade última a Cristo em vez de mera serenidade privada."
+            correta: true
+          - texto: "Comprovam que Paulo usava a linguagem jurídica da colônia para reivindicar proteção imperial contra os opositores da igreja."
+            correta: false
+          - texto: "Indicam que os crentes de Filipos gozavam de estabilidade econômica e usavam a estrada para evitar conflitos locais."
+            correta: false
+          - texto: "Sugerem que o apelo à moderação visava adaptar a fé cristã aos padrões públicos de honra e prestígio do Império."
+            correta: false
+        justificativa: "O ambiente de 'pequena Roma' e o fluxo da Via Egnácia mostram que cidadania, senhorio e guarda militar confrontavam o prestígio imperial, situando 4.6–9 em pressões reais da comunidade."
+
+      - id: fp-s1-q2
+        tipo: quiz
+        dificuldade: facil
+        enunciado: "Por que Filipos era tratada na região como uma 'pequena Roma' no tempo de Paulo?"
+        alternativas:
+          - texto: "Porque recebeu veteranos militares, o direito itálico e moldou sua administração e língua oficial segundo Roma."
+            correta: true
+          - texto: "Porque o governador da Macedônia transferiu a sede provincial para lá após a segunda viagem missionária de Paulo."
+            correta: false
+          - texto: "Porque a maioria de seus moradores possuía origem judaica helenística ligada à sinagoga local."
+            correta: false
+          - texto: "Porque foi fundada por Augusto como porto marítimo principal entre o mar Adriático e a cidade de Trôade."
+            correta: false
+        justificativa: "Após 42 a.C., Filipos foi refundada como colônia militar romana com assentamento de veteranos, ius Italicum, latim oficial e arquitetura cívica romana."
+
+      - id: fp-s1-f1
+        tipo: flashcard
+        dificuldade: intermediario
+        frente: "Qual estatuto jurídico romano conferia isenções fiscais e garantias legais ao território da colônia de Filipos?"
+        resposta_principal: "Direito itálico (ius Italicum)"
+        aceitas:
+          - "direito italico"
+          - "ius italicum"
+          - "direito italico ius italicum"
+        parciais:
+          - "direito romano"
+          - "isencao"
+          - "colonia militar"
+        nota_explicativa: "O direito itálico reforçava o orgulho cívico romano em Filipos, dando peso ao contraste de Paulo com a 'cidadania nos céus' (3.20)."
+
+      - id: fp-s1-f2
+        tipo: flashcard
+        dificuldade: facil
+        frente: "Qual grande estrada imperial pavimentada atravessava Filipos ligando o mar Adriático ao Oriente?"
+        resposta_principal: "Via Egnácia"
+        aceitas:
+          - "via egnacia"
+          - "egnácias"
+          - "egnacia"
+        parciais:
+          - "estrada romana"
+          - "via"
+        nota_explicativa: "Pela Via Egnácia circulavam tropas, comerciantes, correios imperiais e ideias religiosas, integrando Filipos a uma rede política muito maior."
+
+      - id: fp-s1-a1
+        tipo: aberta
+        dificuldade: intermediario
+        enunciado: "Explique por que o nascimento da igreja em Atos 16 ajuda os filipenses a compreenderem o chamado de Paulo a sofrer por Cristo (1.27–30)."
+        resposta_modelo: "A igreja nasceu em meio à oração e hospitalidade, mas também enfrentou perda econômica de senhores, açoites públicos e prisão por choque com o orgulho romano; assim, os crentes já tinham visto esse combate na prática."
+        trecho_ancora: "Seção 1.1 — Da segunda viagem missionária ao nascimento da igreja em Atos 16"
+        rubrica:
+          nucleos:
+            - rotulo: "Choque público/econômico e prisão em Filipos"
+              termos: ["prisao", "carcere", "acoites", "açoites", "escrava", "lucro", "magistrados", "orgulho", "romanos", "conflito"]
+              expressoes: ["choque com interesses", "orgulho civico", "lancados no carcere"]
+            - rotulo: "Memória compartilhada que prepara para sofrer por Cristo"
+              termos: ["experiencia", "memoria", "combate", "sofrer", "sabiam", "viram", "testemunho"]
+              expressoes: ["experiencia propria", "mesmo combate", "memoria compartilhada"]
+          sinais_erro:
+            - ["igreja cresceu sem oposicao", "apenas conversao privada"]
+
+      - id: fp-s1-a2
+        tipo: aberta
+        dificuldade: dificil
+        enunciado: "Qual o efeito teológico de Paulo lembrar aos moradores da colônia que 'a nossa cidade está nos céus' (3.20) antes de exortá-los no capítulo 4?"
+        resposta_modelo: "Em um ambiente que valorizava honra pública e lealdade a Roma, Paulo desloca a identidade mais profunda e a fidelidade última dos crentes das garantias de prestígio da colônia para o senhorio soberano de Cristo."
+        trecho_ancora: "Seção 1 — Filipos: colônia romana e berço da igreja"
+        rubrica:
+          nucleos:
+            - rotulo: "Deslocamento de identidade/fidelidade de Roma para Cristo"
+              termos: ["identidade", "fidelidade", "lealdade", "cristo", "senhor", "senhorio", "ceus", "ceu", "roma"]
+              expressoes: ["lealdade ultima", "identidade mais profunda", "senhor exaltado"]
+            - rotulo: "Relativização das garantias e prestígio da colônia"
+              termos: ["prestigio", "honra", "colonia", "garantias", "cidadania", "romana"]
+              expressoes: ["garantias de prestigio", "honra publica"]
+          sinais_erro:
+            - ["abandono da vida publica", "desobediencia civil violenta"]
+
+  - section_id: paulo-na-prisao-ocasiao-autoria-e-envio-da-carta
+    itens:
+      - id: fp-s2-q1
+        tipo: quiz
+        dificuldade: intermediario
+        enunciado: "Qual combinação de evidências internas sustenta tradicionalmente Roma (c. 60–62 d.C.) como local mais provável da prisão?"
+        alternativas:
+          - texto: "A menção ao pretório, a saudação da casa de César e um julgamento cujo desfecho podia ser execução ou soltura."
+            correta: true
+          - texto: "A proximidade geográfica da Via Egnácia com a Macedônia e o envio imediato de cartas entre Paulo e Timóteo."
+            correta: false
+          - texto: "O registro explícito em Atos 28 de que Epafrodito visitou Paulo e adoeceu durante a prisão domiciliar romana."
+            correta: false
+          - texto: "A assinatura conjunta de Timóteo como coautor do texto e a referência direta aos magistrados da capital imperial."
+            correta: false
+        justificativa: "Os defensores de Roma apontam 'todo o pretório' (1.13), 'os da casa de César' (4.22) e o risco iminente de vida ou morte diante do tribunal imperial."
+
+      - id: fp-s2-q2
+        tipo: quiz
+        dificuldade: dificil
+        enunciado: "Quando Paulo convoca os filipenses a imitá-lo (3.17; 4.9), qual limite distingue esse apelo de uma autossuficiência estoica?"
+        alternativas:
+          - texto: "Ele admite não ter alcançado a perfeição e fundamenta sua firmeza no poder de Cristo que o fortalece."
+            correta: true
+          - texto: "Ele restringe a imitação apenas à administração das ofertas financeiras trazidas por Epafrodito."
+            correta: false
+          - texto: "Ele transfere a responsabilidade de modelo espiritual integralmente para Timóteo por causa de suas cadeias."
+            correta: false
+          - texto: "Ele afirma ter superado emocionalmente a dor da prisão antes de escrever à comunidade."
+            correta: false
+        justificativa: "Paulo reconhece sua fragilidade real em cadeias, admite ainda prosseguir para o alvo (3.12–14) e atribui sua resistência ao poder de Cristo (4.11–13)."
+
+      - id: fp-s2-f1
+        tipo: flashcard
+        dificuldade: facil
+        frente: "Quem foi enviado por Filipos para assistir Paulo na prisão, adoeceu mortalmente e provavelmente levou a carta de volta?"
+        resposta_principal: "Epafrodito"
+        aceitas:
+          - "epafrodito"
+        parciais:
+          - "mensageiro"
+          - "portador"
+        nota_explicativa: "Epafrodito foi o elo humano imediato entre a igreja e Paulo, servindo a Cristo até quase morrer e regressando com honra à comunidade."
+
+      - id: fp-s2-f2
+        tipo: flashcard
+        dificuldade: dificil
+        frente: "Além de Roma, quais duas cidades são debatidas na pesquisa histórica como hipóteses alternativas para o local da prisão?"
+        resposta_principal: "Éfeso e Cesareia Marítima"
+        aceitas:
+          - "efeso e cesareia maritima"
+          - "efeso e cesareia"
+          - "cesareia e efeso"
+          - "cesareia maritima e efeso"
+        parciais:
+          - "efeso"
+          - "cesareia"
+        nota_explicativa: "Éfeso explicaria múltiplas viagens pela menor distância; Cesareia tem prisão registrada em Atos; contudo, nenhuma altera a ocasião pastoral."
+
+      - id: fp-s2-a1
+        tipo: aberta
+        dificuldade: facil
+        enunciado: "Por que a condição de prisioneiro não é apenas um dado biográfico em Filipenses, mas dá peso ao ensino de Paulo?"
+        resposta_modelo: "Paulo escreve em cadeias reais sob risco de execução e dependência de mensageiros; isso prova que suas exortações à alegria, confiança e prática nascem dentro da prova, não de teoria confortável."
+        trecho_ancora: "Seção 2 — Paulo na prisão: ocasião, autoria e envio da carta"
+        rubrica:
+          nucleos:
+            - rotulo: "Risco real das cadeias e dependência na prisão"
+              termos: ["cadeias", "prisao", "execucao", "morte", "julgamento", "fragilidade", "restricao"]
+              expressoes: ["risco de morte", "desfecho judicial", "sob restricao"]
+            - rotulo: "Coerência entre vida moldada pela cruz e ensino à igreja"
+              termos: ["peso", "coerencia", "referencial", "exemplo", "pratica", "cruz", "evangelho"]
+              expressoes: ["peso concreto", "referencial vivo", "moldada pela cruz"]
+          sinais_erro:
+            - ["prisao simbolica", "apenas metafora literaria"]
+
+      - id: fp-s2-a2
+        tipo: aberta
+        dificuldade: intermediario
+        enunciado: "Como o estudo distingue o que é certo, provável e em debate quanto à origem da carta, e por que essa distinção importa?"
+        resposta_modelo: "É certo que Paulo está sob custódia militar e assistido por Epafrodito; é provável a prisão em Roma (60–62 d.C.); e seguem em debate Éfeso e Cesareia. Isso protege a exegese de apoiar a mensagem em suposições não declaradas."
+        trecho_ancora: "Seção 2.1 — Local da prisão, datação e o papel de Epafrodito"
+        rubrica:
+          nucleos:
+            - rotulo: "Fato certo (custódia/Epafrodito) vs. provável (Roma) e debate (Éfeso/Cesareia)"
+              termos: ["certo", "provavel", "debate", "roma", "efeso", "cesareia", "epafrodito", "custodia"]
+              expressoes: ["evidencia interna", "hipoteses alternativas"]
+            - rotulo: "Irrelevância do debate geográfico para a ocasião pastoral"
+              termos: ["ocasio", "ocasiao", "pastoral", "altera", "liberdade", "morte", "exegese"]
+              expressoes: ["ocasiao pastoral nao se altera", "nao altera a mensagem"]
+          sinais_erro:
+            - ["roma e dogma fechado", "sem roma a carta perde sentido"]
+
+  - section_id: o-argumento-da-carta-ate-filipenses-469
+    itens:
+      - id: fp-s3-q1
+        tipo: quiz
+        dificuldade: facil
+        enunciado: "Qual movimento argumentativo antecede imediatamente Filipenses 4.6–9 dentro da unidade maior de 4.2–9?"
+        alternativas:
+          - texto: "O apelo à concórdia entre Evódia e Síntique, o chamado à alegria e à moderação porque perto está o Senhor."
+            correta: true
+          - texto: "O agradecimento detalhado pela oferta financeira enviada pela igreja por meio de Epafrodito."
+            correta: false
+          - texto: "O hino cristológico sobre a humilhação voluntária de Cristo até a morte de cruz e sua exaltação."
+            correta: false
+          - texto: "A advertência polêmica contra os que confiam na carne e a renúncia de Paulo aos privilégios judaicos."
+            correta: false
+        justificativa: "Em 4.2–5, Paulo trata das relações comunitárias (Evódia e Síntique), da alegria e da moderação diante da proximidade do Senhor, antes de tratar da inquietação (4.6–7)."
+
+      - id: fp-s3-q2
+        tipo: quiz
+        dificuldade: intermediario
+        enunciado: "Como o hino de Cristo em 2.5–11 funciona no argumento completo da epístola até chegar ao capítulo 4?"
+        alternativas:
+          - texto: "Fornece o fundamento cristológico para a igreja rejeitar a rivalidade e portar-se de modo digno do evangelho."
+            correta: true
+          - texto: "Serve como interlúdio litúrgico independente inserido para consolar Paulo enquanto aguardava Timóteo."
+            correta: false
+          - texto: "Apresenta uma doutrina abstrata da encarnação sem ligação direta com os conflitos entre os cooperadores."
+            correta: false
+          - texto: "Substitui os exemplos humanos de Timóteo e Epafrodito como único modelo prático mencionado na carta."
+            correta: false
+        justificativa: "Paulo ancora a exortação de 1.27–2.18 (firmeza, unidade, rejeição da vanglória) no movimento de humilhação e exaltação de Cristo em 2.5–11."
+
+      - id: fp-s3-f1
+        tipo: flashcard
+        dificuldade: dificil
+        frente: "Qual termo grego resume na carta o eixo da 'mente moldada por Cristo', que reorienta ambições, julgamentos e relações?"
+        resposta_principal: "phronéō"
+        aceitas:
+          - "phroneo"
+          - "phroneō"
+          - "mente moldada por cristo"
+        parciais:
+          - "mente"
+          - "pensar"
+          - "sentir"
+        nota_explicativa: "Phronéō aparece desde o capítulo 2 até o apelo de 4.2 ('sintam o mesmo no Senhor'), integrando disposição interior e concórdia comunitária."
+
+      - id: fp-s3-f2
+        tipo: flashcard
+        dificuldade: intermediario
+        frente: "Qual termo grego expressa a 'participação no evangelho' pela qual a igreja ora, sofre, envia cooperadores e reparte bens?"
+        resposta_principal: "koinōnía"
+        aceitas:
+          - "koinonia"
+          - "koinōnia"
+          - "comunhao"
+          - "participacao no evangelho"
+        parciais:
+          - "participacao"
+          - "parceria"
+        nota_explicativa: "A koinōnía filipense mostra que a carta trata de parceria concreta na missão e nas aflições, não de isolamento místico."
+
+      - id: fp-s3-a1
+        tipo: aberta
+        dificuldade: dificil
+        enunciado: "Resuma como a ideia exegética de Filipenses 4.6–9 conecta quatro dimensões em um único arco contínuo."
+        resposta_modelo: "Paulo une relacionamento com Deus (substituir a inquietação pela oração agradecida), guarda interior (a paz de Deus em Cristo), discernimento moral (ocupar a mente com o bem) e obediência comunitária (praticar o ensino apostólico sob a presença do Deus de paz)."
+        trecho_ancora: "Seção 3.1 — Delimitação e ideia exegética de Filipenses 4.6–9"
+        rubrica:
+          nucleos:
+            - rotulo: "Oração agradecida e guarda da paz de Deus"
+              termos: ["oracao", "agradecida", "gratidao", "inquietacao", "ansiedade", "paz", "guarda", "coracoes"]
+              expressoes: ["oracao especifica", "paz de deus", "guarda interior"]
+            - rotulo: "Discernimento da mente e prática do ensino apostólico"
+              termos: ["mente", "pensamento", "pensar", "discernimento", "bem", "pratica", "praticar", "ensino", "obediencia"]
+              expressoes: ["discernimento moral", "obediencia comunitaria", "ensino apostolico"]
+          sinais_erro:
+            - ["basta pensar positivo", "oracao dispensa obediencia"]
+
+      - id: fp-s3-a2
+        tipo: aberta
+        dificuldade: facil
+        enunciado: "Quais limites literários separam a perícope de Filipenses 4.6–9 do restante do capítulo 4?"
+        resposta_modelo: "Ela integra o bloco de exortações comunitárias de 4.2–9 — após os apelos sobre unidade, alegria e moderação (4.2–5) — e encerra-se antes de 4.10, quando Paulo passa a agradecer formalmente a oferta trazida por Epafrodito."
+        trecho_ancora: "Seção 3.1 — Delimitação e ideia exegética de Filipenses 4.6–9"
+        rubrica:
+          nucleos:
+            - rotulo: "Inserção no bloco de exortações de 4.2–9 (após 4.2–5)"
+              termos: ["4 2", "4 5", "exortacoes", "comunitarias", "relacoes", "evodia", "sintique", "bloco"]
+              expressoes: ["4 2 9", "4 2 5", "exortacoes comunitarias"]
+            - rotulo: "Término antes do agradecimento da oferta em 4.10"
+              termos: ["4 10", "oferta", "epafrodito", "agradecer", "agradecimento"]
+              expressoes: ["antes de 4 10", "agradecer formalmente"]
+          sinais_erro:
+            - ["comeca em 4 6 sem ligacao com 4 5"]
+
+  - section_id: exegese-de-filipenses-469
+    itens:
+      - id: fp-s4-q1
+        tipo: quiz
+        dificuldade: dificil
+        enunciado: "Por que o texto do v. 6 proíbe merimnáō aqui, embora o mesmo verbo seja elogiado quando aplicado a Timóteo em 2.20?"
+        alternativas:
+          - texto: "Porque o contexto opõe o termo à oração, marcando a inquietação que absorve a mente e dispensa a dependência de Deus."
+            correta: true
+          - texto: "Porque o verbo mudou de significado entre o capítulo 2 e o capítulo 4 devido ao tempo verbal usado no grego."
+            correta: false
+          - texto: "Porque o cuidado legítimo pelos irmãos em 2.20 era permitido apenas aos líderes apostólicos da comunidade."
+            correta: false
+          - texto: "Porque no capítulo 4 Paulo adota o sentido filosófico estoico de indiferença absoluta diante das perdas humanas."
+            correta: false
+        justificativa: "O campo semântico de merimnáō inclui cuidado responsável (2.20) e preocupação ansiosa (4.6); é a oposição direta à oração em 4.6 que define o valor negativo."
+
+      - id: fp-s4-q2
+        tipo: quiz
+        dificuldade: facil
+        enunciado: "Qual metáfora o verbo phrouréō ('guardará') em Filipenses 4.7 evocava imediatamente para moradores de Filipos?"
+        alternativas:
+          - texto: "Uma guarnição militar que vigia e protege uma cidade contra ataques e invasões hostis."
+            correta: true
+          - texto: "Um juiz romano que proclama a absolvição definitiva de um réu acusado perante o tribunal."
+            correta: false
+          - texto: "Um sacerdote do templo que fecha as portas do santuário ao final do sacrifício vespertino."
+            correta: false
+          - texto: "Um filósofo que exercita a razão para suprimir qualquer sentimento de tristeza ou temor."
+            correta: false
+        justificativa: "Phrouréō designava a guarda ativa de sentinelas ou guarnição militar protegendo uma cidade, imagem viva para uma colônia de veteranos romanos."
+
+      - id: fp-s4-q3
+        tipo: quiz
+        dificuldade: intermediario
+        enunciado: "No v. 8, por que 'amável' (prosphilḗs) e 'de boa fama' (eúphēmos) não autorizam acomodação social ou busca de aplauso?"
+        alternativas:
+          - texto: "Porque vêm subordinados aos critérios iniciais de verdade e justiça, e ao critério apostólico do v. 9."
+            correta: true
+          - texto: "Porque os dois adjetivos referem-se apenas à liturgia do culto público e não às relações cotidianas."
+            correta: false
+          - texto: "Porque Paulo usa os termos em tom irônico para criticar os padrões éticos dos filósofos greco-romanos."
+            correta: false
+          - texto: "Porque o imperativo logízesthe ordena avaliar apenas os pensamentos privados sem aplicação visível."
+            correta: false
+        justificativa: "A lista abre com o que é verdadeiro e honesto/justo e se submete ao ensino apostólico recebido (v. 9), impedindo que amabilidade signifique oportunismo."
+
+      - id: fp-s4-f1
+        tipo: flashcard
+        dificuldade: facil
+        frente: "No v. 6, quais três substantivos do vocabulário de oração Paulo reúne para indicar reverência, necessidade urgente e conteúdo específico?"
+        resposta_principal: "proseuchḗ, déēsis e aítēma (oração, súplica e petição)"
+        aceitas:
+          - "proseuche deesis e aitema"
+          - "proseuche deesis aitema"
+          - "oracao suplica e peticao"
+          - "oracao suplica peticao"
+          - "oracao suplica e pedidos"
+        parciais:
+          - "proseuche"
+          - "deesis"
+          - "aitema"
+          - "oracao e suplica"
+        nota_explicativa: "Essa tríade mostra que orar na Bíblia não é serenidade vaga, mas uma relação com direção (Deus), urgência e pedidos concretos."
+
+      - id: fp-s4-f2
+        tipo: flashcard
+        dificuldade: intermediario
+        frente: "Qual verbo do v. 8 ('nisso pensai') exige avaliação cuidadosa e ocupação deliberada da mente, e não esvaziamento mental?"
+        resposta_principal: "logízomai"
+        aceitas:
+          - "logizomai"
+          - "logizesthe"
+          - "logízomai"
+          - "logízesthe"
+        parciais:
+          - "ponderar"
+          - "calcular"
+          - "pensar"
+        nota_explicativa: "Logízomai significa calcular, ponderar e levar em conta de modo deliberado, combatendo a ruminação de queixas e rivalidades na igreja."
+
+      - id: fp-s4-f3
+        tipo: flashcard
+        dificuldade: dificil
+        frente: "Qual dupla antropológica do v. 7 mostra que a paz de Deus protege a totalidade da vida interior, sem dicotomia moderna entre emoção e intelecto?"
+        resposta_principal: "kardía e nóēma (corações e pensamentos)"
+        aceitas:
+          - "kardia e noema"
+          - "coracoes e pensamentos"
+          - "coracao e pensamentos"
+          - "kardia noema"
+        parciais:
+          - "kardia"
+          - "noema"
+          - "coracoes"
+          - "pensamentos"
+        nota_explicativa: "Kardía abrange o centro de afetos e decisões; nóēma designa os propósitos e raciocínios que dele procedem — ambos guardados em Cristo Jesus."
+
+      - id: fp-s4-a1
+        tipo: aberta
+        dificuldade: intermediario
+        enunciado: "Explique a relação entre 'com ação de graças' (v. 6) e o que 'a paz de Deus excede todo o entendimento' (v. 7) garante ou não garante."
+        resposta_modelo: "A gratidão lembra a fidelidade já conhecida de Deus mesmo antes que a crise termine, impedindo murmuração; em resposta, a paz de Deus guarda corações e pensamentos em Cristo quando o cálculo humano falha, embora a resposta aos pedidos permaneça sob a sabedoria soberana de Deus."
+        trecho_ancora: "Seção 4 — vv. 4.6 e 4.7"
+        rubrica:
+          nucleos:
+            - rotulo: "Gratidão baseada na fidelidade de Deus mesmo em meio à crise"
+              termos: ["gratidao", "acao de gracas", "fidelidade", "crise", "murmuracao", "problemas", "antes"]
+              expressoes: ["acao de gracas", "fidelidade passada", "antes que os problemas"]
+            - rotulo: "Guarda interior quando a razão falha, sem impor o tempo/modo da resposta"
+              termos: ["guarda", "interior", "coracoes", "entendimento", "calculo", "sabedoria", "soberana", "cristo"]
+              expressoes: ["recursos de previsao", "sabedoria divina", "tempo de resposta"]
+          sinais_erro:
+            - ["garante remocao imediata da crise", "deus e obrigado a atender como queremos"]
+
+      - id: fp-s4-a2
+        tipo: aberta
+        dificuldade: dificil
+        enunciado: "Como Paulo articula os quatro verbos históricos do v. 9, o imperativo prássete e a progressão entre a promessa do v. 7 e a do v. 9?"
+        resposta_modelo: "Os quatro verbos (aprendestes, recebestes, ouvistes, vistes em mim) unem doutrina apostólica e conduta observável para impedir que o v. 8 vire mera teoria; o imperativo prássete exige prática habitual, e a promessa avança do dom protetor ('a paz de Deus', v. 7) para a presença pessoal do Doador ('o Deus de paz', v. 9)."
+        trecho_ancora: "Seção 4 — v. 4.9 (Do ensino observado à prática perseverante)"
+        rubrica:
+          nucleos:
+            - rotulo: "União entre ensino apostólico/testemunho vivido e prática contínua (prássete)"
+              termos: ["aprendestes", "recebestes", "ouvistes", "vistes", "doutrina", "conduta", "pratica", "prassete", "habitual"]
+              expressoes: ["palavra e vida", "pratica perseverante", "ensino apostolico"]
+            - rotulo: "Avanço do dom da paz (v. 7) para a companhia pessoal do Deus de paz (v. 9)"
+              termos: ["dom", "doador", "presenca", "companhia", "deus de paz", "paz de deus", "avanca", "aprofunda"]
+              expressoes: ["deus de paz", "companhia pessoal", "dom protetor"]
+          sinais_erro:
+            - ["paulo afirma impecabilidade pessoal", "v 9 repete exatamente o v 7 sem avanco"]
+
+      - id: fp-s4-a3
+        tipo: aberta
+        dificuldade: facil
+        enunciado: "Qual função prática o treino do pensamento em Filipenses 4.8 exercia diante do desacordo entre Evódia e Síntique (4.2–3)?"
+        resposta_modelo: "Obrigava a comunidade a substituir a ruminação de queixas, suspeitas e rivalidades pelo reconhecimento lúcido e deliberado do que era verdadeiro, justo e digno de apreço na caminhada comum."
+        trecho_ancora: "Seção 4 — v. 4.8 (Uma mente treinada para reconhecer o bem)"
+        rubrica:
+          nucleos:
+            - rotulo: "Substituir queixas, suspeitas e rivalidades"
+              termos: ["ruminacao", "queixas", "rivalidades", "suspeitas", "maus juizos", "desacordo", "evodia", "sintique"]
+              expressoes: ["maus juizos", "ruminacao de queixas"]
+            - rotulo: "Reconhecimento deliberado do verdadeiro e justo nos irmãos"
+              termos: ["verdadeiro", "justo", "bem", "apreco", "caminhada", "deliberada", "reconhecimento"]
+              expressoes: ["reconhecimento lucido", "digno de apreco"]
+          sinais_erro:
+            - ["ignorar pecados fingindo que nada aconteceu"]
+
+  - section_id: sintese-teologica-e-horizonte-pastoral
+    itens:
+      - id: fp-s5-q1
+        tipo: quiz
+        dificuldade: intermediario
+        enunciado: "Segundo a síntese do estudo, por que Filipenses 4.6–9 não pode ser reduzido a uma receita individual de serenidade?"
+        alternativas:
+          - texto: "Porque foi escrito a uma congregação inteira sob pressão externa e atritos internos, unindo oração, mente e obediência em Cristo."
+            correta: true
+          - texto: "Porque as promessas do texto destinavam-se exclusivamente aos bispos e diáconos mencionados na saudação inicial da carta."
+            correta: false
+          - texto: "Porque a paz de Deus só se manifesta quando a comunidade alcança primeiro a remoção completa das perseguições civis."
+            correta: false
+          - texto: "Porque o imperativo de orar com gratidão substitui qualquer necessidade de reconciliação prática entre os cooperadores."
+            correta: false
+        justificativa: "Paulo escreve no plural à igreja reunida diante de hostilidade externa, preocupação com sua prisão e conflitos internos, ligando oração, pensamento e prática comunitária."
+
+      - id: fp-s5-q2
+        tipo: quiz
+        dificuldade: dificil
+        enunciado: "Qual erro pastoral o estudo recusa explicitamente ao aplicar Filipenses 4.6–8 a pessoas em sofrimento psíquico?"
+        alternativas:
+          - texto: "Tratar quadros clínicos de ansiedade como prova automática de incredulidade e hostilizar o cuidado médico ou psicológico."
+            correta: true
+          - texto: "Incentivar pessoas ansiosas a participarem da oração comunitária enquanto aguardam acompanhamento clínico adequado."
+            correta: false
+          - texto: "Reconhecer que a disciplina da mente em 4.8 contribui para combater a ruminação de boatos e o medo na igreja."
+            correta: false
+          - texto: "Lembrar que a paz de Deus guarda o coração em Cristo mesmo quando as adversidades externas não são removidas."
+            correta: false
+        justificativa: "O estudo diferencia a condução espiritual das preocupações dos transtornos clínicos de ansiedade, afirmando o cuidado médico e psicológico como boa providência divina."
+
+      - id: fp-s5-f1
+        tipo: flashcard
+        dificuldade: dificil
+        frente: "Qual contraste resume o limite pastoral sobre a resposta de Deus aos pedidos feitos em Filipenses 4.6–7?"
+        resposta_principal: "Garante a guarda da paz de Deus em Cristo, não a remoção imediata das provações"
+        aceitas:
+          - "guarda da paz nao remocao das provacoes"
+          - "guarda interior nao remocao das cadeias"
+          - "guarda a paz nao remove imediatamente as provacoes"
+          - "paz em cristo nao remocao imediata das provacoes"
+        parciais:
+          - "guarda da paz"
+          - "nao remove provacoes"
+          - "sabedoria do pai"
+        nota_explicativa: "Submeter os pedidos ao Pai significa confiar na guarda interior de sua paz enquanto o tempo e o modo da resposta permanecem em sua sabedoria."
+
+      - id: fp-s5-f2
+        tipo: flashcard
+        dificuldade: facil
+        frente: "O que impede que 'nisso pensai' (v. 8) seja confundido com pensamento positivo ou negação da dor?"
+        resposta_principal: "A ancoragem na verdade (v. 8) e na prática apostólica (v. 9)"
+        aceitas:
+          - "ancoragem na verdade e na pratica apostolica"
+          - "verdade e pratica apostolica"
+          - "verdade e obediencia"
+        parciais:
+          - "verdade"
+          - "pratica apostolica"
+          - "discernimento moral"
+        nota_explicativa: "O discernimento cristão não nega a realidade difícil nem fabrica ilusões; avalia o que é verdadeiro e justo e o traduz em obediência perseverante."
+
+      - id: fp-s5-a1
+        tipo: aberta
+        dificuldade: facil
+        enunciado: "Como o cuidado médico e psicológico se relaciona com a fé cristã na aplicação pastoral de Filipenses 4.6–7?"
+        resposta_modelo: "Sentir o peso da ansiedade ou enfrentar transtorno clínico não prova incredulidade nem pecado específico; a igreja honra a Deus quando une oração perseverante, acolhimento comunitário e encaminhamento médico e psicológico como parte da boa providência divina."
+        trecho_ancora: "Seção 5 — Síntese teológica e horizonte pastoral"
+        rubrica:
+          nucleos:
+            - rotulo: "Não reduzir sofrimento clínico a incredulidade ou pecado"
+              termos: ["clinico", "transtorno", "incredulidade", "pecado", "culpa", "psiquico"]
+              expressoes: ["nao constitui prova de incredulidade", "quadro clinico"]
+            - rotulo: "União entre oração/comunhão e cuidado médico/psicológico como providência"
+              termos: ["medico", "psicologico", "providencia", "oracao", "comunhao", "acolhimento", "cuidado"]
+              expressoes: ["boa providencia", "cuidado medico", "encaminhamento medico"]
+          sinais_erro:
+            - ["remedio mostra falta de fe", "apenas orar basta para doenca clinica"]
+
+      - id: fp-s5-a2
+        tipo: aberta
+        dificuldade: intermediario
+        enunciado: "De que maneira Filipenses 4.6–9 confronta a polarização comunitária e a dissociação entre doutrina e prática na igreja hoje?"
+        resposta_modelo: "Ele convoca os crentes a substituírem o consumo de boatos e a ruminação ansiosa pelo exame do que é verdadeiro e justo em Cristo, valorizando discipulado coerente onde palavra e vida caminham juntas e convertendo a preocupação em serviço fraterno concreto."
+        trecho_ancora: "Seção 5 — Síntese teológica e horizonte pastoral"
+        rubrica:
+          nucleos:
+            - rotulo: "Rejeição de boatos/polarização pelo exame da verdade e justiça"
+              termos: ["boatos", "desinformacao", "polarizacao", "mente", "verdadeiro", "justo", "exame"]
+              expressoes: ["consumo passivo de boatos", "polarizacao entre irmaos"]
+            - rotulo: "Coerência entre ortodoxia/palavra e serviço prático/vida"
+              termos: ["ortodoxia", "conduta", "palavra", "vida", "pratica", "servico", "parceria", "epafrodito"]
+              expressoes: ["palavra e vida", "servico fraterno", "ortodoxia professada e conduta"]
+          sinais_erro:
+            - ["basta concordar com a doutrina sem acao comunitaria"]

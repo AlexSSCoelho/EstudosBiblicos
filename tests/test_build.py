@@ -371,5 +371,185 @@ class BuildValidationTests(unittest.TestCase):
                 build.validate_source(study)
 
 
+class ReviewContractTests(unittest.TestCase):
+    def _write_sample_review(self, directory: Path, section_id: str = "secao-principal") -> None:
+        (directory / "revisao.yml").write_text(
+            f"""version: 1
+leitura_ativa:
+  - target_id: subsecao-teste
+    perguntas:
+      - "Qual o contraste central desta subseção?"
+revisao_secoes:
+  - section_id: {section_id}
+    itens:
+      - id: q1
+        tipo: quiz
+        dificuldade: facil
+        enunciado: "Pergunta 1?"
+        alternativas:
+          - texto: "A"
+            correta: true
+          - texto: "B"
+            correta: false
+          - texto: "C"
+            correta: false
+          - texto: "D"
+            correta: false
+        justificativa: "Justificativa 1."
+      - id: q2
+        tipo: quiz
+        dificuldade: intermediario
+        enunciado: "Pergunta 2?"
+        alternativas:
+          - texto: "A"
+            correta: false
+          - texto: "B"
+            correta: true
+          - texto: "C"
+            correta: false
+          - texto: "D"
+            correta: false
+        justificativa: "Justificativa 2."
+      - id: f1
+        tipo: flashcard
+        dificuldade: intermediario
+        frente: "Termo 1?"
+        resposta_principal: "Chave 1"
+        aceitas: ["chave 1"]
+        nota_explicativa: "Nota 1."
+      - id: f2
+        tipo: flashcard
+        dificuldade: facil
+        frente: "Termo 2?"
+        resposta_principal: "Chave 2"
+        aceitas: ["chave 2"]
+        nota_explicativa: "Nota 2."
+      - id: a1
+        tipo: aberta
+        dificuldade: dificil
+        enunciado: "Aberta 1?"
+        resposta_modelo: "Modelo 1."
+        rubrica:
+          nucleos:
+            - rotulo: "Núcleo 1"
+              termos: ["nucleo", "ideia"]
+            - rotulo: "Núcleo 2"
+              expressoes: ["outro ponto"]
+      - id: a2
+        tipo: aberta
+        dificuldade: dificil
+        enunciado: "Aberta 2?"
+        resposta_modelo: "Modelo 2."
+        rubrica:
+          nucleos:
+            - rotulo: "Núcleo A"
+              termos: ["alfa"]
+            - rotulo: "Núcleo B"
+              termos: ["beta"]
+""",
+            encoding="utf-8",
+        )
+
+    def test_filipenses_pilot_review_loads_and_renders(self) -> None:
+        study = build.load_study(
+            Path("Pregações/2026-07-19 - Filipenses 4.6-9 - IPR Paranaíba-MS/estudo.md")
+        )
+        self.assertIsNotNone(study.review)
+        assert study.review is not None
+        self.assertEqual(len(study.review["leitura_ativa"]), 7)
+        self.assertEqual(len(study.review["revisao_secoes"]), 5)
+        for sec in study.review["revisao_secoes"]:
+            self.assertGreaterEqual(len(sec["itens"]), 6)
+
+        generated = Path("dist/estudos/filipenses-4-6-9/index.html").read_text(encoding="utf-8")
+        self.assertIn('id="study-review-data"', generated)
+        self.assertIn('id="study-rail"', generated)
+        self.assertIn('assets/review.js', generated)
+
+    def test_all_exegetical_and_thematic_studies_have_valid_reviews(self) -> None:
+        expected = {
+            "filipenses-4-6-9": (5, 7),
+            "daniel-3-16-18": (4, 6),
+            "mateus-24-3-14": (4, 14),
+            "a-imutabilidade-de-deus": (7, 7),
+        }
+        studies = {study.study_id: study for study in build.find_studies()}
+        for study_id, (expected_h2, expected_prompts) in expected.items():
+            self.assertIn(study_id, studies)
+            study = studies[study_id]
+            self.assertIsNotNone(study.review, msg=f"{study_id} sem revisao.yml")
+            assert study.review is not None
+            self.assertEqual(len(study.review["revisao_secoes"]), expected_h2)
+            self.assertEqual(len(study.review["leitura_ativa"]), expected_prompts)
+            for section in study.review["revisao_secoes"]:
+                self.assertGreaterEqual(len(section["itens"]), 6)
+
+            generated = Path(f"dist/estudos/{study_id}/index.html").read_text(encoding="utf-8")
+            self.assertIn('id="study-review-data"', generated)
+            self.assertIn('id="study-rail"', generated)
+            self.assertIn('assets/review.js', generated)
+
+        for study in studies.values():
+            if study.metadata.get("tipo") == "devocional":
+                self.assertIsNone(study.review)
+                generated = Path(f"dist/estudos/{study.study_id}/index.html").read_text(
+                    encoding="utf-8"
+                )
+                self.assertNotIn('id="study-review-data"', generated)
+                self.assertNotIn('assets/review.js', generated)
+
+    def test_devotional_rejects_revisao_yml(self) -> None:
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as temp_dir:
+            root = Path(temp_dir)
+            study_path = root / "estudo.md"
+            study_path.write_text(
+                """---
+id: dev-teste
+tipo: devocional
+titulo: Devocional teste
+passagem: Sl 23.1
+data: 2026-10-01
+resumo: Resumo.
+---
+
+## Seção principal
+
+### Subseção teste
+
+Texto.
+""",
+                encoding="utf-8",
+            )
+            self._write_sample_review(root)
+            with self.assertRaisesRegex(build.BuildError, "estudos expositivos e temáticos"):
+                build.load_study(study_path)
+
+    def test_review_section_must_target_h2_not_h3(self) -> None:
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as temp_dir:
+            root = Path(temp_dir)
+            study_path = root / "estudo.md"
+            study_path.write_text(
+                """---
+id: exe-teste
+tipo: estudo_exegetico
+titulo: Exegético teste
+passagem: Fp 4.6
+data: 2026-10-01
+resumo: Resumo.
+---
+
+## Seção principal
+
+### Subseção teste
+
+Texto.
+""",
+                encoding="utf-8",
+            )
+            self._write_sample_review(root, section_id="subsecao-teste")
+            with self.assertRaisesRegex(build.BuildError, "h2"):
+                build.load_study(study_path)
+
+
 if __name__ == "__main__":
     unittest.main()

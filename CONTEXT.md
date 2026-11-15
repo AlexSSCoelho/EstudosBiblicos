@@ -157,7 +157,7 @@ Todos os arquivos HTML devem seguir rigorosamente este design system editorial c
    - `<summary>` estilizado com título limpo e conciso, sem siglas de léxicos ou dicionários no cabeçalho (evitando quebra de linha na UI), e botão/badge de alternância à direita.
    - Ao abrir, exibe a tabela/cartões com termos, morfologia, campos semânticos e as referências bibliográficas dos léxicos consultados (BDAG, HALOT, etc.) posicionadas elegantemente ao final do conteúdo interno.
 2. **Navegação Fixa Inteligente:**
-   - Desktop: Índice lateral sticky com destaque visual em verde floresta suave no item ativo.
+   - Desktop: Índice lateral sticky com destaque visual em verde floresta suave no item ativo e botão minimalista no cabeçalho superior para recolher/expandir o índice (`estudos_toc_collapsed_v1`), ampliando confortavelmente a largura útil de leitura sem exceder o teto ergonômico (`82ch`–`84ch`).
    - Mobile: Barra horizontal de pílulas com rolagem suave automática para o item ativo e alvos de toque confortáveis.
 3. **Política de Imagens:**
    - Arquivos locais de mapas e diagramas ficam na pasta do estudo (`./nome-imagem.png`).
@@ -171,6 +171,11 @@ Todos os arquivos HTML devem seguir rigorosamente este design system editorial c
    - Em colunas estreitas de tabelas e rótulos compostos, uma quebra de linha nunca deve mutilar uma unidade de sentido (como separar o nome/sigla do livro do número do capítulo e versículo).
    - O processo de build (`protect_semantic_units` em `build.py`) une automaticamente referências bíblicas, marcadores (`v.`, `vv.`, `cap.`, `cf.`) e datas (`a.C.`, `d.C.`) com espaço não-quebrável, deixando espaços quebráveis apenas nos limites lógicos (após `;` ou entre o título da unidade e seus paralelos). Para pares simbólicos ou rótulos curtos customizados (ex.: `A / A'`), utilize `&nbsp;` no Markdown.
    - As células de tabelas (`.prose th, .prose td` e `.lex-drawer-body table`) utilizam `vertical-align: middle`, garantindo equilíbrio visual entre linhas curtas e colunas de múltiplas linhas.
+7. **Leitura Ativa e Revisão Ativa no Desktop (`revisao.yml`):**
+   - Estudos do tipo `estudo_exegetico` e `estudo_tematico` podem incluir o arquivo irmão opcional `revisao.yml` (`version: 1`) na pasta do estudo para alimentar a coluna marginal direita (`.study-rail`) e o painel deslizante lateral (`.review-drawer`). `devocional` permanece sem revisão ativa.
+   - **Exclusivo de Desktop (`>= 1180px`):** Tanto as perguntas de leitura ativa quanto os botões e o drawer de revisão ficam completamente ocultos abaixo de `1180px` (mobile/tablet) e em `@media print` / geração de PDF (`display: none !important`).
+   - **Granularidade:** Perguntas de `leitura_ativa` são textuais (sem dicas nem respostas prontas) e ancoram-se em cada `h3` (ou nos `h2` em estudos temáticos sem `h3`). Os botões e sessões de `revisao_secoes` vinculam-se estritamente aos títulos `h2`.
+   - **Composição e Antiviés:** Cada `h2` deve possuir no mínimo **6 itens** (`>= 2 quiz`, `>= 2 flashcard`, `>= 2 aberta`) cobrindo os três níveis (`facil`, `intermediario`, `dificil`) em ordem embaralhada e indistinguível visualmente na interface (pontuação ponderada 1/2/3 apenas no resultado final). As dificuldades devem alternar entre formatos e seções sem padrão implícito, evitando viés de extensão ou distratores óbvios nas múltiplas escolhas e priorizando a lógica central do estudo e o sentido teológico dos termos-chave (aceitando transliterações sem acento e equivalentes conceituais nos flashcards).
 
 ---
 

@@ -1,0 +1,694 @@
+version: 1
+
+leitura_ativa:
+  - target_id: o-deus-que-permanece-e-responde
+    perguntas:
+      - "Observe qual aparente tensão bíblica abre a investigação e por que os textos são examinados um a um antes da síntese final."
+  - target_id: malaquias-316-a-alianca-que-preserva-os-filhos-de-jaco
+    perguntas:
+      - "Note a ordem do argumento em Malaquias 2.17–3.6: como juízo anunciado e preservação da aliança se articulam em 'Eu, o SENHOR, não mudo'?"
+  - target_id: 1-samuel-151035-o-pesar-de-deus-e-a-sentenca-sobre-saul
+    perguntas:
+      - "Compare 1 Samuel 15.11 com 15.29 e repare no que cada versículo afirma sobre a ação e o caráter de Deus diante do pecado de Saul."
+  - target_id: salmo-102128-o-criador-diante-da-transitoriedade-da-criacao
+    perguntas:
+      - "Observe por que a confissão da eternidade do Criador (v. 12 e vv. 25–27) não silencia o lamento do salmista."
+  - target_id: tiago-11218-o-pai-das-luzes-e-a-constancia-da-bondade
+    perguntas:
+      - "Repare no propósito moral de Tiago 1.17 dentro dos vv. 12–18: a imutabilidade responde a qual suspeita nascida da provação?"
+  - target_id: hebreus-61320-e-1379-promessa-juramento-e-o-cristo-que-permanece
+    perguntas:
+      - "Observe a diferença entre o foco jurídico da âncora em Hebreus 6.13–20 e a consequência comunitária de Hebreus 13.7–9."
+  - target_id: o-que-essa-constancia-permite-esperar
+    perguntas:
+      - "Note quais limites pastorais essa síntese impõe para que a doutrina da imutabilidade não seja reduzida a resposta pronta para o sofrimento."
+
+revisao_secoes:
+  - section_id: o-deus-que-permanece-e-responde
+    itens:
+      - id: im-s1-q1
+        tipo: quiz
+        dificuldade: facil
+        enunciado: "Qual pergunta central conduz o percurso canônico deste estudo temático sobre a imutabilidade de Deus?"
+        alternativas:
+          - texto: "Como Deus permanece fiel e o mesmo enquanto sente, julga, ouve e responde de maneira real na história?"
+            correta: true
+          - texto: "Como conciliar a filosofia grega da imobilidade absoluta com os títulos reais de Nabucodonosor e dos profetas?"
+            correta: false
+          - texto: "Por que o Antigo Testamento descreve um Deus sujeito a mudanças que foi substituído pelo Deus imutável do Novo?"
+            correta: false
+          - texto: "Em qual ordem cronológica os livros proféticos substituíram o culto do templo pela meditação sobre atributos abstratos?"
+            correta: false
+        justificativa: "O estudo parte das próprias declarações bíblicas que colocam lado a lado a fidelidade inalterável de Deus e suas ações reais diante da culpa, da oração e da provação."
+
+      - id: im-s1-q2
+        tipo: quiz
+        dificuldade: dificil
+        enunciado: "Por que a introdução reúne Malaquias, 1 Samuel 15, Tiago e Hebreus antes de formular uma definição única?"
+        alternativas:
+          - texto: "Para mostrar que cada passagem ilumina um ângulo concreto da constância divina a partir de sua própria crise pastoral."
+            correta: true
+          - texto: "Para provar que apenas as epístolas do Novo Testamento possuem linguagem exata sobre a natureza eterna de Deus."
+            correta: false
+          - texto: "Para demonstrar que narrativas históricas como 1 Samuel não devem ser usadas na formulação de doutrinas bíblicas."
+            correta: false
+          - texto: "Para selecionar versículos isolados que confirmem de antemão uma definição filosófica fechada sobre o tempo."
+            correta: false
+        justificativa: "Em vez de forçar uma abstração fora do texto, o estudo respeita a pergunta específica de cada passagem: aliança, juízo, transitoriedade, bondade nas tentações e promessa firme."
+
+      - id: im-s1-f1
+        tipo: flashcard
+        dificuldade: intermediario
+        frente: "Qual contraste aparente entre declarações bíblicas torna necessário examinar cada passagem em seu contexto?"
+        resposta_principal: "Deus declara não mudar (Ml 3.6; Tg 1.17), mas também se entristece (1Sm 15.11), julga, ouve o aflito e responde na história"
+        aceitas:
+          - "nao muda mas responde na historia"
+          - "permanece e age na historia"
+          - "nao muda e se entristece"
+        parciais:
+          - "agir no tempo"
+          - "sentimentos de deus"
+        nota_explicativa: "O desafio do estudo é compreender o que permanece constante em Deus quando sua ação diante dos seres humanos inclui resposta, pesar, juízo e livramento."
+
+      - id: im-s1-f2
+        tipo: flashcard
+        dificuldade: facil
+        frente: "De acordo com a abertura do estudo, qual é a preocupação específica que leva Tiago a falar da constância sem variação do Pai?"
+        resposta_principal: "A suspeita nascida na provação de que Deus seria a origem da tentação ou do mal"
+        aceitas:
+          - "deus como origem da tentacao"
+          - "suspeita de que deus tenta"
+          - "bondade nas provacoes"
+        parciais:
+          - "tentacao"
+          - "provacoes"
+        nota_explicativa: "Tiago não monta um catálogo metafísico de atributos: defende a bondade constante do Pai das luzes para que o crente provado não atribua a Deus a sedução para o pecado."
+
+      - id: im-s1-a1
+        tipo: aberta
+        dificuldade: intermediario
+        enunciado: "Explique por que afirmar que 'Deus não muda' exige atenção à aliança, ao juízo e à provação, em vez de tratar a imutabilidade como indiferença."
+        resposta_modelo: "Nas Escrituras, a constância de Deus não equivale a impassibilidade fria nem a tratar igualmente quem obedece e quem peca; ele julga e sente pesar diante do pecado precisamente porque permanece fiel ao seu caráter santo, à aliança que preservou Israel e à bondade que sustenta os provados."
+        trecho_ancora: "Seção 1 — O Deus que permanece e responde"
+        rubrica:
+          nucleos:
+            - rotulo: "Imutabilidade não é indiferença ou insensibilidade às ações humanas"
+              termos: ["indiferenca", "responde", "pesar", "juizo", "acoes", "historia", "relaciona"]
+              expressoes: ["consequencias reais", "nao e indiferenca"]
+            - rotulo: "Raiz na fidelidade ao caráter santo, à aliança e à bondade"
+              termos: ["carater", "alianca", "fiel", "fidelidade", "bondade", "promessa"]
+              expressoes: ["fiel a alianca", "constancia divina"]
+          sinais_erro:
+            - ["deus nao tem relacao real com a historia", "deus age sempre igual qualquer que seja a conduta humana"]
+
+      - id: im-s1-a2
+        tipo: aberta
+        dificuldade: dificil
+        enunciado: "Qual método de leitura bíblico-teológica orienta a organização sequencial das cinco grandes passagens do estudo?"
+        resposta_modelo: "O estudo segue o método histórico-gramatical submetido ao contexto de cada livro: ouve Malaquias sobre a preservação pactual de Judá, 1 Samuel 15 sobre o pesar e a firmeza da sentença, o Salmo 102 sobre o Criador e o tempo, Tiago 1 sobre a origem da boa dádiva e Hebreus sobre a promessa e Cristo, antes de sintetizar."
+        trecho_ancora: "Seção 1 — O Deus que permanece e responde"
+        rubrica:
+          nucleos:
+            - rotulo: "Submissão prévia a cada passagem no seu contexto próprio antes da síntese"
+              termos: ["contexto", "passagens", "exegese", "malaquias", "samuel", "salmo", "tiago", "hebreus"]
+              expressoes: ["contexto de cada texto", "sintese final"]
+            - rotulo: "Articulação progressiva de diferentes perguntas e crises pastorais"
+              termos: ["culpa", "sofrimento", "tentacao", "espera", "fidelidade", "perguntas"]
+              expressoes: ["culpa sofrimento tentacao", "cada passagem"]
+          sinais_erro:
+            - ["uso de versiculos isolados fora do contexto", "imposicao de sistema filosofico previo"]
+
+  - section_id: malaquias-316-a-alianca-que-preserva-os-filhos-de-jaco
+    itens:
+      - id: im-s2-q1
+        tipo: quiz
+        dificuldade: intermediario
+        enunciado: "Qual equívoco acontece quando lemos Malaquias 3.6 ('Eu, o SENHOR, não mudo') isolado de Malaquias 2.17–3.5?"
+        alternativas:
+          - texto: "Transforma-se em mero conforto genérico o que na verdade é confronto pactual que une juízo purificador e preservação graciosa."
+            correta: true
+          - texto: "Perde-se a referência cronológica exata ao ano em que o profeta Malaquias reconstruiu os muros ao lado de Neemias."
+            correta: false
+          - texto: "Deixa-se de perceber que o nome 'filhos de Jacó' refere-se unicamente às dez tribos do norte levadas para a Assíria."
+            correta: false
+          - texto: "Ignora-se que o verbo hebraico šānâ significa originalmente a troca anual de vestes sacerdotais no templo."
+            correta: false
+        justificativa: "O povo questionava o juízo de Deus (2.17); Deus responde que virá julgar os próprios ouvintes (3.1–5) e que só não foram consumidos porque Ele é fiel à aliança com Jacó (3.6)."
+
+      - id: im-s2-q2
+        tipo: quiz
+        dificuldade: dificil
+        enunciado: "Por que o profeta chama a geração infiel de 'filhos de Jacó' em Malaquias 3.6?"
+        alternativas:
+          - texto: "Para lembrar a origem da aliança pela graça antes de qualquer mérito moral, agravando a culpa atual mas impedindo a extinção total."
+            correta: true
+          - texto: "Para declarar que os descendentes do patriarca possuíam imunidade garantida contra qualquer disciplina divina futura."
+            correta: false
+          - texto: "Para distinguir os judeus que permaneceram na Babilônia daqueles que retornaram a Jerusalém sob domínio persa."
+            correta: false
+          - texto: "Para elogiar a perseverança exemplar daquela geração no cumprimento rigoroso dos dízimos e das ofertas puras."
+            correta: false
+        justificativa: "O título lembra que Jacó foi escolhido antes de poder exibir constância moral; isso agrava a infidelidade dos descendentes, mas explica por que Deus não rompe sua aliança destruindo-os por completo."
+
+      - id: im-s2-f1
+        tipo: flashcard
+        dificuldade: dificil
+        frente: "Qual verbo hebraico é negado por Deus em Malaquias 3.6 ('lōʾ šānîtî' — 'não mudei')?"
+        resposta_principal: "שָׁנָה (šānâ — mudar, alterar-se, tornar-se diferente)"
+        aceitas:
+          - "sana"
+          - "shana"
+          - "saniti"
+          - "shaniti"
+          - "lo saniti"
+          - "lo shaniti"
+          - "mudar"
+        parciais:
+          - "nao mudo"
+          - "alterar"
+        nota_explicativa: "Em Malaquias 3.6, Deus vincula sua imutabilidade (lōʾ šānîtî) diretamente ao seu nome pactual YHWH e à preservação dos filhos de Jacó apesar da infidelidade do povo."
+
+      - id: im-s2-f2
+        tipo: flashcard
+        dificuldade: facil
+        frente: "Qual pergunta cética dos ouvintes em Malaquias 2.17 desencadeia o discurso sobre o juízo e a constância de Deus em 3.1–6?"
+        resposta_principal: "\"Onde está o Deus do juízo?\""
+        aceitas:
+          - "onde esta o deus do juizo"
+          - "onde esta o deus da justica"
+        parciais:
+          - "deus do juizo"
+          - "por que nao julga"
+        nota_explicativa: "Os ouvintes desejavam que Deus punisse os outros, mas o profeta vira o anúncio contra a própria infidelidade cultual e social da comunidade pós-exílica."
+
+      - id: im-s2-a1
+        tipo: aberta
+        dificuldade: facil
+        enunciado: "Explique qual primeiro limite conceitual Malaquias 3.1–6 estabelece para a doutrina da imutabilidade de Deus."
+        resposta_modelo: "Constância em Deus não significa tratar toda pessoa sempre do mesmo modo independentemente do pecado, nem conceder licença para a injustiça. Precisamente porque permanece fiel ao seu caráter e à aliança, o Senhor tanto chama o povo ao arrependimento e anuncia juízo contra a opressão quanto preserva o remanescente de Jacó."
+        trecho_ancora: "Seção 2 — Malaquias 3.1–6: a aliança que preserva os filhos de Jacó"
+        rubrica:
+          nucleos:
+            - rotulo: "Não significa tratar todos sempre igual nem tolerar pecado impune"
+              termos: ["juizo", "arrependimento", "injustica", "pecado", "diferente", "confronto"]
+              expressoes: ["nao significa tratar", "chama ao arrependimento"]
+            - rotulo: "Une fidelidade pactual (preservação) com santidade justa"
+              termos: ["alianca", "fiel", "carater", "preserva", "consumidos", "santo"]
+              expressoes: ["fiel a alianca", "nao sois consumidos"]
+          sinais_erro:
+            - ["o povo tinha merito moral proprio", "deus cancela todo juizo por ser imutavel"]
+
+      - id: im-s2-a2
+        tipo: aberta
+        dificuldade: intermediario
+        enunciado: "Como o 'porque' inicial de Malaquias 3.6 conecta o atributo divino à sobrevivência histórica da comunidade pós-exílica?"
+        resposta_modelo: "Em um contexto pós-exílico marcado por ofertas defeituosas, perjúrio e opressão aos vulneráveis, a comunidade mereceria juízo destruidor; o 'porque' demonstra que a sobrevivência contínua dos filhos de Jacó não resulta da fidelidade humana, mas da constância do Senhor em sua promessa de aliança."
+        trecho_ancora: "Seção 2 — Malaquias 3.1–6: a aliança que preserva os filhos de Jacó"
+        rubrica:
+          nucleos:
+            - rotulo: "Contraste entre a infidelidade histórica do povo pós-exílico e o juízo merecido"
+              termos: ["infidelidade", "ofertas", "culpa", "oprimiam", "consumidos", "merecia"]
+              expressoes: ["comunidade culpada", "longe da restauracao"]
+            - rotulo: "Causa da preservação reside exclusivamente na fidelidade de YHWH à aliança"
+              termos: ["alianca", "sobrevivencia", "senhor", "yhwh", "razao", "promessa"]
+              expressoes: ["nao abandonar a alianca", "razao de nao serem consumidos"]
+          sinais_erro:
+            - ["povo sobreviveu por sua observancia impecavel da lei", "trata-se de garantia de imunidade para pecar"]
+
+  - section_id: 1-samuel-151035-o-pesar-de-deus-e-a-sentenca-sobre-saul
+    itens:
+      - id: im-s3-q1
+        tipo: quiz
+        dificuldade: dificil
+        enunciado: "Como 1 Samuel 15.11 ('arrependi-me de haver posto a Saul por rei') e 15.29 ('a Força de Israel não mente nem se arrepende') se conciliam no texto?"
+        alternativas:
+          - texto: "O v. 11 expressa o pesar divino real que altera a condição histórica de Saul, enquanto o v. 29 nega que Deus vacile ou revogue sua sentença como um homem."
+            correta: true
+          - texto: "O v. 11 pertence a uma tradição popular posterior que foi corrigida teologicamente pelo narrador profético no final do versículo 29."
+            correta: false
+          - texto: "O v. 29 refere-se exclusivamente à aliança com Davi séculos depois, sem aplicação imediata à decisão definitiva tomada contra Saul."
+            correta: false
+          - texto: "Ambos os versículos ensinam que Deus desistiu do juízo contra Amaleque depois que Saul ofereceu parte dos rebanhos em sacrifício."
+            correta: false
+        justificativa: "Os versículos tratam de aspectos distintos e complementares: Deus realmente sente pesar diante da rebelião e retira o reino de Saul, mas sua decisão justa não é volúvel nem negociável."
+
+      - id: im-s3-q2
+        tipo: quiz
+        dificuldade: facil
+        enunciado: "Por que a confissão tardia de Saul ('Pequei', v. 24 e v. 30) não anula a sentença divina comunicada por Samuel?"
+        alternativas:
+          - texto: "Porque Saul persiste em transferir a culpa e busca preservar sua honra pública diante dos anciãos em vez de submeter-se à palavra divina."
+            correta: true
+          - texto: "Porque Deus já havia decretado a morte física imediata de Saul antes mesmo da batalha contra os amalequitas."
+            correta: false
+          - texto: "Porque Samuel agiu movido por ressentimento pessoal pela perda de sua antiga autoridade de juiz sobre todo Israel."
+            correta: false
+          - texto: "Porque a lei mosaica proibia qualquer forma de perdão real uma vez que o rei tivesse poupado animais estrangeiros."
+            correta: false
+        justificativa: "Saul culpa o povo e pede para ser honrado diante dos anciãos; a constância justa de Deus não negocia com remorso interesseiro a palavra já sentenciada."
+
+      - id: im-s3-f1
+        tipo: flashcard
+        dificuldade: intermediario
+        frente: "Qual verbo hebraico aparece tanto em 1 Samuel 15.11 quanto em 15.29, cobrindo os sentidos de 'sentir pesar' e 'voltar atrás / mudar de ideia'?"
+        resposta_principal: "נָחַם (nāḥam)"
+        aceitas:
+          - "naham"
+          - "nacham"
+          - "sentir pesar"
+          - "arrepender-se"
+        parciais:
+          - "pesar"
+          - "compadecer"
+        nota_explicativa: "O contexto define o matiz de nāḥam: no v. 11 exprime pesar genuíno diante da desobediência de Saul; no v. 29 nega que Deus seja leviano ou mentiroso como mortais que voltam atrás."
+
+      - id: im-s3-f2
+        tipo: flashcard
+        dificuldade: dificil
+        frente: "Qual outra passagem bíblica (além de Jonas 3 e Êxodo 32) o estudo cita para explicitar que anúncios de juízo ou promessa admitem resposta à conversão humana?"
+        resposta_principal: "Jeremias 18.7–10 (a palavra sobre nações diante do arrependimento ou da maldade)"
+        aceitas:
+          - "jeremias 18"
+          - "jeremias 18.7-10"
+          - "jr 18"
+          - "jr 18.7-10"
+        parciais:
+          - "oleiro"
+          - "ninive"
+        nota_explicativa: "Em Jeremias 18.7–10, Deus mesmo revela que responder à conversão sincera (como em Nínive) ou à apostasia faz parte coerente do seu governo reto, sem implicar instabilidade moral."
+
+      - id: im-s3-a1
+        tipo: aberta
+        dificuldade: facil
+        enunciado: "Explique por que o estudo rejeita reduzir o pesar de Deus em 1 Samuel 15.11 a um 'mero detalhe de linguagem dispensável'."
+        resposta_modelo: "Porque o texto dá uma razão histórica concreta para o pesar divino ('Saul deixou de seguir-me') e liga esse pesar à ação real de retirar-lhe o reino. A resposta divina verdadeira a acontecimentos humanos revela engajamento moral vivo e santo, e não fraqueza ou perda de integridade."
+        trecho_ancora: "Seção 3 — 1 Samuel 15.10–35: o pesar de Deus e a sentença sobre Saul"
+        rubrica:
+          nucleos:
+            - rotulo: "Relação causal real com a conduta desobediente de Saul e remoção do reino"
+              termos: ["razao", "desobediencia", "reino", "condicao", "real", "acao", "saul"]
+              expressoes: ["deixou de segui-lo", "mudanca efetiva"]
+            - rotulo: "Resposta verdadeira não implica defeito moral ou mentira"
+              termos: ["integridade", "fraqueza", "engajamento", "verdadeira", "carater"]
+              expressoes: ["resposta divina verdadeira", "nao equivale a fraqueza"]
+          sinais_erro:
+            - ["o pesar mostra que deus falhou em prever o erro", "sentir pesar prova que deus mente"]
+
+      - id: im-s3-a2
+        tipo: aberta
+        dificuldade: intermediario
+        enunciado: "Como você contrastaria a ação fiel de Deus para com os 'filhos de Jacó' (Malaquias 3) e para com 'Saul' (1 Samuel 15)?"
+        resposta_modelo: "Permanecer fiel ao próprio caráter não obriga Deus a manter o mesmo relacionamento histórico com quem persiste no pecado. Em Judá, a aliança pactual sustenta uma comunidade ainda convocada ao retorno; em Saul, a palavra fiel do Senhor sustenta a sentença de rejeição dinástica contra um rei obstinado em desculpas."
+        trecho_ancora: "Seção 3 — 1 Samuel 15.10–35: o pesar de Deus e a sentença sobre Saul"
+        rubrica:
+          nucleos:
+            - rotulo: "Fidelidade não obriga uniformidade de trato independentemente da resposta humana"
+              termos: ["mesma", "relacao", "historica", "uniformidade", "pecado", "conduta"]
+              expressoes: ["mesma relacao historica", "persiste no pecado"]
+            - rotulo: "Contraste entre preservação da aliança em Judá e perda do reino em Saul"
+              termos: ["juda", "jaco", "alianca", "saul", "reino", "sentenca", "retira"]
+              expressoes: ["retira o reino", "preserva uma comunidade"]
+          sinais_erro:
+            - ["saul nunca perdeu o reino de fato", "juda foi totalmente exterminada"]
+
+  - section_id: salmo-102128-o-criador-diante-da-transitoriedade-da-criacao
+    itens:
+      - id: im-s4-q1
+        tipo: quiz
+        dificuldade: facil
+        enunciado: "Qual função exerce o contraste entre a fragilidade do mundo criado e o 'mas tu' (v. 12, v. 27) na oração do Salmo 102?"
+        alternativas:
+          - texto: "Sustenta a súplica do aflito e garante futuro ao povo de Sião apesar da brevidade e dor da vida humana."
+            correta: true
+          - texto: "Repreende o orante por lamentar sua doença em vez de silenciar diante da soberania eterna de Deus."
+            correta: false
+          - texto: "Apresenta uma teoria física antiga sobre o envelhecimento inevitável dos astros e a imortalidade da alma."
+            correta: false
+          - texto: "Declara que a esperança bíblica exige o abandono definitivo das preces pela restauração terrena de Sião."
+            correta: false
+        justificativa: "Mesmo diante da criação que envelhece como roupa, a eternidade do Criador ('tu és o mesmo') valida o lamento honesto e fundamenta a esperança para além da vida breve do salmista."
+
+      - id: im-s4-q2
+        tipo: quiz
+        dificuldade: intermediario
+        enunciado: "Como devemos articular a leitura original do Salmo 102 como oração de Israel e sua citação em Hebreus 1.10–12?"
+        alternativas:
+          - texto: "Ouvir primeiro a dor e esperança israelitas no salmo enriquece a aplicação cristológica feita em Hebreus sem apagá-las."
+            correta: true
+          - texto: "A citação em Hebreus 1 demonstra que o texto original de Israel não tinha sentido próprio antes da encarnação."
+            correta: false
+          - texto: "O Salmo 102 tratava originalmente do templo de Salomão e só recebeu sentido eterno na tradução da Septuaginta."
+            correta: false
+          - texto: "Hebreus 1 aplica os versículos 25–27 apenas à igreja futura, evitando atribuir eternidade direta à pessoa do Filho."
+            correta: false
+        justificativa: "Respeitar o gênero original de lamento de um aflito preserva a humanidade da oração e torna ainda mais clara a confissão cristológica de Hebreus 1."
+
+      - id: im-s4-f1
+        tipo: flashcard
+        dificuldade: dificil
+        frente: "Qual expressão hebraica no Salmo 102.27 é traduzida como 'Mas tu és o mesmo' e ecoa na cristologia de Hebreus?"
+        resposta_principal: "וְאַתָּה הוּא (wə’attâ hû’ — 'mas tu és Ele / o mesmo')"
+        aceitas:
+          - "weatta hu"
+          - "veatta hu"
+          - "atta hu"
+          - "wə’attâ hû’"
+          - "tu es o mesmo"
+        parciais:
+          - "o mesmo"
+          - "tu es"
+        nota_explicativa: "Essa cláusula nominal enfática opõe o Criador que não atravessa o tempo ao desgaste dos céus e da terra ('como roupa os mudarás')."
+
+      - id: im-s4-f2
+        tipo: flashcard
+        dificuldade: intermediario
+        frente: "A que comparação concreta o Salmo 102.26 recorre para descrever a transitoriedade até mesmo dos céus e da terra?"
+        resposta_principal: "Envelhecerão como um vestido e serão mudados como roupa"
+        aceitas:
+          - "roupa"
+          - "vestido"
+          - "como roupa"
+          - "como um vestido"
+        parciais:
+          - "desgaste"
+          - "tecido"
+        nota_explicativa: "Mesmo o que parece mais estável que a vida humana pertence à ordem criada e finita, em contraste com os anos do Senhor que nunca têm fim."
+
+      - id: im-s4-a1
+        tipo: aberta
+        dificuldade: dificil
+        enunciado: "Por que a eternidade de Deus no Salmo 102 legitima o lamento humano em vez de torná-lo irrelevante?"
+        resposta_modelo: "Entre o versículo 12 ('Mas tu permanecerás') e o final do salmo, o orante continua descrevendo dias encurtados, solidão e espera por Sião. A permanência de Deus não diminui a dor nem oferece explicação técnica imediata; dá ao aflito alguém estável a quem entregar sua queixa e confiança para além de sua própria morte."
+        trecho_ancora: "Seção 4 — Salmo 102.1–28: o Criador diante da transitoriedade da criação"
+        rubrica:
+          nucleos:
+            - rotulo: "O lamento e a dor permanecem expressos após o v. 12 sem censura"
+              termos: ["lamento", "queixa", "dor", "sofrimento", "silencia", "encurtamento", "v. 12"]
+              expressoes: ["nao silencia o lamento", "liberdade de lamentar"]
+            - rotulo: "Eternidade de Deus fundamenta a oração e a esperança além da finitude humana"
+              termos: ["eterno", "permanece", "oracao", "esperanca", "criacao", "confianca", "geracoes"]
+              expressoes: ["razao de continuar", "além da vida"]
+          sinais_erro:
+            - ["o salmista recebe explicacao para cada dor", "quem cre em deus nao deve lamentar"]
+
+      - id: im-s4-a2
+        tipo: aberta
+        dificuldade: facil
+        enunciado: "O que o Salmo 102 acrescenta ao argumento de Malaquias 3 e 1 Samuel 15 sobre a imutabilidade de Deus?"
+        resposta_modelo: "Enquanto Malaquias ligou a constância à aliança e 1 Samuel à veracidade da sentença divina, o Salmo 102 mostra que a permanência de Deus independe da duração de qualquer realidade criada — nem os céus nem a terra sustentam sua existência, mas ele permanece o mesmo através de todas as gerações."
+        trecho_ancora: "Seção 4 — Salmo 102.1–28: o Criador diante da transitoriedade da criação"
+        rubrica:
+          nucleos:
+            - rotulo: "Transcendência ontológica acima de toda a criação perecível"
+              termos: ["criador", "criacao", "ceus", "terra", "perecivel", "tempo", "independe"]
+              expressoes: ["nao depende da criacao", "transitoriedade"]
+            - rotulo: "Contraste ou avanço em relação a aliança (Ml) e sentença histórica (1Sm)"
+              termos: ["malaquias", "samuel", "alianca", "sentenca", "geracoes", "eterno"]
+              expressoes: ["alem da duracao", "mesmo para sempre"]
+          sinais_erro:
+            - ["o salmo nega que deus ouve oracoes", "os ceus sao tao eternos quanto deus"]
+
+  - section_id: tiago-11218-o-pai-das-luzes-e-a-constancia-da-bondade
+    itens:
+      - id: im-s5-q1
+        tipo: quiz
+        dificuldade: intermediario
+        enunciado: "De que maneira o movimento argumentativo de Tiago 1.13–18 explica a frase 'em quem não há mudança nem sombra de variação'?"
+        alternativas:
+          - texto: "Opõe o desejo humano que concebe pecado e morte à bondade constante de Deus que somente dá dons perfeitos e gera vida."
+            correta: true
+          - texto: "Ensina que Deus impede qualquer tipo de provação financeira ou perseguição de alcançar as igrejas da diáspora."
+            correta: false
+          - texto: "Apresenta um tratado astronômico completo para corrigir erros dos calendários lunares usados nas sinagogas helenistas."
+            correta: false
+          - texto: "Afirma que o crente regenerado pela palavra da verdade perde a capacidade de experimentar tentações interiores."
+            correta: false
+        justificativa: "Tiago contrasta a cadeia tentação-desejo-pecado-morte (vv. 13–15) com o Pai das luzes, fonte constante de boas dádivas e do novo nascimento (vv. 17–18)."
+
+      - id: im-s5-q2
+        tipo: quiz
+        dificuldade: dificil
+        enunciado: "Qual aspecto do caráter divino Tiago 1.17–18 acrescenta que não bastaria deduzir apenas da fidelidade pactual ou do juízo?"
+        alternativas:
+          - texto: "A positividade constante da bondade e generosidade paternal de Deus, que não abriga intenção má nem seduz ninguém ao erro."
+            correta: true
+          - texto: "A superioridade do Novo Testamento sobre a teologia dos profetas menores quanto à imortalidade dos corpos celestes."
+            correta: false
+          - texto: "A necessidade de distinguir entre dons materiais dados aos ricos e dons exclusivamente espirituais dados aos pobres."
+            correta: false
+          - texto: "A explicação detalhada da origem metafísica da queda angélica antes da criação dos luminares do firmamento."
+            correta: false
+        justificativa: "Além de fiel na aliança (Ml), veraz no juízo (1Sm) e eterno (Sl), Deus é positivamente bom e generoso — incapaz de tentar alguém ao pecado."
+
+      - id: im-s5-f1
+        tipo: flashcard
+        dificuldade: facil
+        frente: "Qual título de Deus em Tiago 1.17 contrasta o Criador invariável com os astros cujo brilho e posição mudam?"
+        resposta_principal: "Pai das luzes"
+        aceitas:
+          - "pai das luzes"
+          - "o pai das luzes"
+        parciais:
+          - "criador dos luminares"
+          - "luzes"
+        nota_explicativa: "O Criador dos luminares não sofre eclipses, declínio ou alternância de claro e escuro: sua bondade não entra em fase de sombra."
+
+      - id: im-s5-f2
+        tipo: flashcard
+        dificuldade: intermediario
+        frente: "Qual dupla de substantivos gregos em Tiago 1.17 descreve a ausência total de alteração e de obscuridade em Deus?"
+        resposta_principal: "παραλλαγή (parallagē, mudança/variação) e ἀποσκίασμα (aposkiasma, sombra projetada por rotação)"
+        aceitas:
+          - "parallage e aposkiasma"
+          - "parallage aposkiasma"
+          - "mudanca e sombra"
+          - "variacao e sombra"
+        parciais:
+          - "parallage"
+          - "aposkiasma"
+        nota_explicativa: "Não é preciso fixar um único fenômeno astronômico para captar o ponto de Tiago: as luzes criadas oscilam; o Criador nunca oscila entre bem e mal."
+
+      - id: im-s5-a1
+        tipo: aberta
+        dificuldade: dificil
+        enunciado: "Como Tiago 1.18 concretiza historicamente a 'boa dádiva' descrita no versículo 17 para leitores que atravessam provações?"
+        resposta_modelo: "Em vez de explicar a razão particular de cada sofrimento, Tiago aponta para o ato soberano e gracioso pelo qual o Pai 'nos gerou pela palavra da verdade segundo a sua vontade'. O mesmo parágrafo que inocenta Deus da tentação atribui positivamente a ele a nova vida dos crentes."
+        trecho_ancora: "Seção 5 — Tiago 1.12–18: o Pai das luzes e a constância da bondade"
+        rubrica:
+          nucleos:
+            - rotulo: "Novo nascimento pela palavra da verdade segundo a vontade divina (v. 18)"
+              termos: ["gerou", "palavra", "verdade", "vontade", "vida", "regeneracao", "v. 18"]
+              expressoes: ["gerou pela palavra", "nova vida"]
+            - rotulo: "Garantia pastoral da intenção benigna de Deus nas provações (sem explicar cada dor)"
+              termos: ["bondade", "intencao", "provas", "provacoes", "explicacao", "dadiva", "tentacao"]
+              expressoes: ["nao recebe explicacao", "constancia da bondade"]
+          sinais_erro:
+            - ["promete riqueza material imediata a todos", "ensina que deus envia tentacoes para derrubar crentes"]
+
+      - id: im-s5-a2
+        tipo: aberta
+        dificuldade: facil
+        enunciado: "Qual suspeita moral Tiago 1.13–17 combate quando alguém enfrenta dificuldades intensas?"
+        resposta_modelo: "Combate a tendência de culpar a Deus pela tentação moral ou imaginar que sua bondade alterna entre luz e trevas durante a provação. A sedução para o pecado nasce da própria cobiça humana (vv. 14–15), ao passo que de Deus procedem unicamente dons bons e perfeitos."
+        trecho_ancora: "Seção 5 — Tiago 1.12–18: o Pai das luzes e a constância da bondade"
+        rubrica:
+          nucleos:
+            - rotulo: "Rejeição de que Deus seja fonte do mal ou da tentação"
+              termos: ["tentacao", "mal", "culpar", "suspeita", "origem", "pecado"]
+              expressoes: ["origem da tentacao", "deus nao tenta"]
+            - rotulo: "Origem humana da cobiça vs. bondade imutável de Deus"
+              termos: ["desejo", "cobica", "morte", "bondade", "dadiva", "pai"]
+              expressoes: ["boa dadiva", "desejo que gera morte"]
+          sinais_erro:
+            - ["a provacao prova que deus mudou de humor", "o desejo humano e inocente"]
+
+  - section_id: hebreus-61320-e-1379-promessa-juramento-e-o-cristo-que-permanece
+    itens:
+      - id: im-s6-q1
+        tipo: quiz
+        dificuldade: dificil
+        enunciado: "Quais são as 'duas coisas imutáveis' nas quais é impossível que Deus minta em Hebreus 6.18?"
+        alternativas:
+          - texto: "A promessa feita a Abraão e o juramento por si mesmo com o qual Deus a confirmou aos herdeiros."
+            correta: true
+          - texto: "As duas tábuas da lei entregues no Sinai e o sacerdócio hereditário da casa de Arão."
+            correta: false
+          - texto: "A constância física dos céus criados e a sucessão ininterrupta de reis sobre o trono de Judá."
+            correta: false
+          - texto: "A perseverança interior do próprio crente e a unanimidade doutrinária das lideranças locais."
+            correta: false
+        justificativa: "Em 6.13–18, Deus somou à sua promessa um juramento em garantia judicial, mostrando aos herdeiros a natureza inalterável (ametáthetos) do seu propósito."
+
+      - id: im-s6-q2
+        tipo: quiz
+        dificuldade: intermediario
+        enunciado: "Como Hebreus 6.13–20 e Hebreus 13.7–9 contribuem de modos distintos para a firmeza de uma comunidade cansada?"
+        alternativas:
+          - texto: "O capítulo 6 ancora a esperança na promessa jurada e no sacerdócio de Jesus; o capítulo 13 protege contra doutrinas estranhas pela fidelidade a Cristo."
+            correta: true
+          - texto: "O capítulo 6 dirige-se apenas ao Israel antigo sob Abraão, enquanto o capítulo 13 inaugura regras morais desvinculadas da obra sacerdotal de Cristo."
+            correta: false
+          - texto: "Ambos os capítulos prometem que toda perseguição e perda de bens cessará imediatamente para quem imitar os antigos dirigentes."
+            correta: false
+          - texto: "O capítulo 13 apresenta 13.8 como citação direta de Malaquias 3.6 para substituir a autoridade pastoral dos líderes da igreja."
+            correta: false
+        justificativa: "Hebreus 6 fundamenta a esperança objetiva no acesso aberto por Jesus além do véu; Hebreus 13 aplica a permanência do mesmo Cristo ('ontem, hoje e eternamente') à estabilidade doutrinária da igreja."
+
+      - id: im-s6-f1
+        tipo: flashcard
+        dificuldade: facil
+        frente: "Qual imagem concreta em Hebreus 6.19–20 expressa a segurança da esperança cristã ligada à entrada de Jesus como precursor?"
+        resposta_principal: "Uma âncora segura e firme da alma, lançada para dentro do véu"
+        aceitas:
+          - "ancora"
+          - "ancora da alma"
+          - "ancora dentro do veu"
+        parciais:
+          - "veu"
+          - "precursor"
+        nota_explicativa: "A esperança não repousa na força emocional de quem sofre, mas está ancorada fora de nós: na obra consumada de Jesus no santuário celestial."
+
+      - id: im-s6-f2
+        tipo: flashcard
+        dificuldade: dificil
+        frente: "Qual adjetivo jurídico grego qualifica o propósito de Deus como 'inalterável / irrevogável' em Hebreus 6.17?"
+        resposta_principal: "ἀμετάθετος (ametáthetos)"
+        aceitas:
+          - "ametatheto"
+          - "ametathetos"
+          - "inalteravel"
+          - "irrevogavel"
+        parciais:
+          - "imutavel"
+          - "firme"
+        nota_explicativa: "No vocabulário jurídico helenístico, ametáthetos designava disposições testamentárias ou decretos que não podem ser alterados nem cancelados posteriormente."
+
+      - id: im-s6-a1
+        tipo: aberta
+        dificuldade: facil
+        enunciado: "O que o exemplo de Abraão em Hebreus 6.12–15 corrige na expectativa de quem confia na promessa imutável de Deus?"
+        resposta_modelo: "Abraão recebeu a promessa e o juramento, mas ainda precisou esperar com paciência antes de ver o cumprimento. Portanto, confiar numa palavra inalterável não significa exigir alívio instantâneo das aflições, mas perseverar na fé e na obediência enquanto o tempo da espera perdura."
+        trecho_ancora: "Seção 6 — Hebreus 6.13–20 e 13.7–9"
+        rubrica:
+          nucleos:
+            - rotulo: "Espera paciente de Abraão entre promessa e cumprimento"
+              termos: ["abraao", "esperou", "paciencia", "espera", "promessa", "cumprimento"]
+              expressoes: ["esperou com paciencia", "sem espera"]
+            - rotulo: "Correção da expectativa apressada de alívio imediato"
+              termos: ["aflicao", "perseveranca", "apressada", "tempo", "seguir", "ouvir"]
+              expressoes: ["expectativa apressada", "nao cessara logo"]
+          sinais_erro:
+            - ["abraao recebeu tudo no mesmo dia", "a promessa elimina o periodo de prova"]
+
+      - id: im-s6-a2
+        tipo: aberta
+        dificuldade: intermediario
+        enunciado: "Explique por que Hebreus 1.10–12 (citando o Salmo 102) ilumina a afirmação de Hebreus 13.8 ('Jesus Cristo é o mesmo, ontem, e hoje, e eternamente') sem confundir as duas passagens."
+        resposta_modelo: "Em 1.10–12, Hebreus cita explicitamente o 'tu és o mesmo' do Salmo 102 aplicando-o ao Filho soberano sobre a criação passageira; em 13.8 não há citação direta, mas o eco verbal ('o mesmo', ho autós) reforça a consistência de Jesus diante da partida dos líderes e contra ensinos estranhos: os dirigentes passam, mas Cristo e seu evangelho permanecem."
+        trecho_ancora: "Seção 6 — Hebreus 6.13–20 e 13.7–9"
+        rubrica:
+          nucleos:
+            - rotulo: "Ligação temática e verbal via 'o mesmo' (ho autós) com Hb 1 / Sl 102 sem forçar citação"
+              termos: ["salmo 102", "hebreus 1", "o mesmo", "ho autos", "eco", "citacao", "filho"]
+              expressoes: ["tu es o mesmo", "semelhanca verbal"]
+            - rotulo: "Aplicação comunitária em Hb 13: líderes passam, doutrinas mudam, Cristo permanece"
+              termos: ["dirigentes", "lideres", "doutrinas", "estranhas", "igreja", "ontem", "hoje", "eternamente"]
+              expressoes: ["doutrinas estranhas", "comunidade"]
+          sinais_erro:
+            - ["13.8 e uma citacao literal com formula introdutoria do sl 102", "13.8 nega a eternidade em 1.10"]
+
+  - section_id: o-que-essa-constancia-permite-esperar
+    itens:
+      - id: im-s7-q1
+        tipo: quiz
+        dificuldade: facil
+        enunciado: "Como a conclusão resume o impacto da imutabilidade divina sobre a prática cristã da oração?"
+        alternativas:
+          - texto: "Orar não tenta convencer Deus a tornar-se bondoso, mas clama com sinceridade e queixa a quem permanece fiel e pode agir."
+            correta: true
+          - texto: "Orar torna-se apenas repetição contemplativa de verdades doutrinárias, dispensando pedidos específicos em situações de crise."
+            correta: false
+          - texto: "Como Deus já decretou o futuro, a oração tem valor apenas psicológico de acalmar os sentimentos de quem sofre."
+            correta: false
+          - texto: "A oração eficaz depende de evitar qualquer expressão de tristeza ou dúvida diante de perdas físicas graves."
+            correta: false
+        justificativa: "O salmista lamenta e pede precisamente porque Deus permanece e ouve; o cristão ora apoiado na bondade já revelada e na sabedoria do Senhor."
+
+      - id: im-s7-q2
+        tipo: quiz
+        dificuldade: dificil
+        enunciado: "Que cuidado pastoral o estudo recomenda ao acompanhar pessoas em luto, depressão ou esgotamento à luz dessas passagens?"
+        alternativas:
+          - texto: "Evitar fórmulas fáceis que explicam a causa de cada dor, oferecendo escuta, presença, oração e ajuda prática ou clínica quando necessário."
+            correta: true
+          - texto: "Exigir que a pessoa confesse pecado oculto imediatamente com base na severidade da sentença proferida contra Saul."
+            correta: false
+          - texto: "Recomendar isolamento silencioso até que o sofrido compreenda por si só o sentido oculto de todas as suas perdas."
+            correta: false
+          - texto: "Substituir qualquer acompanhamento médico ou psicológico pela leitura repetida das promessas feitas a Abraão."
+            correta: false
+        justificativa: "O Salmo 102 dá linguagem ao lamento sem oferecer explicação causal de cada sofrimento; presença, ajuda prática e cuidado médico ou psicológico são coerentes com a compaixão cristã."
+
+      - id: im-s7-f1
+        tipo: flashcard
+        dificuldade: dificil
+        frente: "Complete a síntese final: em relação a Hebreus e Tiago, o que a constância de Deus garante sem prometer facilidade terrena?"
+        resposta_principal: "Não se torna fonte do mal nas tentações (Tiago) e não revoga a promessa que ancora a esperança em Cristo (Hebreus)"
+        aceitas:
+          - "nao e fonte do mal e nao revoga a promessa"
+          - "nao tenta ao mal e cumpre a promessa"
+        parciais:
+          - "promessa em cristo"
+          - "nao gera o mal"
+        nota_explicativa: "A imutabilidade não transforma a fé em seguro contra toda dor; ela garante quem Deus é em meio à dor, à tentação e à espera."
+
+      - id: im-s7-f2
+        tipo: flashcard
+        dificuldade: intermediario
+        frente: "Segundo a conclusão do estudo, por que a imutabilidade de Deus não deve ser usada como 'resposta pronta' indiscriminada?"
+        resposta_principal: "Porque cada passagem bíblica responde a uma situação diferente (culpa, juízo, dor, tentação, cansaço) que exige discernimento pastoral"
+        aceitas:
+          - "cada texto responde a uma situacao diferente"
+          - "exige discernimento pastoral"
+          - "situacoes distintas"
+        parciais:
+          - "nao explica cada dor"
+          - "contexto"
+        nota_explicativa: "Malaquias confronta culto injusto, 1 Samuel fecha brecha para barganha com a sentença, o Salmo acolhe o lamento, Tiago limpa a suspeita moral e Hebreus sustenta a perseverança."
+
+      - id: im-s7-a1
+        tipo: aberta
+        dificuldade: intermediario
+        enunciado: "Reúna em uma síntese pessoal o fio condutor das cinco passagens estudadas (Ml 3, 1Sm 15, Sl 102, Tg 1 e Hb 6/13) sobre o que significa Deus não mudar."
+        resposta_modelo: "Deus permanece inalterável em sua aliança ao chamar e preservar Judá (Ml 3), fiel ao seu caráter santo ao julgar Saul sem volubilidade (1Sm 15), eterno acima da criação passageira que ouve o aflito (Sl 102), constantemente bom sem jamais ser origem da tentação (Tg 1) e irrevogável na promessa ancorada em Cristo (Hb 6 e 13)."
+        trecho_ancora: "Seção 7 — O que essa constância permite esperar"
+        rubrica:
+          nucleos:
+            - rotulo: "Fidelidade pactual e integridade moral (Ml 3 e 1Sm 15)"
+              termos: ["alianca", "malaquias", "juda", "samuel", "saul", "juizo", "carater"]
+              expressoes: ["nao esquece sua alianca", "nao perde seu carater"]
+            - rotulo: "Eternidade acima da criação e bondade na provação (Sl 102 e Tg 1)"
+              termos: ["salmo", "criacao", "envelhece", "tiago", "bondade", "mal", "tentacao"]
+              expressoes: ["fonte do mal", "nao envelhece"]
+            - rotulo: "Promessa jurada e permanência em Cristo (Hb 6 e 13)"
+              termos: ["hebreus", "promessa", "cristo", "ancora", "esperanca", "revoga"]
+              expressoes: ["nao revoga a promessa", "cristo permanece"]
+          sinais_erro:
+            - ["imutabilidade significa passividade absoluta", "todos os cinco textos negam juizo divino"]
+
+      - id: im-s7-a2
+        tipo: aberta
+        dificuldade: facil
+        enunciado: "Por que a doutrina bíblica da imutabilidade impede tanto a presunção impune quanto o desespero diante da fraqueza pessoal?"
+        resposta_modelo: "Impede a presunção porque em Malaquias e 1 Samuel a constância de Deus inclui juízo santo contra a injustiça e recusa remorso manipulador; impede o desespero porque em Salmo 102, Tiago 1 e Hebreus 6 a estabilidade última não está em nossos sentimentos ou obras perecíveis, mas na bondade do Pai, na promessa jurada e em Jesus Cristo."
+        trecho_ancora: "Seção 7 — O que essa constância permite esperar"
+        rubrica:
+          nucleos:
+            - rotulo: "Freio à presunção pelo chamado ao arrependimento e seriedade do juízo"
+              termos: ["presuncao", "arrependimento", "juizo", "pecado", "injustica", "licenca"]
+              expressoes: ["nao oferece licenca", "chama ao arrependimento"]
+            - rotulo: "Consolo contra o desespero pela âncora fora de nós em Deus e Cristo"
+              termos: ["desespero", "ancora", "promessa", "bondade", "cristo", "fraqueza", "graca"]
+              expressoes: ["fora de nos", "esperanca"]
+          sinais_erro:
+            - ["a estabilidade depende da forca propria do crente", "deus muda seu amor conforme nosso humor"]

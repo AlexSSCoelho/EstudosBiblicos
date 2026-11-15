@@ -30,13 +30,22 @@
     {% endif %}
   </header>
 
-  <div class="study-shell">
+  <div class="study-shell{% if review_data %} study-shell--with-rail{% endif %}">
     {% include "components/toc.html.j2" %}
 
     <article class="study-content">
       <div class="prose study-body">{{ body_html|safe }}</div>
     </article>
+
+    {% if review_data %}
+    <aside class="study-rail" id="study-rail" aria-label="Leitura ativa e revisão por seção"></aside>
+    {% endif %}
   </div>
+
+  {% if review_data %}
+  {% include "components/review-drawer.html.j2" %}
+  <script type="application/json" id="study-review-data">{{ review_json|safe }}</script>
+  {% endif %}
 
   <footer class="site-footer">
     <div class="footer-inner">

@@ -113,4 +113,35 @@
       link.setAttribute("rel", (rel + " noopener noreferrer").trim());
     }
   });
+  const tocToggleBtn = document.getElementById("toc-toggle-btn");
+  if (tocToggleBtn) {
+    const TOC_STORAGE_KEY = "estudos_toc_collapsed_v1";
+
+    function applyTocCollapsed(collapsed) {
+      document.body.classList.toggle("toc-collapsed", collapsed);
+      tocToggleBtn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      const label = collapsed ? "Expandir índice lateral" : "Recolher índice lateral";
+      tocToggleBtn.setAttribute("aria-label", label);
+      tocToggleBtn.setAttribute("title", label);
+      window.dispatchEvent(new Event("study:layout-change"));
+    }
+
+    try {
+      if (window.localStorage.getItem(TOC_STORAGE_KEY) === "1") {
+        applyTocCollapsed(true);
+      }
+    } catch {
+      // Ignora indisponibilidade de localStorage
+    }
+
+    tocToggleBtn.addEventListener("click", () => {
+      const nextCollapsed = !document.body.classList.contains("toc-collapsed");
+      applyTocCollapsed(nextCollapsed);
+      try {
+        window.localStorage.setItem(TOC_STORAGE_KEY, nextCollapsed ? "1" : "0");
+      } catch {
+        // Ignora indisponibilidade de localStorage
+      }
+    });
+  }
 })();

@@ -127,6 +127,9 @@ PDF_DATE_RE = re.compile(
 DATA_URI_RE = re.compile(r"\bdata:", re.IGNORECASE)
 DATA_IMAGE_RE = re.compile(r"\bdata:image/", re.IGNORECASE)
 ALLOWED_EXTERNAL_SCHEMES = {"http", "https"}
+REVIEW_SUPPORTED_TYPES = frozenset({"estudo_exegetico", "estudo_tematico"})
+REVIEW_ITEM_TYPES = ("quiz", "flashcard", "aberta")
+REVIEW_DIFFICULTIES = ("facil", "intermediario", "dificil")
 
 
 class BuildError(RuntimeError):
@@ -140,6 +143,7 @@ class Study:
     body_html: str
     toc: list[dict[str, Any]]
     source_path: Path
+    review: dict[str, Any] | None = None
 
     @property
     def source_dir(self) -> Path:
@@ -610,16 +614,328 @@ def render_markdown(body: str) -> tuple[str, list[dict[str, Any]]]:
     return body_html, enrich_toc(flatten_toc(parser.toc_tokens), verse_map)
 
 
+def _require_non_empty_str(value: Any, label: str) -> str:
+    text = str(value).strip() if value is not None else ""
+    if not text:
+        raise BuildError(f"{label} não pode ficar vazio.")
+    return text
+
+
+def _require_str_list(value: Any, label: str, *, min_items: int = 1) -> list[str]:
+    if not isinstance(value, list):
+        raise BuildError(f"{label} deve ser uma lista.")
+    cleaned = [str(item).strip() for item in value if item is not None and str(item).strip()]
+    if len(cleaned) < min_items:
+        raise BuildError(f"{label} exige ao menos {min_items} item(ns) válido(s).")
+    return cleaned
+
+
+def _validate_active_reading(
+    raw_items: Any, toc_by_id: dict[str, dict[str, Any]], review_path: Path
+) -> list[dict[str, Any]]:
+    """Validate and normalize active-reading marginalia anchored to h2/h3 headings."""
+    if raw_items is None:
+        return []
+    if not isinstance(raw_items, list):
+        raise BuildError(f"{review_path}: 'leitura_ativa' deve ser uma lista.")
+
+    seen_targets: set[str] = set()
+    normalized: list[dict[str, Any]] = []
+    for index, entry in enumerate(raw_items):
+        label = f"{review_path}: leitura_ativa[{index}]"
+        if not isinstance(entry, dict):
+            raise BuildError(f"{label} deve ser um objeto.")
+        target_id = _require_non_empty_str(entry.get("target_id"), f"{label}.target_id")
+        toc_entry = toc_by_id.get(target_id)
+        if toc_entry is None or toc_entry.get("level") not in (2, 3):
+            raise BuildError(
+                f"{label}.target_id ({target_id!r}) não corresponde a um título h2 ou h3 do estudo."
+            )
+        if target_id in seen_targets:
+            raise BuildError(f"{label}.target_id duplicado: {target_id!r}.")
+        seen_targets.add(target_id)
+        perguntas = _require_str_list(entry.get("perguntas"), f"{label}.perguntas", min_items=1)
+        normalized.append(
+            {
+                "target_id": target_id,
+                "target_level": int(toc_entry["level"]),
+                "target_title": toc_entry.get("name", ""),
+                "perguntas": perguntas,
+            }
+        )
+    return normalized
+
+
+def _validate_quiz_item(item: dict[str, Any], label: str) -> dict[str, Any]:
+    enunciado = _require_non_empty_str(item.get("enunciado"), f"{label}.enunciado")
+    justificativa = _require_non_empty_str(item.get("justificativa"), f"{label}.justificativa")
+    raw_options = item.get("alternativas")
+    if not isinstance(raw_options, list) or len(raw_options) != 4:
+        raise BuildError(f"{label}.alternativas deve conter exatamente 4 opções.")
+
+    alternativas: list[dict[str, Any]] = []
+    correct_count = 0
+    for opt_index, opt in enumerate(raw_options):
+        opt_label = f"{label}.alternativas[{opt_index}]"
+        if not isinstance(opt, dict):
+            raise BuildError(f"{opt_label} deve ser um objeto com 'texto' e 'correta'.")
+        texto = _require_non_empty_str(opt.get("texto"), f"{opt_label}.texto")
+        if not isinstance(opt.get("correta"), bool):
+            raise BuildError(f"{opt_label}.correta deve ser booleano (true/false).")
+        is_correct = bool(opt["correta"])
+        if is_correct:
+            correct_count += 1
+        alternativas.append({"texto": texto, "correta": is_correct})
+
+    if correct_count != 1:
+        raise BuildError(f"{label}.alternativas deve ter exatamente 1 alternativa correta.")
+
+    return {
+        "enunciado": enunciado,
+        "alternativas": alternativas,
+        "justificativa": justificativa,
+    }
+
+
+def _validate_flashcard_item(item: dict[str, Any], label: str) -> dict[str, Any]:
+    frente = _require_non_empty_str(item.get("frente"), f"{label}.frente")
+    resposta_principal = _require_non_empty_str(
+        item.get("resposta_principal"), f"{label}.resposta_principal"
+    )
+    aceitas = _require_str_list(item.get("aceitas"), f"{label}.aceitas", min_items=1)
+    raw_parciais = item.get("parciais")
+    parciais = (
+        _require_str_list(raw_parciais, f"{label}.parciais", min_items=0)
+        if raw_parciais is not None
+        else []
+    )
+    nota_explicativa = _require_non_empty_str(
+        item.get("nota_explicativa"), f"{label}.nota_explicativa"
+    )
+    return {
+        "frente": frente,
+        "resposta_principal": resposta_principal,
+        "aceitas": aceitas,
+        "parciais": parciais,
+        "nota_explicativa": nota_explicativa,
+    }
+
+
+def _validate_open_item(item: dict[str, Any], label: str) -> dict[str, Any]:
+    enunciado = _require_non_empty_str(item.get("enunciado"), f"{label}.enunciado")
+    resposta_modelo = _require_non_empty_str(
+        item.get("resposta_modelo"), f"{label}.resposta_modelo"
+    )
+    trecho_ancora = str(item.get("trecho_ancora") or "").strip()
+
+    rubrica = item.get("rubrica")
+    if not isinstance(rubrica, dict):
+        raise BuildError(f"{label}.rubrica deve ser um objeto.")
+    raw_nucleos = rubrica.get("nucleos")
+    if not isinstance(raw_nucleos, list) or len(raw_nucleos) < 2:
+        raise BuildError(f"{label}.rubrica.nucleos exige ao menos 2 núcleos de sentido.")
+
+    nucleos: list[dict[str, Any]] = []
+    for n_index, nucleo in enumerate(raw_nucleos):
+        n_label = f"{label}.rubrica.nucleos[{n_index}]"
+        if not isinstance(nucleo, dict):
+            raise BuildError(f"{n_label} deve ser um objeto.")
+        rotulo = _require_non_empty_str(nucleo.get("rotulo"), f"{n_label}.rotulo")
+        termos = (
+            _require_str_list(nucleo.get("termos"), f"{n_label}.termos", min_items=0)
+            if nucleo.get("termos") is not None
+            else []
+        )
+        expressoes = (
+            _require_str_list(nucleo.get("expressoes"), f"{n_label}.expressoes", min_items=0)
+            if nucleo.get("expressoes") is not None
+            else []
+        )
+        if not termos and not expressoes:
+            raise BuildError(f"{n_label} precisa definir 'termos' ou 'expressoes'.")
+        nucleos.append({"rotulo": rotulo, "termos": termos, "expressoes": expressoes})
+
+    raw_sinais = rubrica.get("sinais_erro")
+    sinais_erro: list[list[str]] = []
+    if raw_sinais is not None:
+        if not isinstance(raw_sinais, list):
+            raise BuildError(f"{label}.rubrica.sinais_erro deve ser uma lista.")
+        for s_index, sinal in enumerate(raw_sinais):
+            if isinstance(sinal, str) and sinal.strip():
+                sinais_erro.append([sinal.strip()])
+            elif isinstance(sinal, list):
+                sinais_erro.append(
+                    _require_str_list(
+                        sinal, f"{label}.rubrica.sinais_erro[{s_index}]", min_items=1
+                    )
+                )
+            else:
+                raise BuildError(
+                    f"{label}.rubrica.sinais_erro[{s_index}] deve ser texto ou lista de termos."
+                )
+
+    return {
+        "enunciado": enunciado,
+        "resposta_modelo": resposta_modelo,
+        "trecho_ancora": trecho_ancora,
+        "rubrica": {
+            "nucleos": nucleos,
+            "sinais_erro": sinais_erro,
+        },
+    }
+
+
+def _validate_review_sections(
+    raw_sections: Any, h2_by_id: dict[str, dict[str, Any]], review_path: Path
+) -> list[dict[str, Any]]:
+    """Validate and normalize per-h2 review batteries (quiz, flashcard, open)."""
+    if raw_sections is None:
+        return []
+    if not isinstance(raw_sections, list):
+        raise BuildError(f"{review_path}: 'revisao_secoes' deve ser uma lista.")
+
+    seen_sections: set[str] = set()
+    seen_item_ids: set[str] = set()
+    normalized_sections: list[dict[str, Any]] = []
+
+    for sec_index, section in enumerate(raw_sections):
+        sec_label = f"{review_path}: revisao_secoes[{sec_index}]"
+        if not isinstance(section, dict):
+            raise BuildError(f"{sec_label} deve ser um objeto.")
+        section_id = _require_non_empty_str(section.get("section_id"), f"{sec_label}.section_id")
+        h2_entry = h2_by_id.get(section_id)
+        if h2_entry is None:
+            raise BuildError(
+                f"{sec_label}.section_id ({section_id!r}) não corresponde a um título h2 do estudo."
+            )
+        if section_id in seen_sections:
+            raise BuildError(f"{sec_label}.section_id duplicado: {section_id!r}.")
+        seen_sections.add(section_id)
+
+        raw_items = section.get("itens")
+        if not isinstance(raw_items, list) or len(raw_items) < 6:
+            raise BuildError(f"{sec_label}.itens exige no mínimo 6 questões.")
+
+        type_counts = {item_type: 0 for item_type in REVIEW_ITEM_TYPES}
+        difficulties_present: set[str] = set()
+        normalized_items: list[dict[str, Any]] = []
+
+        for item_index, item in enumerate(raw_items):
+            item_label = f"{sec_label}.itens[{item_index}]"
+            if not isinstance(item, dict):
+                raise BuildError(f"{item_label} deve ser um objeto.")
+            item_id = _require_non_empty_str(item.get("id"), f"{item_label}.id")
+            if item_id in seen_item_ids:
+                raise BuildError(f"{item_label}.id duplicado: {item_id!r}.")
+            seen_item_ids.add(item_id)
+
+            item_type = _require_non_empty_str(item.get("tipo"), f"{item_label}.tipo").casefold()
+            if item_type not in REVIEW_ITEM_TYPES:
+                raise BuildError(
+                    f"{item_label}.tipo inválido: {item_type!r}. Use quiz, flashcard ou aberta."
+                )
+
+            difficulty = _require_non_empty_str(
+                item.get("dificuldade"), f"{item_label}.dificuldade"
+            ).casefold()
+            if difficulty not in REVIEW_DIFFICULTIES:
+                raise BuildError(
+                    f"{item_label}.dificuldade inválida: {difficulty!r}. Use facil, intermediario ou dificil."
+                )
+
+            type_counts[item_type] += 1
+            difficulties_present.add(difficulty)
+
+            if item_type == "quiz":
+                payload = _validate_quiz_item(item, item_label)
+            elif item_type == "flashcard":
+                payload = _validate_flashcard_item(item, item_label)
+            else:
+                payload = _validate_open_item(item, item_label)
+
+            normalized_items.append(
+                {
+                    "id": item_id,
+                    "tipo": item_type,
+                    "dificuldade": difficulty,
+                    **payload,
+                }
+            )
+
+        missing_types = [t for t, count in type_counts.items() if count < 2]
+        if missing_types:
+            raise BuildError(
+                f"{sec_label}: cada h2 exige ao menos 2 itens de cada tipo; faltando em {', '.join(missing_types)}."
+            )
+        missing_difficulties = [d for d in REVIEW_DIFFICULTIES if d not in difficulties_present]
+        if missing_difficulties:
+            raise BuildError(
+                f"{sec_label}: cada h2 deve contemplar os 3 níveis de dificuldade; ausente(s): {', '.join(missing_difficulties)}."
+            )
+
+        normalized_sections.append(
+            {
+                "section_id": section_id,
+                "section_title": h2_entry.get("name", ""),
+                "itens": normalized_items,
+            }
+        )
+
+    return normalized_sections
+
+
+def load_review(
+    study_dir: Path, study_id: str, study_type: str, toc: list[dict[str, Any]]
+) -> dict[str, Any] | None:
+    """Load and validate optional active-reading and review sidecar (revisao.yml)."""
+    review_path = study_dir / "revisao.yml"
+    if not review_path.exists():
+        return None
+    if study_type not in REVIEW_SUPPORTED_TYPES:
+        raise BuildError(
+            f"{review_path}: revisão ativa é suportada apenas em estudos expositivos e temáticos."
+        )
+
+    raw_data = yaml.safe_load(review_path.read_text(encoding="utf-8"))
+    if not isinstance(raw_data, dict):
+        raise BuildError(f"{review_path}: a raiz do arquivo deve ser um objeto YAML.")
+    if raw_data.get("version") != 1:
+        raise BuildError(f"{review_path}: campo obrigatório 'version: 1' ausente ou inválido.")
+
+    toc_by_id = {entry["id"]: entry for entry in toc if entry.get("id")}
+    h2_by_id = {
+        entry["id"]: entry for entry in toc if entry.get("id") and entry.get("level") == 2
+    }
+
+    leitura_ativa = _validate_active_reading(raw_data.get("leitura_ativa"), toc_by_id, review_path)
+    revisao_secoes = _validate_review_sections(
+        raw_data.get("revisao_secoes"), h2_by_id, review_path
+    )
+    if not leitura_ativa and not revisao_secoes:
+        raise BuildError(
+            f"{review_path}: informe ao menos 'leitura_ativa' ou 'revisao_secoes'."
+        )
+
+    return {
+        "version": 1,
+        "study_id": study_id,
+        "leitura_ativa": leitura_ativa,
+        "revisao_secoes": revisao_secoes,
+    }
+
+
 def load_study(path: Path) -> Study:
     metadata, body = parse_source(path)
     metadata = normalize_metadata(metadata, path)
     body_html, toc = render_markdown(body)
+    review = load_review(path.parent, str(metadata["id"]), str(metadata["tipo"]), toc)
     study = Study(
         metadata=metadata,
         body=body,
         body_html=body_html,
         toc=toc,
         source_path=path,
+        review=review,
     )
     validate_source(study)
     return study
@@ -873,6 +1189,11 @@ def render_study(study: Study, templates: Environment, skip_pdf: bool) -> dict[s
     copy_study_assets(study)
 
     entries = [entry for entry in study.toc if entry["level"] <= 4]
+    review_json = (
+        json.dumps(study.review, ensure_ascii=False).replace("</", "<\\/")
+        if study.review is not None
+        else ""
+    )
     context = {
         "metadata": study.metadata,
         "body_html": study.body_html,
@@ -881,6 +1202,8 @@ def render_study(study: Study, templates: Environment, skip_pdf: bool) -> dict[s
         "credits": credits_context(study.metadata),
         "asset_prefix": "../../",
         "source_path": study.source_path.as_posix(),
+        "review_data": study.review,
+        "review_json": review_json,
     }
     study_type = study.metadata["tipo"]
     if study_type not in TEMPLATE_BY_TYPE:

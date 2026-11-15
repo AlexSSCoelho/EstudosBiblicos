@@ -304,6 +304,8 @@ def main() -> int:
                         )
                         assert_mobile_anchor_clear(page, target_index, path)
 
+            assert_review_pilot_desktop(page, base_url)
+            assert_remaining_reviews_desktop(page, base_url)
             browser.close()
     finally:
         httpd.shutdown()
@@ -312,6 +314,188 @@ def main() -> int:
 
     print("Frontend QA concluído: navegação, scroll, responsividade, cards e favicon OK.")
     return 0
+
+
+def assert_review_pilot_desktop(page: Page, base_url: str) -> None:
+    page.set_viewport_size({"width": 1440, "height": 900})
+    page_errors: list[str] = []
+    page.on("pageerror", lambda error: page_errors.append(str(error)))
+    page.goto(f"{base_url}/estudos/filipenses-4-6-9/", wait_until="domcontentloaded")
+    page.wait_for_timeout(200)
+    if page_errors:
+        raise AssertionError(f"erros JS no piloto de revisão: {page_errors}")
+
+    assert_no_horizontal_overflow(page, "/estudos/filipenses-4-6-9/", 1440)
+    if not page.locator("#study-rail").is_visible():
+        raise AssertionError("trilha direita deveria estar visível em 1440px")
+    if page.locator(".rail-review-btn").count() != 5:
+        raise AssertionError("deveria renderizar 5 botões h2 em Filipenses")
+    if page.locator(".rail-reading-prompt").count() != 7:
+        raise AssertionError("deveria renderizar 7 perguntas de leitura ativa h3 em Filipenses")
+
+    # Alinhamento direito entre a trilha marginal e o bloco de tese + toggle do índice lateral
+    right_diff = page.evaluate(
+        """() => {
+            const rail = document.getElementById('study-rail').getBoundingClientRect().right;
+            const thesis = document.querySelector('.thesis').getBoundingClientRect().right;
+            return Math.abs(rail - thesis);
+        }"""
+    )
+    if right_diff > 2.0:
+        raise AssertionError(f"trilha direita desalinhada com a tese: diff={right_diff}")
+
+    prose_before = page.locator(".prose").bounding_box()["width"]
+    page.locator("#toc-toggle-btn").click()
+    page.wait_for_timeout(120)
+    if page.locator(".toc").is_visible():
+        raise AssertionError("índice lateral deveria recolher ao clicar no ícone do header")
+    prose_after = page.locator(".prose").bounding_box()["width"]
+    if prose_after <= prose_before or prose_after > 920:
+        raise AssertionError(
+            f"largura de leitura após recolher TOC fora da faixa esperada: before={prose_before}, after={prose_after}"
+        )
+    page.locator("#toc-toggle-btn").click()
+    page.wait_for_timeout(120)
+    if not page.locator(".toc").is_visible():
+        raise AssertionError("índice lateral deveria expandir ao clicar novamente no ícone")
+
+    # Abrir primeira gaveta lexical e verificar zero sobreposição na trilha
+    page.locator("details.lex-drawer summary").first.click()
+    page.wait_for_timeout(120)
+    overlap = page.evaluate(
+        """() => {
+            const cards = Array.from(document.querySelectorAll('#study-rail .rail-card'));
+            const rects = cards.map((c) => c.getBoundingClientRect());
+            for (let i = 1; i < rects.length; i += 1) {
+                if (rects[i - 1].bottom > rects[i].top + 1) {
+                    return { index: i, prevBottom: rects[i - 1].bottom, top: rects[i].top };
+                }
+            }
+            return null;
+        }"""
+    )
+    if overlap:
+        raise AssertionError(f"colisão vertical na trilha direita após abrir léxico: {overlap}")
+
+    # Abrir slide-over da primeira seção e responder todos os 6 itens
+    page.locator(".rail-review-btn").first.click()
+    page.wait_for_timeout(120)
+    if not page.locator("#review-drawer").is_visible():
+        raise AssertionError("slide-over não abriu ao clicar no botão da seção")
+
+    for step in range(6):
+        card_text = page.locator("#review-drawer-body").inner_text().casefold()
+        for forbidden in ("nível:", "fácil", "intermediário", "difícil", "dificuldade"):
+            if forbidden in card_text:
+                raise AssertionError(f"dificuldade exposta na UI: {forbidden}")
+
+        if page.locator(".review-option").count() == 4:
+            page.locator(".review-option").first.click()
+            page.locator(".review-submit-btn").click()
+        elif page.locator(".review-input").count() == 1:
+            page.locator(".review-input").fill("ius italicum")
+            page.locator(".review-submit-btn").click()
+        elif page.locator(".review-textarea").count() == 1:
+            page.locator(".review-textarea").fill(
+                "A colônia romana tinha orgulho cívico e lealdade a Roma, mas a identidade cristã em Cristo relativiza esse prestígio."
+            )
+            page.locator(".review-submit-btn").click()
+            self_confirm = page.locator(".review-self-confirm-btn")
+            if self_confirm.count() == 1:
+                self_confirm.click()
+        else:
+            raise AssertionError(f"formato de questão desconhecido no passo {step}")
+
+        page.wait_for_timeout(60)
+        page.locator("#review-next-btn").click()
+        page.wait_for_timeout(80)
+
+    summary_score = page.locator(".review-summary-score").inner_text()
+    if "/ 10" not in summary_score:
+        raise AssertionError(f"nota final não exibida no resumo: {summary_score!r}")
+
+    page.keyboard.press("Escape")
+    page.wait_for_timeout(100)
+    if page.locator("#review-drawer").is_visible():
+        raise AssertionError("slide-over não fechou com Escape")
+
+    badge_after = page.locator(".rail-review-btn").first.inner_text()
+    if "Nota " not in badge_after:
+        raise AssertionError(f"botão da seção não atualizou com a nota: {badge_after!r}")
+
+    page.reload(wait_until="domcontentloaded")
+    page.wait_for_timeout(150)
+    badge_reloaded = page.locator(".rail-review-btn").first.inner_text()
+    if "Nota " not in badge_reloaded:
+        raise AssertionError(f"progresso não persistiu em localStorage: {badge_reloaded!r}")
+
+    # Garantir ocultação em tablet e mobile
+    for width, height in ((768, 900), (390, 844)):
+        page.set_viewport_size({"width": width, "height": height})
+        page.wait_for_timeout(100)
+        if page.locator("#study-rail").is_visible() or page.locator("#review-drawer").is_visible():
+            raise AssertionError(f"revisão ativa deveria estar oculta em {width}px")
+        assert_no_horizontal_overflow(page, "/estudos/filipenses-4-6-9/", width)
+
+
+def assert_remaining_reviews_desktop(page: Page, base_url: str) -> None:
+    targets = [
+        ("/estudos/daniel-3-16-18/", 4, 6),
+        ("/estudos/mateus-24-3-14/", 4, 14),
+        ("/estudos/a-imutabilidade-de-deus/", 7, 7),
+    ]
+    page_errors: list[str] = []
+    page.on("pageerror", lambda error: page_errors.append(str(error)))
+    for path, expected_buttons, expected_prompts in targets:
+        page_errors.clear()
+        page.set_viewport_size({"width": 1440, "height": 900})
+        page.goto(f"{base_url}{path}", wait_until="domcontentloaded")
+        page.wait_for_timeout(200)
+        if page_errors:
+            raise AssertionError(f"erros JS em {path}: {page_errors}")
+
+        assert_no_horizontal_overflow(page, path, 1440)
+        if not page.locator("#study-rail").is_visible():
+            raise AssertionError(f"trilha direita deveria estar visível em {path}")
+        if page.locator(".rail-review-btn").count() != expected_buttons:
+            raise AssertionError(
+                f"{path}: esperado {expected_buttons} botões h2, obtido {page.locator('.rail-review-btn').count()}"
+            )
+        if page.locator(".rail-reading-prompt").count() != expected_prompts:
+            raise AssertionError(
+                f"{path}: esperado {expected_prompts} perguntas de leitura ativa, obtido {page.locator('.rail-reading-prompt').count()}"
+            )
+
+        overlap = page.evaluate(
+            """() => {
+                const cards = Array.from(document.querySelectorAll('#study-rail .rail-card'));
+                const rects = cards.map((c) => c.getBoundingClientRect());
+                for (let i = 1; i < rects.length; i += 1) {
+                    if (rects[i - 1].bottom > rects[i].top + 1) {
+                        return { index: i, prevBottom: rects[i - 1].bottom, top: rects[i].top };
+                    }
+                }
+                return null;
+            }"""
+        )
+        if overlap:
+            raise AssertionError(f"{path}: colisão vertical na trilha direita: {overlap}")
+
+        page.locator(".rail-review-btn").first.click()
+        page.wait_for_timeout(120)
+        if not page.locator("#review-drawer").is_visible():
+            raise AssertionError(f"{path}: slide-over não abriu")
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(100)
+        if page.locator("#review-drawer").is_visible():
+            raise AssertionError(f"{path}: slide-over não fechou com Escape")
+
+        for width, height in ((768, 900), (390, 844)):
+            page.set_viewport_size({"width": width, "height": height})
+            page.wait_for_timeout(80)
+            if page.locator("#study-rail").is_visible() or page.locator("#review-drawer").is_visible():
+                raise AssertionError(f"{path}: revisão ativa deveria estar oculta em {width}px")
+            assert_no_horizontal_overflow(page, path, width)
 
 
 if __name__ == "__main__":
