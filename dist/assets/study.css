@@ -1795,8 +1795,70 @@ figcaption strong {
   cursor: not-allowed;
 }
 
+/* Termos originais com tooltip lexical rápido */
+.lex-term {
+  font-weight: 700;
+  font-style: italic;
+  color: var(--forest-2);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: rgba(48, 73, 58, 0.48);
+  text-underline-offset: 4px;
+  cursor: help;
+  border-radius: 3px;
+  transition: color .15s ease, background-color .15s ease, text-decoration-color .15s ease;
+}
+.lex-term:hover,
+.lex-term:focus-visible,
+.lex-term.is-tooltip-open {
+  color: var(--rust-dark);
+  background-color: rgba(166, 77, 46, 0.08);
+  text-decoration-color: var(--rust);
+}
+
+.lex-tooltip {
+  position: fixed;
+  z-index: 120;
+  max-width: min(340px, calc(100vw - 24px));
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 253, 248, 0.16);
+  background: var(--forest-2);
+  color: #fffdf8;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: 0.005em;
+  box-shadow: 0 12px 28px rgba(22, 32, 28, 0.24);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .15s ease, transform .15s ease;
+}
+.lex-tooltip.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.lex-tooltip::after {
+  content: "";
+  position: absolute;
+  left: var(--arrow-left, 50%);
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+}
+.lex-tooltip[data-placement="top"]::after {
+  top: 100%;
+  border-top-color: var(--forest-2);
+}
+.lex-tooltip[data-placement="bottom"]::after {
+  bottom: 100%;
+  border-bottom-color: var(--forest-2);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .study-card, .category-card, .rail-review-btn { transition: none; }
+  .study-card, .category-card, .rail-review-btn, .lex-term, .lex-tooltip { transition: none; }
   .study-card:hover, .category-card:hover, .rail-review-btn:hover { transform: none; }
 }
 
@@ -1814,8 +1876,13 @@ figcaption strong {
   
   /* Ocultar elementos de navegação e controles */
   .topbar, .toc, .mobile-toc-wrap, .skip-link, .print-action, .hero-placeholder,
-  .study-rail, .review-backdrop, .review-drawer {
+  .study-rail, .review-backdrop, .review-drawer, .lex-tooltip {
     display: none !important;
+  }
+  .lex-term {
+    color: inherit !important;
+    background-color: transparent !important;
+    text-decoration: none !important;
   }
   /* Ocultar carimbos temporais de data/hora no topo e no rodapé */
   .hero-meta-date, .footer-meta-date {

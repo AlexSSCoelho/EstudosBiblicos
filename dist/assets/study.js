@@ -145,3 +145,129 @@
     });
   }
 })();
+
+(function () {
+  "use strict";
+
+  const terms = Array.from(document.querySelectorAll(".lex-term[data-tooltip]"));
+  if (!terms.length) return;
+
+  const tooltip = document.createElement("div");
+  tooltip.className = "lex-tooltip";
+  tooltip.id = "lex-tooltip";
+  tooltip.setAttribute("role", "tooltip");
+  tooltip.hidden = true;
+  document.body.appendChild(tooltip);
+
+  let activeTerm = null;
+  let pinnedByClick = false;
+
+  terms.forEach((term) => {
+    if (!term.hasAttribute("tabindex")) {
+      term.setAttribute("tabindex", "0");
+    }
+  });
+
+  function positionTooltip(term) {
+    const rect = term.getBoundingClientRect();
+    const margin = 12;
+    const gap = 10;
+    const topbar = document.querySelector(".topbar");
+    const minTop = (topbar ? topbar.getBoundingClientRect().bottom : 0) + 8;
+
+    tooltip.style.left = "0px";
+    tooltip.style.top = "0px";
+    const tipRect = tooltip.getBoundingClientRect();
+
+    let placement = "top";
+    let top = rect.top - tipRect.height - gap;
+    if (top < minTop) {
+      placement = "bottom";
+      top = rect.bottom + gap;
+    }
+
+    const centerX = rect.left + rect.width / 2;
+    let left = centerX - tipRect.width / 2;
+    const maxLeft = window.innerWidth - tipRect.width - margin;
+    left = Math.max(margin, Math.min(left, maxLeft));
+
+    const arrowLeft = Math.max(14, Math.min(centerX - left, tipRect.width - 14));
+    tooltip.dataset.placement = placement;
+    tooltip.style.setProperty("--arrow-left", arrowLeft + "px");
+    tooltip.style.left = left + "px";
+    tooltip.style.top = top + "px";
+  }
+
+  function showTooltip(term, pin) {
+    const text = (term.getAttribute("data-tooltip") || "").trim();
+    if (!text) return;
+    if (activeTerm && activeTerm !== term) {
+      activeTerm.classList.remove("is-tooltip-open");
+      activeTerm.removeAttribute("aria-describedby");
+    }
+    activeTerm = term;
+    pinnedByClick = Boolean(pin);
+    tooltip.textContent = text;
+    tooltip.hidden = false;
+    positionTooltip(term);
+    tooltip.classList.add("is-visible");
+    term.classList.add("is-tooltip-open");
+    term.setAttribute("aria-describedby", tooltip.id);
+  }
+
+  function hideTooltip() {
+    if (!activeTerm) return;
+    activeTerm.classList.remove("is-tooltip-open");
+    activeTerm.removeAttribute("aria-describedby");
+    activeTerm = null;
+    pinnedByClick = false;
+    tooltip.classList.remove("is-visible");
+    tooltip.hidden = true;
+  }
+
+  terms.forEach((term) => {
+    term.addEventListener("mouseenter", () => {
+      if (!pinnedByClick) showTooltip(term, false);
+    });
+    term.addEventListener("mouseleave", () => {
+      if (!pinnedByClick && activeTerm === term) hideTooltip();
+    });
+    term.addEventListener("focusin", () => {
+      if (!pinnedByClick) showTooltip(term, false);
+    });
+    term.addEventListener("focusout", () => {
+      if (!pinnedByClick && activeTerm === term) hideTooltip();
+    });
+    term.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (activeTerm === term && pinnedByClick) {
+        hideTooltip();
+      } else {
+        showTooltip(term, true);
+      }
+    });
+  });
+
+  document.addEventListener("click", (e) => {
+    if (activeTerm && !e.target.closest(".lex-term")) {
+      hideTooltip();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && activeTerm) {
+      hideTooltip();
+    }
+  });
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (activeTerm) positionTooltip(activeTerm);
+    },
+    { passive: true }
+  );
+  window.addEventListener("resize", () => {
+    if (activeTerm) positionTooltip(activeTerm);
+  });
+})();

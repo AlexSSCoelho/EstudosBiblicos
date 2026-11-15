@@ -153,9 +153,10 @@ Todos os arquivos HTML devem seguir rigorosamente este design system editorial c
 - Largura máxima de linha de leitura: `74ch` (evita fadiga ocular e quebra excessiva).
 
 ### Regras de Interatividade e Ergonomia:
-1. **Gavetas Lexicais com `<details class="lex-drawer">`:**
+1. **Gavetas Lexicais com `<details class="lex-drawer">` e Tooltips (`.lex-term`):**
    - `<summary>` estilizado com título limpo e conciso, sem siglas de léxicos ou dicionários no cabeçalho (evitando quebra de linha na UI), e botão/badge de alternância à direita.
    - Ao abrir, exibe a tabela/cartões com termos, morfologia, campos semânticos e as referências bibliográficas dos léxicos consultados (BDAG, HALOT, etc.) posicionadas elegantemente ao final do conteúdo interno.
+   - Nos textos corridos e em tabelas não lexicais (fora de `<details class="lex-drawer">`), os termos bíblicos originais (hebraico, aramaico ou grego) recebem `<span class="lex-term" data-tooltip="...">termo</span>` com um mini resumo lexical direto e conciso, destacado em **negrito e itálico**. Quando houver apenas transliteração, o tooltip é aplicado sobre ela; quando houver o par original–transliteração, o tooltip é aplicado sobre o termo na língua original. As tabelas lexicais internas das gavetas permanecem inalteradas.
 2. **Navegação Fixa Inteligente:**
    - Desktop: Índice lateral sticky com destaque visual em verde floresta suave no item ativo e botão minimalista no cabeçalho superior para recolher/expandir o índice (`estudos_toc_collapsed_v1`), ampliando confortavelmente a largura útil de leitura sem exceder o teto ergonômico (`82ch`–`84ch`).
    - Mobile: Barra horizontal de pílulas com rolagem suave automática para o item ativo e alvos de toque confortáveis.
