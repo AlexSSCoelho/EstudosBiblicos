@@ -1211,7 +1211,7 @@ figcaption strong {
   }
   body.toc-collapsed .study-content {
     width: 100%;
-    max-width: 82ch;
+    max-width: min(82ch, 900px);
     margin-inline: auto;
   }
   body.toc-collapsed .prose {
@@ -1238,7 +1238,7 @@ figcaption strong {
     grid-template-columns: minmax(0, 1fr) 244px;
   }
   body.toc-collapsed .study-shell.study-shell--with-rail .study-content {
-    max-width: 84ch;
+    max-width: min(84ch, 900px);
   }
   body.toc-collapsed .study-shell.study-shell--with-rail .prose {
     max-width: 100%;
