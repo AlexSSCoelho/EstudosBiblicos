@@ -1,6 +1,6 @@
 {% if toc %}
-<nav class="toc" aria-label="Índice do estudo">
-  <p class="toc-title">Neste estudo</p>
+<nav class="toc" aria-label="{% if metadata is defined and metadata.tipo == 'pregacao' %}Índice da pregação{% else %}Índice do estudo{% endif %}">
+  <p class="toc-title">{% if metadata is defined and metadata.tipo == "pregacao" %}Nesta pregação{% else %}Neste estudo{% endif %}</p>
   <div class="toc-list">
     {% for entry in toc %}
     {% if entry.badge_type == "verse" %}
