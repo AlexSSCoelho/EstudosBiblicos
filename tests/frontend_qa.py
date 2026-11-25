@@ -86,12 +86,21 @@ def assert_toc_targets_exist(page: Page, path: str) -> list[str]:
 
 def assert_mobile_anchor_clear(page: Page, link_index: int, path: str) -> None:
     page.add_style_tag(content="html { scroll-behavior: auto !important; }")
+    trigger = page.locator("#mobile-toc-trigger")
+    if not trigger.is_visible():
+        raise AssertionError(f"barra recolhível do índice mobile não está visível em {path}")
+    trigger.click()
+    page.wait_for_timeout(80)
     link = page.locator(".toc a").nth(link_index)
     href = link.get_attribute("href")
     if not href or not href.startswith("#"):
         raise AssertionError(f"link de TOC inválido em {path}: {href!r}")
+    if not link.is_visible():
+        raise AssertionError(f"lista vertical do índice mobile não abriu em {path}")
     link.click()
-    page.wait_for_timeout(100)
+    page.wait_for_timeout(120)
+    if page.locator(".toc.is-mobile-open").count() != 0:
+        raise AssertionError(f"índice mobile não fechou após escolher seção em {path}")
     geometry = page.evaluate(
         """(id) => {
             const target = document.getElementById(id);
@@ -520,7 +529,7 @@ def assert_sermon_module_e2e(browser: object) -> None:
     old_study = build.STUDY_OUTPUT_ROOT
     old_cat = build.CATEGORY_OUTPUT_ROOT
 
-    with tempfile.TemporaryDirectory(dir=ROOT) as temp_dir:
+    with tempfile.TemporaryDirectory(dir=ROOT, ignore_cleanup_errors=True) as temp_dir:
         tmp_root = Path(temp_dir)
         build.SOURCE_ROOT = tmp_root / "Pregações"
         build.DIST_ROOT = tmp_root / "dist"

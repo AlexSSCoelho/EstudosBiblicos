@@ -250,11 +250,12 @@ class BuildRenderingTests(unittest.TestCase):
 
 
 class BuildValidationTests(unittest.TestCase):
-    def test_mobile_toc_centers_inside_bar_without_scrolling_page(self) -> None:
+    def test_mobile_toc_uses_dropdown_without_scrolling_page_on_activate(self) -> None:
         source_script = Path("assets/study.js").read_text(encoding="utf-8")
         generated_script = Path("dist/assets/study.js").read_text(encoding="utf-8")
         self.assertEqual(source_script, generated_script)
-        self.assertIn('tocNav.scrollTo({ left, behavior: "auto" });', source_script)
+        self.assertIn('mobile-toc-trigger', source_script)
+        self.assertIn('tocList.scrollTo({ top: Math.max(0, top), behavior: "auto" });', source_script)
         self.assertNotIn('link.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" })', source_script)
 
     def test_workflow_rebuilds_when_any_study_file_changes(self) -> None:

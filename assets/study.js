@@ -12,31 +12,96 @@
 
   if (!tocLinks.length || !sections.length) return;
 
+  const tocNav = document.querySelector(".toc");
+  const tocList = document.getElementById("toc-list") || (tocNav ? tocNav.querySelector(".toc-list") : null);
+  const mobileTrigger = document.getElementById("mobile-toc-trigger");
+  const mobileBadge = document.getElementById("mobile-toc-badge");
+  const mobileLabel = document.getElementById("mobile-toc-label");
+  const mobileCount = document.getElementById("mobile-toc-count");
+  const mobileMq = window.matchMedia("(max-width: 860px)");
+
+  let mobileBackdrop = null;
   let activeId = "";
 
-  function centerMobileLink(link) {
-    const tocNav = link.closest(".toc");
-    if (!tocNav) return;
-    const linkRect = link.getBoundingClientRect();
-    const navRect = tocNav.getBoundingClientRect();
-    const left = tocNav.scrollLeft + linkRect.left - navRect.left
-      - (tocNav.clientWidth - linkRect.width) / 2;
-    tocNav.scrollTo({ left, behavior: "auto" });
+  function ensureMobileBackdrop() {
+    if (!mobileBackdrop) {
+      mobileBackdrop = document.createElement("div");
+      mobileBackdrop.className = "mobile-toc-backdrop";
+      mobileBackdrop.hidden = true;
+      mobileBackdrop.addEventListener("click", () => setMobileTocOpen(false));
+      document.body.appendChild(mobileBackdrop);
+    }
+    return mobileBackdrop;
   }
+
+  function setMobileTocOpen(open) {
+    if (!tocNav || !mobileTrigger) return;
+    const shouldOpen = Boolean(open) && mobileMq.matches;
+    tocNav.classList.toggle("is-mobile-open", shouldOpen);
+    mobileTrigger.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
+    const backdrop = ensureMobileBackdrop();
+    backdrop.hidden = !shouldOpen;
+    if (shouldOpen && tocList) {
+      const activeLink = tocLinks.find((link) => link.classList.contains("active"));
+      if (activeLink) {
+        const top = activeLink.offsetTop - Math.max(0, (tocList.clientHeight - activeLink.offsetHeight) / 2);
+        tocList.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+      }
+    }
+  }
+
+  function updateMobileTrigger(activeLink, activeIndex) {
+    if (!activeLink) return;
+    if (mobileBadge) {
+      const badgeEl = activeLink.querySelector(".toc-badge");
+      mobileBadge.textContent = badgeEl ? badgeEl.textContent.trim() : "";
+    }
+    if (mobileLabel) {
+      const textEl = activeLink.querySelector(".toc-text");
+      mobileLabel.textContent = textEl ? textEl.textContent.trim() : activeLink.textContent.trim();
+    }
+    if (mobileCount && activeIndex >= 0) {
+      mobileCount.textContent = (activeIndex + 1) + "/" + tocLinks.length;
+    }
+  }
+
+  if (mobileTrigger) {
+    mobileTrigger.addEventListener("click", () => {
+      setMobileTocOpen(!tocNav.classList.contains("is-mobile-open"));
+    });
+  }
+
+  tocLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      if (mobileMq.matches && tocNav && tocNav.classList.contains("is-mobile-open")) {
+        setMobileTocOpen(false);
+      }
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && tocNav && tocNav.classList.contains("is-mobile-open")) {
+      setMobileTocOpen(false);
+      if (mobileTrigger) mobileTrigger.focus();
+    }
+  });
 
   function setActive(sectionId) {
     if (activeId === sectionId) return;
     const isInitialActivation = activeId === "";
     activeId = sectionId;
     let activeLink = null;
-    tocLinks.forEach((link) => {
+    let activeIndex = -1;
+    tocLinks.forEach((link, index) => {
       const active = link.getAttribute("href") === "#" + sectionId;
       link.classList.toggle("active", active);
       if (active) link.setAttribute("aria-current", "location");
       else link.removeAttribute("aria-current");
-      if (active) activeLink = link;
-      if (active && !isInitialActivation && !window.matchMedia("(max-width: 860px)").matches) {
-        const tocNav = link.closest(".toc");
+      if (active) {
+        activeLink = link;
+        activeIndex = index;
+      }
+      if (active && !isInitialActivation && !mobileMq.matches) {
         if (tocNav) {
           const linkRect = link.getBoundingClientRect();
           const tocRect = tocNav.getBoundingClientRect();
@@ -47,8 +112,8 @@
         }
       }
     });
-    if (activeLink && window.matchMedia("(max-width: 860px)").matches) {
-      centerMobileLink(activeLink);
+    if (activeLink) {
+      updateMobileTrigger(activeLink, activeIndex);
     }
   }
 
@@ -61,7 +126,7 @@
       return;
     }
 
-    const line = window.matchMedia("(max-width: 860px)").matches ? 150 : 170;
+    const line = mobileMq.matches ? 128 : 170;
     let current = sections[0];
     sections.forEach((section) => {
       if (section.getBoundingClientRect().top <= line) current = section;
@@ -71,20 +136,16 @@
 
   window.addEventListener("scroll", updateActiveSection, { passive: true });
   window.addEventListener("resize", () => {
+    if (!mobileMq.matches) setMobileTocOpen(false);
     updateActiveSection();
-    if (window.matchMedia("(max-width: 860px)").matches) {
-      const activeLink = tocLinks.find((link) => link.classList.contains("active"));
-      if (activeLink) centerMobileLink(activeLink);
-    }
   });
   updateActiveSection();
 
-  const tocNav = document.querySelector(".toc");
   if (tocNav) {
     tocNav.addEventListener(
       "wheel",
       function (e) {
-        if (window.matchMedia("(max-width: 860px)").matches) return;
+        if (mobileMq.matches) return;
         const scrollTop = tocNav.scrollTop;
         const scrollHeight = tocNav.scrollHeight;
         const height = tocNav.clientHeight;
