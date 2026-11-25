@@ -68,6 +68,12 @@ jobs:
           path: dist/
           if-no-files-found: error
 
+      - name: Empacotar artefato do Pages
+        if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
       - name: Persistir artefatos gerados
         shell: bash
         run: |
@@ -90,20 +96,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Baixar artefato dist
-        uses: actions/download-artifact@v4
-        with:
-          name: estudos-biblicos-dist
-          path: dist
-
-      - name: Configurar GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Empacotar artefato do Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
       - name: Publicar no GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
