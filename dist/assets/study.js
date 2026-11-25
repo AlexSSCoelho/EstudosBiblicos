@@ -320,3 +320,55 @@
     });
   }
 })();
+
+(function () {
+  "use strict";
+
+  const topbar = document.querySelector(".topbar");
+  if (!topbar || !document.body.classList.contains("study-document")) return;
+
+  const bar = document.createElement("div");
+  bar.className = "reading-progress";
+  bar.setAttribute("aria-hidden", "true");
+  const fill = document.createElement("span");
+  fill.className = "reading-progress-fill";
+  bar.appendChild(fill);
+  topbar.appendChild(bar);
+
+  const topBtn = document.createElement("button");
+  topBtn.type = "button";
+  topBtn.className = "back-to-top-btn";
+  topBtn.setAttribute("aria-label", "Voltar ao topo");
+  topBtn.setAttribute("title", "Voltar ao topo");
+  topBtn.innerHTML =
+    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="m18 15-6-6-6 6"/>' +
+    "</svg>";
+  topBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+  document.body.appendChild(topBtn);
+
+  let rafPending = false;
+  function updateScrollChrome() {
+    rafPending = false;
+    const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    const maxScroll = Math.max(
+      1,
+      document.documentElement.scrollHeight - window.innerHeight
+    );
+    const ratio = Math.min(1, Math.max(0, scrollTop / maxScroll));
+    fill.style.transform = "scaleX(" + ratio.toFixed(4) + ")";
+    topBtn.classList.toggle("is-visible", scrollTop > 460);
+  }
+
+  function scheduleUpdate() {
+    if (rafPending) return;
+    rafPending = true;
+    window.requestAnimationFrame(updateScrollChrome);
+  }
+
+  window.addEventListener("scroll", scheduleUpdate, { passive: true });
+  window.addEventListener("resize", scheduleUpdate, { passive: true });
+  updateScrollChrome();
+})();
