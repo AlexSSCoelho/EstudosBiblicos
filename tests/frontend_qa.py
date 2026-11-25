@@ -735,6 +735,10 @@ Conclusão revisada.
                 raise AssertionError("aba de pré-visualização não exibiu preview")
             page.locator("#ed-tab-write").click()
             page.locator("#ed-save-btn").click()
+            page.wait_for_timeout(120)
+            if not page.locator("#sermon-confirm-modal").is_visible():
+                raise AssertionError("modal de confirmação para criar R3 não abriu")
+            page.locator("#sermon-confirm-ok").click()
             page.wait_for_timeout(250)
             if not page.locator(".sermon-save-banner").is_visible():
                 raise AssertionError("banner de confirmação do salvamento R3 não apareceu")

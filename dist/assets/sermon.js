@@ -409,6 +409,34 @@
     return resp.json();
   }
 
+  async function ghDeleteFile(repoPath, commitMessage, sha) {
+    const url =
+      "https://api.github.com/repos/" +
+      state.repo +
+      "/contents/" +
+      encodeRepoPath(repoPath);
+    const resp = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        ...githubHeaders(),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: commitMessage,
+        sha,
+        branch: state.branch,
+      }),
+    });
+    if (!resp.ok) {
+      const detail = await resp.json().catch(() => ({}));
+      const msg = detail && detail.message ? detail.message : "HTTP " + resp.status;
+      const error = new Error(msg);
+      error.status = resp.status;
+      throw error;
+    }
+    return resp.json();
+  }
+
   function notesFilePath() {
     return "anotacoes/" + sermonData.id + ".json";
   }
@@ -763,6 +791,58 @@
       document.body.appendChild(backdropEl);
     }
     return backdropEl;
+  }
+
+  function openConfirmDialog({ kicker, title, message, confirmLabel, cancelLabel, danger }) {
+    return new Promise((resolve) => {
+      const confirmBackdrop = document.createElement("div");
+      confirmBackdrop.className = "sermon-confirm-backdrop";
+
+      const dialog = document.createElement("section");
+      dialog.className = "sermon-confirm-modal";
+      dialog.id = "sermon-confirm-modal";
+      dialog.setAttribute("role", "alertdialog");
+      dialog.setAttribute("aria-modal", "true");
+      dialog.setAttribute("aria-labelledby", "sermon-confirm-title");
+
+      dialog.innerHTML =
+        '<div class="sermon-modal-header">' +
+        '  <div>' +
+        '    <p class="sermon-modal-kicker">' + escapeHtml(kicker || "Confirmação") + '</p>' +
+        '    <h2 id="sermon-confirm-title">' + escapeHtml(title) + '</h2>' +
+        '  </div>' +
+        '</div>' +
+        '<div class="sermon-modal-body">' +
+        '  <p class="sermon-confirm-text">' + escapeHtml(message) + '</p>' +
+        '</div>' +
+        '<div class="sermon-modal-footer">' +
+        '  <button type="button" class="sermon-btn sermon-btn--ghost" id="sermon-confirm-cancel">' + escapeHtml(cancelLabel || "Cancelar") + '</button>' +
+        '  <button type="button" class="sermon-btn ' + (danger ? "sermon-btn--danger-solid" : "sermon-btn--primary") + '" id="sermon-confirm-ok">' + escapeHtml(confirmLabel || "Confirmar") + '</button>' +
+        '</div>';
+
+      function cleanup(result) {
+        document.removeEventListener("keydown", onKey, true);
+        dialog.remove();
+        confirmBackdrop.remove();
+        resolve(result);
+      }
+
+      function onKey(event) {
+        if (event.key === "Escape") {
+          event.stopPropagation();
+          cleanup(false);
+        }
+      }
+
+      confirmBackdrop.addEventListener("click", () => cleanup(false));
+      dialog.querySelector("#sermon-confirm-cancel").addEventListener("click", () => cleanup(false));
+      dialog.querySelector("#sermon-confirm-ok").addEventListener("click", () => cleanup(true));
+      document.addEventListener("keydown", onKey, true);
+
+      document.body.appendChild(confirmBackdrop);
+      document.body.appendChild(dialog);
+      dialog.querySelector("#sermon-confirm-ok").focus();
+    });
   }
 
   function closeOverlay() {
@@ -1182,7 +1262,10 @@
       '    </div>' +
       '    <details class="sermon-meta-drawer" id="ed-meta-drawer">' +
       '      <summary>' +
-      '        <span class="sermon-meta-drawer-title">Detalhes opcionais</span>' +
+      '        <span class="sermon-meta-drawer-left">' +
+      '          <svg class="sermon-meta-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>' +
+      '          <span class="sermon-meta-drawer-title">Detalhes opcionais</span>' +
+      '        </span>' +
       '        <span class="sermon-meta-drawer-preview">' + escapeHtml(metaSummaryText) + '</span>' +
       '      </summary>' +
       '      <div class="sermon-meta-grid">' +
@@ -1217,16 +1300,9 @@
       '      </div>' +
       '    </details>' +
       '    <div class="sermon-editor-toolbar">' +
-      '      <div class="sermon-fmt-group" role="toolbar" aria-label="Dicas e atalhos de formatação">' +
-      '        <button type="button" class="sermon-fmt-btn" data-fmt="h2" data-tip="Título de seção (## Título) — entra no índice">H2</button>' +
-      '        <button type="button" class="sermon-fmt-btn" data-fmt="h3" data-tip="Subtítulo (### Subtítulo)">H3</button>' +
-      '        <button type="button" class="sermon-fmt-btn" data-fmt="bold" data-tip="Negrito (**texto**)"><strong>B</strong></button>' +
-      '        <button type="button" class="sermon-fmt-btn" data-fmt="italic" data-tip="Itálico (*texto*)"><em>I</em></button>' +
-      '        <button type="button" class="sermon-fmt-btn" data-fmt="quote" data-tip="Citação ou versículo em destaque (> texto)">“”</button>' +
-      '        <button type="button" class="sermon-fmt-btn" data-fmt="ul" data-tip="Lista com marcadores (- item)">•</button>' +
-      '        <button type="button" class="sermon-fmt-btn" data-fmt="ol" data-tip="Lista numerada (1. item)">1.</button>' +
-      '        <button type="button" class="sermon-fmt-btn sermon-fmt-btn--help" id="ed-fmt-help-btn" data-tip="Ver guia rápido de formatação" aria-expanded="false">?</button>' +
-      '      </div>' +
+      '      <button type="button" class="sermon-help-toggle" id="ed-fmt-help-btn" aria-expanded="false">' +
+      '        <span class="sermon-help-icon" aria-hidden="true">?</span> Dicas de formatação' +
+      '      </button>' +
       '      <div class="sermon-tab-group" role="tablist">' +
       '        <button type="button" class="sermon-tab-btn is-active" id="ed-tab-write" role="tab" aria-selected="true">Escrever</button>' +
       '        <button type="button" class="sermon-tab-btn" id="ed-tab-preview" role="tab" aria-selected="false">Visualizar</button>' +
@@ -1252,16 +1328,20 @@
         : "") +
       '</div>';
 
+    const canDeleteRevision = !isNew && targetRevNumber > 1;
     const footer = document.createElement("div");
     footer.className = "sermon-modal-footer";
     footer.innerHTML =
       '<div class="sermon-note-form-right">' +
       '  <button type="button" class="sermon-btn sermon-btn--ghost" id="ed-download-btn">Baixar cópia</button>' +
+      (canDeleteRevision
+        ? '  <button type="button" class="sermon-btn sermon-btn--danger" id="ed-delete-btn">Excluir ' + escapeHtml(targetRevLabel) + '</button>'
+        : "") +
       '</div>' +
       '<div class="sermon-note-form-right">' +
       '  <button type="button" class="sermon-btn sermon-btn--ghost" id="ed-cancel-btn">Cancelar</button>' +
       '  <button type="button" class="sermon-btn sermon-btn--primary" id="ed-save-btn">' +
-      (isNew ? "Salvar revisão " + escapeHtml(targetRevLabel) : "Salvar alterações") +
+      (isNew ? "Criar revisão " + escapeHtml(targetRevLabel) : "Salvar alterações") +
       '  </button>' +
       '</div>';
     modal.appendChild(footer);
@@ -1283,62 +1363,69 @@
     const tabPreview = modal.querySelector("#ed-tab-preview");
     const saveBtn = modal.querySelector("#ed-save-btn");
     const downloadBtn = modal.querySelector("#ed-download-btn");
+    const deleteBtn = modal.querySelector("#ed-delete-btn");
     const fmtHelpBtn = modal.querySelector("#ed-fmt-help-btn");
     const fmtCheat = modal.querySelector("#ed-fmt-cheatsheet");
-
-    function applyFormat(kind) {
-      if (fBody.hidden) {
-        tabWrite.click();
-      }
-      const start = fBody.selectionStart || 0;
-      const end = fBody.selectionEnd || 0;
-      const value = fBody.value;
-      const selected = value.slice(start, end);
-      let replacement = "";
-      let cursorStart = start;
-      let cursorEnd = end;
-
-      if (kind === "bold") {
-        const inner = selected || "texto em destaque";
-        replacement = "**" + inner + "**";
-        cursorStart = start + 2;
-        cursorEnd = cursorStart + inner.length;
-      } else if (kind === "italic") {
-        const inner = selected || "ênfase";
-        replacement = "*" + inner + "*";
-        cursorStart = start + 1;
-        cursorEnd = cursorStart + inner.length;
-      } else {
-        const prefixes = { h2: "## ", h3: "### ", quote: "> ", ul: "- ", ol: "1. " };
-        const placeholders = {
-          h2: "Título da seção",
-          h3: "Subtítulo",
-          quote: "Citação ou versículo",
-          ul: "Item da lista",
-          ol: "Primeiro item",
-        };
-        const prefix = prefixes[kind] || "";
-        const inner = selected || placeholders[kind] || "";
-        const needsLead = start > 0 && value[start - 1] !== "\n";
-        replacement = (needsLead ? "\n" : "") + prefix + inner;
-        cursorStart = start + (needsLead ? 1 : 0) + prefix.length;
-        cursorEnd = cursorStart + inner.length;
-      }
-
-      fBody.value = value.slice(0, start) + replacement + value.slice(end);
-      fBody.focus();
-      fBody.setSelectionRange(cursorStart, cursorEnd);
-    }
-
-    modal.querySelectorAll(".sermon-fmt-btn[data-fmt]").forEach((btn) => {
-      btn.addEventListener("click", () => applyFormat(btn.getAttribute("data-fmt")));
-    });
 
     if (fmtHelpBtn && fmtCheat) {
       fmtHelpBtn.addEventListener("click", () => {
         const nextHidden = !fmtCheat.hidden;
         fmtCheat.hidden = nextHidden;
         fmtHelpBtn.setAttribute("aria-expanded", nextHidden ? "false" : "true");
+      });
+    }
+
+    if (deleteBtn) {
+      deleteBtn.addEventListener("click", async () => {
+        const confirmed = await openConfirmDialog({
+          kicker: "Ação irreversível",
+          title: "Excluir revisão " + targetRevLabel + "?",
+          message:
+            "A revisão " +
+            targetRevLabel +
+            " será removida permanentemente desta pregação. As demais revisões no histórico continuarão preservadas.",
+          confirmLabel: "Confirmar exclusão",
+          cancelLabel: "Cancelar",
+          danger: true,
+        });
+        if (!confirmed) return;
+
+        deleteBtn.disabled = true;
+        saveBtn.disabled = true;
+        feedback.hidden = false;
+        feedback.className = "sermon-feedback-msg";
+        feedback.textContent = "Excluindo revisão " + targetRevLabel + "...";
+
+        try {
+          if (!currentSha) {
+            const latest = await ghGetFile(targetPath);
+            currentSha = latest.sha;
+          }
+          if (!currentSha) {
+            throw new Error("Arquivo não encontrado.");
+          }
+          await ghDeleteFile(
+            targetPath,
+            "chore(pregacoes): excluir revisão " + targetRevLabel + " de " + (fTitulo.value.trim() || sermonData.id),
+            currentSha
+          );
+          const actionsUrl = "https://github.com/" + state.repo + "/actions";
+          saveResult.innerHTML =
+            '<div class="sermon-save-banner">' +
+            '  <strong>Revisão ' + escapeHtml(targetRevLabel) + ' excluída!</strong><br>' +
+            '  A biblioteca será atualizada automaticamente em cerca de 1 a 2 minutos. ' +
+            '  <a href="' + escapeHtml(actionsUrl) + '" target="_blank" rel="noopener noreferrer">Acompanhar publicação</a>' +
+            '</div>';
+          feedback.hidden = true;
+          setSyncStatus("Revisão " + targetRevLabel + " excluída");
+          editorBody.scrollTop = 0;
+        } catch {
+          feedback.hidden = false;
+          feedback.className = "sermon-feedback-msg sermon-feedback-msg--err";
+          feedback.textContent = "Não foi possível excluir esta revisão agora. Verifique sua conexão e tente novamente.";
+          deleteBtn.disabled = false;
+          saveBtn.disabled = false;
+        }
       });
     }
 
@@ -1432,6 +1519,23 @@
         feedback.textContent = "O texto da pregação não pode ficar vazio.";
         fBody.focus();
         return;
+      }
+
+      if (isNew) {
+        const confirmed = await openConfirmDialog({
+          kicker: "Nova revisão",
+          title: "Criar revisão " + targetRevLabel + "?",
+          message:
+            "Uma nova revisão (" +
+            targetRevLabel +
+            ") será criada com este texto, mantendo a " +
+            sermonData.revisao +
+            " preservada no histórico.",
+          confirmLabel: "Confirmar e criar " + targetRevLabel,
+          cancelLabel: "Voltar",
+          danger: false,
+        });
+        if (!confirmed) return;
       }
 
       saveBtn.disabled = true;

@@ -3185,24 +3185,36 @@ html[data-theme="dark"] .lex-tooltip[data-placement="bottom"]::after {
   background: var(--bg);
 }
 .sermon-meta-drawer > summary {
-  padding: 9px 13px;
+  padding: 10px 14px;
   cursor: pointer;
   list-style: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  font-size: .8rem;
+  font-size: .82rem;
 }
 .sermon-meta-drawer > summary::-webkit-details-marker { display: none; }
+.sermon-meta-drawer-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+.sermon-meta-chevron {
+  color: var(--muted);
+  transition: transform .18s ease;
+}
+.sermon-meta-drawer[open] .sermon-meta-chevron {
+  transform: rotate(180deg);
+}
 .sermon-meta-drawer-title {
   font-weight: 700;
   color: var(--forest-2);
-  flex-shrink: 0;
 }
 .sermon-meta-drawer-preview {
   color: var(--muted);
-  font-size: .77rem;
+  font-size: .78rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -3211,7 +3223,7 @@ html[data-theme="dark"] .lex-tooltip[data-placement="bottom"]::after {
   border-bottom: 1px solid var(--soft-line);
 }
 .sermon-meta-drawer .sermon-meta-grid {
-  padding: 12px 13px 14px;
+  padding: 12px 14px 14px;
   margin-bottom: 0;
 }
 
@@ -3223,86 +3235,97 @@ html[data-theme="dark"] .lex-tooltip[data-placement="bottom"]::after {
   gap: 8px 12px;
   margin-bottom: 8px;
 }
-.sermon-fmt-group {
+.sermon-help-toggle {
   display: inline-flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 4px;
-}
-.sermon-fmt-btn {
-  position: relative;
-  min-width: 30px;
-  height: 30px;
-  padding: 0 8px;
+  gap: 6px;
+  padding: 5px 10px;
   border: 1px solid var(--soft-line);
-  border-radius: 5px;
+  border-radius: 999px;
   background: var(--bg);
-  color: var(--ink);
-  font-size: .78rem;
+  color: var(--muted);
+  font-size: .77rem;
   font-weight: 700;
   cursor: pointer;
+  transition: border-color .15s ease, color .15s ease, background-color .15s ease;
+}
+.sermon-help-toggle:hover,
+.sermon-help-toggle[aria-expanded="true"] {
+  border-color: var(--forest);
+  color: var(--forest-2);
+  background: var(--paper);
+}
+.sermon-help-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  font-size: .68rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: border-color .14s ease, background-color .14s ease, color .14s ease;
-}
-.sermon-fmt-btn:hover,
-.sermon-fmt-btn:focus-visible {
-  border-color: var(--forest);
-  background: var(--paper);
-  color: var(--forest-2);
-}
-.sermon-fmt-btn--help {
-  border-radius: 999px;
-  color: var(--muted);
-  margin-left: 2px;
-}
-.sermon-fmt-btn[data-tip]::after {
-  content: attr(data-tip);
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 7px);
-  transform: translateX(-50%) translateY(3px);
-  padding: 5px 9px;
-  border-radius: 5px;
-  background: var(--forest-2);
-  color: #fffdf8;
-  font-family: var(--font-sans);
-  font-size: .72rem;
-  font-weight: 500;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  z-index: 20;
-  box-shadow: 0 6px 16px rgba(22, 32, 28, .22);
-  transition: opacity .15s ease, transform .15s ease;
-}
-.sermon-fmt-btn[data-tip]:hover::after,
-.sermon-fmt-btn[data-tip]:focus-visible::after {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
 }
 .sermon-fmt-cheatsheet {
   display: flex;
   flex-wrap: wrap;
   gap: 6px 14px;
-  padding: 8px 12px;
+  padding: 9px 13px;
   margin-bottom: 10px;
-  border: 1px solid var(--soft-line);
-  border-radius: 5px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
   background: var(--bg);
-  font-size: .77rem;
-  color: var(--muted);
+  font-size: .79rem;
+  color: var(--ink);
 }
 .sermon-fmt-cheatsheet[hidden] {
   display: none !important;
 }
 .sermon-fmt-cheatsheet code {
-  padding: 1px 5px;
-  border-radius: 3px;
-  background: var(--paper);
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--paper-2);
   color: var(--forest-2);
-  font-size: .75rem;
+  font-weight: 700;
+  font-size: .76rem;
+}
+
+.sermon-confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: rgba(12, 18, 15, .56);
+  backdrop-filter: blur(2px);
+  animation: sermonFadeIn .15s ease both;
+}
+.sermon-confirm-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 160;
+  width: min(440px, calc(100vw - 28px));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, .32);
+  overflow: hidden;
+  animation: sermonModalIn .18s cubic-bezier(.22, 1, .36, 1) both;
+}
+.sermon-confirm-text {
+  margin: 0;
+  font-size: .92rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.sermon-btn--danger-solid {
+  border-color: var(--rust-dark);
+  background: var(--rust-dark);
+  color: #fffdf8;
+}
+.sermon-btn--danger-solid:hover:not(:disabled) {
+  background: var(--rust);
+  border-color: var(--rust);
+  color: #fffdf8;
 }
 
 .sermon-auth-connected-card {
@@ -3525,6 +3548,57 @@ html[data-theme="dark"] .sermon-tab-btn.is-active {
 }
 html[data-theme="dark"] .sermon-btn--primary:hover:not(:disabled) {
   background: #2f513d;
+}
+html[data-theme="dark"] .sermon-btn--ghost {
+  color: #cdd6d0;
+  border-color: var(--line);
+}
+html[data-theme="dark"] .sermon-meta-drawer {
+  background: var(--paper-2);
+  border-color: var(--line);
+}
+html[data-theme="dark"] .sermon-meta-drawer-title {
+  color: #edf1ee;
+}
+html[data-theme="dark"] .sermon-meta-drawer-preview,
+html[data-theme="dark"] .sermon-meta-chevron {
+  color: #b5c0b9;
+}
+html[data-theme="dark"] .sermon-help-toggle {
+  background: var(--paper-2);
+  border-color: var(--line);
+  color: #d2dbd5;
+}
+html[data-theme="dark"] .sermon-help-toggle:hover,
+html[data-theme="dark"] .sermon-help-toggle[aria-expanded="true"] {
+  border-color: var(--forest);
+  color: #f4f1e8;
+  background: #233a2c;
+}
+html[data-theme="dark"] .sermon-tab-group {
+  background: var(--paper-2);
+  border-color: var(--line);
+}
+html[data-theme="dark"] .sermon-tab-btn {
+  color: #c2ccc5;
+}
+html[data-theme="dark"] .sermon-fmt-cheatsheet {
+  background: var(--paper-2);
+  border-color: var(--line);
+  color: #e4e9e6;
+}
+html[data-theme="dark"] .sermon-fmt-cheatsheet code {
+  background: #233a2c;
+  color: #e8f3ec;
+}
+html[data-theme="dark"] .sermon-btn--danger {
+  border-color: rgba(237, 160, 133, .45);
+  color: #f4b39c;
+}
+html[data-theme="dark"] .sermon-btn--danger-solid {
+  background: #9c3d20;
+  border-color: #b84d2c;
+  color: #fffdf8;
 }
 html[data-theme="dark"] .sermon-note-textarea,
 html[data-theme="dark"] .sermon-field-input,
