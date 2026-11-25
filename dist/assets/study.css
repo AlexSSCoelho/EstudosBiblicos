@@ -1233,7 +1233,7 @@ figcaption strong {
     justify-content: space-between;
     gap: 12px;
     text-align: left;
-    transition: background-color .15s ease;
+    transition: background-color .15s ease, padding .2s ease;
   }
   .mobile-toc-trigger:active {
     background: rgba(48, 73, 58, .06);
@@ -1255,11 +1255,14 @@ figcaption strong {
   .mobile-toc-label {
     min-width: 0;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    white-space: normal;
+    text-wrap: pretty;
     font-size: .82rem;
     font-weight: 600;
-    line-height: 1.3;
+    line-height: 1.28;
     color: var(--forest-2);
   }
   .mobile-toc-meta {
@@ -1376,7 +1379,7 @@ figcaption strong {
     color: var(--forest);
     opacity: 1;
   }
-  .prose h2, .prose h3, .prose h4, .verse-marker { scroll-margin-top: calc(var(--topbar) + 58px); }
+  .prose h2, .prose h3, .prose h4, .verse-marker { scroll-margin-top: calc(var(--topbar) + 68px); }
   .mobile-toc-wrap { padding: 0 18px; }
   .mobile-toc-wrap .toc { margin-left: -18px; margin-right: -18px; }
   .lex-drawer-body table th:first-child,
