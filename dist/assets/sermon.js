@@ -797,6 +797,7 @@
    * ------------------------------------------------------------------ */
 
   function openAuthModal() {
+    const isConnected = Boolean(state.token);
     const modal = document.createElement("section");
     modal.className = "sermon-modal";
     modal.id = "sermon-auth-modal";
@@ -804,69 +805,84 @@
     modal.setAttribute("aria-modal", "true");
     modal.setAttribute("aria-labelledby", "sermon-auth-title");
 
-    modal.innerHTML =
-      '<div class="sermon-modal-header">' +
-      '  <div>' +
-      '    <p class="sermon-modal-kicker">Acesso pessoal</p>' +
-      '    <h2 id="sermon-auth-title">Entrar para anotar e revisar</h2>' +
-      '  </div>' +
-      '  <button type="button" class="review-close-btn" id="sermon-modal-close" aria-label="Fechar">&times;</button>' +
-      '</div>' +
-      '<div class="sermon-modal-body">' +
-      '  <p class="sermon-field-help" style="margin-top:0;margin-bottom:14px;">' +
-      '    Cole abaixo a sua chave pessoal para liberar anotações por seção e criar novas revisões (R2, R3...) direto por aqui. Ela fica salva apenas neste aparelho.' +
-      '  </p>' +
-      '  <div class="sermon-field">' +
-      '    <label for="sermon-gh-token">Chave de acesso</label>' +
-      '    <input type="password" class="sermon-field-input" id="sermon-gh-token" autocomplete="off" placeholder="Cole sua chave aqui">' +
-      '  </div>' +
-      '  <details style="margin-top:10px;">' +
-      '    <summary style="cursor:pointer;font-size:.82rem;font-weight:700;color:var(--forest);">Como criar ou recuperar minha chave?</summary>' +
-      '    <ol class="sermon-field-help" style="margin:8px 0 0;padding-left:18px;">' +
-      '      <li>Abra a página para <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">criar sua chave no GitHub</a>.</li>' +
-      '      <li>Selecione apenas a biblioteca <strong>EstudosBiblicos</strong>.</li>' +
-      '      <li>Em permissões de conteúdo (<em>Contents</em>), marque <strong>Read and write</strong>, gere a chave e cole no campo acima.</li>' +
-      '    </ol>' +
-      '  </details>' +
-      '  <details style="margin-top:10px;">' +
-      '    <summary style="cursor:pointer;font-size:.78rem;font-weight:600;color:var(--muted);">Configurações avançadas</summary>' +
-      '    <div style="margin-top:10px;">' +
-      '      <div class="sermon-field">' +
-      '        <label for="sermon-gh-repo">Biblioteca</label>' +
-      '        <input type="text" class="sermon-field-input" id="sermon-gh-repo">' +
-      '      </div>' +
-      '      <div class="sermon-field">' +
-      '        <label for="sermon-gh-branch">Versão principal</label>' +
-      '        <input type="text" class="sermon-field-input" id="sermon-gh-branch">' +
-      '      </div>' +
-      '    </div>' +
-      '  </details>' +
-      '  <p class="sermon-feedback-msg" id="sermon-auth-feedback" hidden></p>' +
-      '</div>' +
-      '<div class="sermon-modal-footer">' +
-      '  <div>' +
-      (state.token
-        ? '<button type="button" class="sermon-btn sermon-btn--danger" id="sermon-auth-disconnect">Sair neste aparelho</button>'
-        : "") +
-      '  </div>' +
-      '  <div class="sermon-note-form-right">' +
-      '    <button type="button" class="sermon-btn sermon-btn--ghost" id="sermon-auth-cancel">Cancelar</button>' +
-      '    <button type="button" class="sermon-btn sermon-btn--primary" id="sermon-auth-save">' + (state.token ? "Atualizar chave" : "Entrar") + '</button>' +
-      '  </div>' +
-      '</div>';
+    if (isConnected) {
+      modal.innerHTML =
+        '<div class="sermon-modal-header">' +
+        '  <div>' +
+        '    <p class="sermon-modal-kicker">Acesso pessoal</p>' +
+        '    <h2 id="sermon-auth-title">Acesso ativo neste aparelho</h2>' +
+        '  </div>' +
+        '  <button type="button" class="review-close-btn" id="sermon-modal-close" aria-label="Fechar">&times;</button>' +
+        '</div>' +
+        '<div class="sermon-modal-body">' +
+        '  <div class="sermon-auth-connected-card">' +
+        '    <span class="sermon-status-dot" aria-hidden="true"></span>' +
+        '    <div>' +
+        '      <strong>Sua chave pessoal está protegida neste navegador.</strong>' +
+        '      <p class="sermon-field-help" style="margin:3px 0 0;">Por segurança, a chave atual não é exibida novamente. Você pode sair deste aparelho ou substituí-la por uma nova.</p>' +
+        '    </div>' +
+        '  </div>' +
+        '  <details class="sermon-auth-replace" id="sermon-replace-details">' +
+        '    <summary>Substituir por uma nova chave</summary>' +
+        '    <div style="margin-top:12px;">' +
+        '      <div class="sermon-field">' +
+        '        <label for="sermon-gh-token">Nova chave de acesso</label>' +
+        '        <input type="password" class="sermon-field-input" id="sermon-gh-token" autocomplete="new-password" spellcheck="false" placeholder="Cole a nova chave aqui">' +
+        '      </div>' +
+        '      <div style="display:flex;justify-content:flex-end;">' +
+        '        <button type="button" class="sermon-btn sermon-btn--primary" id="sermon-auth-save">Salvar nova chave</button>' +
+        '      </div>' +
+        '    </div>' +
+        '  </details>' +
+        '  <p class="sermon-feedback-msg" id="sermon-auth-feedback" hidden></p>' +
+        '</div>' +
+        '<div class="sermon-modal-footer">' +
+        '  <button type="button" class="sermon-btn sermon-btn--danger" id="sermon-auth-disconnect">Sair neste aparelho</button>' +
+        '  <button type="button" class="sermon-btn sermon-btn--secondary" id="sermon-auth-cancel">Fechar</button>' +
+        '</div>';
+    } else {
+      modal.innerHTML =
+        '<div class="sermon-modal-header">' +
+        '  <div>' +
+        '    <p class="sermon-modal-kicker">Acesso pessoal</p>' +
+        '    <h2 id="sermon-auth-title">Entrar para anotar e revisar</h2>' +
+        '  </div>' +
+        '  <button type="button" class="review-close-btn" id="sermon-modal-close" aria-label="Fechar">&times;</button>' +
+        '</div>' +
+        '<div class="sermon-modal-body">' +
+        '  <p class="sermon-field-help" style="margin-top:0;margin-bottom:14px;">' +
+        '    Cole sua chave pessoal para liberar anotações por seção e revisões (R2, R3...). Ela fica salva apenas neste aparelho.' +
+        '  </p>' +
+        '  <div class="sermon-field">' +
+        '    <label for="sermon-gh-token">Chave de acesso</label>' +
+        '    <input type="password" class="sermon-field-input" id="sermon-gh-token" autocomplete="new-password" spellcheck="false" placeholder="Cole sua chave aqui">' +
+        '  </div>' +
+        '  <details class="sermon-help-steps">' +
+        '    <summary>Como criar minha chave no GitHub (4 passos)</summary>' +
+        '    <ol class="sermon-steps-list">' +
+        '      <li>Acesse <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">Criar chave no GitHub</a> e dê um nome (ex.: <code>estudos-biblicos</code>).</li>' +
+        '      <li>Em <strong>Repository access</strong>, marque <strong>Only select repositories</strong> e escolha <strong>EstudosBiblicos</strong>.</li>' +
+        '      <li>Em <strong>Permissions</strong>, clique em <strong>+ Add permissions</strong>, marque <strong>Contents</strong> e mude para <strong>Read and write</strong>.</li>' +
+        '      <li>Clique em <strong>Generate token</strong>, copie a chave gerada e cole no campo acima.</li>' +
+        '    </ol>' +
+        '  </details>' +
+        '  <p class="sermon-feedback-msg" id="sermon-auth-feedback" hidden></p>' +
+        '</div>' +
+        '<div class="sermon-modal-footer">' +
+        '  <span class="sermon-field-help" style="margin:0;">Armazenamento local e privado.</span>' +
+        '  <div class="sermon-note-form-right">' +
+        '    <button type="button" class="sermon-btn sermon-btn--ghost" id="sermon-auth-cancel">Cancelar</button>' +
+        '    <button type="button" class="sermon-btn sermon-btn--primary" id="sermon-auth-save">Entrar</button>' +
+        '  </div>' +
+        '</div>';
+    }
 
     openOverlay(modal);
 
     const tokenInput = modal.querySelector("#sermon-gh-token");
-    const repoInput = modal.querySelector("#sermon-gh-repo");
-    const branchInput = modal.querySelector("#sermon-gh-branch");
     const feedback = modal.querySelector("#sermon-auth-feedback");
     const saveBtn = modal.querySelector("#sermon-auth-save");
     const disconnectBtn = modal.querySelector("#sermon-auth-disconnect");
-
-    tokenInput.value = state.token;
-    repoInput.value = state.repo;
-    branchInput.value = state.branch;
 
     modal.querySelector("#sermon-modal-close").addEventListener("click", closeOverlay);
     modal.querySelector("#sermon-auth-cancel").addEventListener("click", closeOverlay);
@@ -882,42 +898,47 @@
       });
     }
 
-    saveBtn.addEventListener("click", async () => {
-      const token = tokenInput.value.trim();
-      const repo = repoInput.value.trim() || sermonData.github_repo || "AlexSSCoelho/EstudosBiblicos";
-      const branch = branchInput.value.trim() || sermonData.github_branch || "main";
+    if (saveBtn && tokenInput) {
+      saveBtn.addEventListener("click", async () => {
+        const token = tokenInput.value.trim();
+        const repo = state.repo || sermonData.github_repo || "AlexSSCoelho/EstudosBiblicos";
+        const branch = state.branch || sermonData.github_branch || "main";
 
-      if (!token) {
+        if (!token) {
+          feedback.hidden = false;
+          feedback.className = "sermon-feedback-msg sermon-feedback-msg--err";
+          feedback.textContent = "Cole sua chave de acesso para continuar.";
+          tokenInput.focus();
+          return;
+        }
+
+        saveBtn.disabled = true;
         feedback.hidden = false;
-        feedback.className = "sermon-feedback-msg sermon-feedback-msg--err";
-        feedback.textContent = "Cole sua chave de acesso para continuar.";
-        tokenInput.focus();
-        return;
-      }
+        feedback.className = "sermon-feedback-msg";
+        feedback.textContent = "Verificando acesso...";
 
-      saveBtn.disabled = true;
-      feedback.hidden = false;
-      feedback.className = "sermon-feedback-msg";
-      feedback.textContent = "Verificando acesso...";
+        try {
+          await ghVerifyAccess(token, repo);
+          state.token = token;
+          state.repo = repo;
+          state.branch = branch;
+          writeStorage(STORAGE_TOKEN, token);
+          writeStorage(STORAGE_REPO, repo);
+          writeStorage(STORAGE_BRANCH, branch);
+          tokenInput.value = "";
+          closeOverlay();
+          await applyAuthorMode(true);
+        } catch (err) {
+          feedback.className = "sermon-feedback-msg sermon-feedback-msg--err";
+          feedback.textContent = err && err.message ? err.message : "Não foi possível validar sua chave.";
+          saveBtn.disabled = false;
+        }
+      });
+    }
 
-      try {
-        await ghVerifyAccess(token, repo);
-        state.token = token;
-        state.repo = repo;
-        state.branch = branch;
-        writeStorage(STORAGE_TOKEN, token);
-        writeStorage(STORAGE_REPO, repo);
-        writeStorage(STORAGE_BRANCH, branch);
-        closeOverlay();
-        await applyAuthorMode(true);
-      } catch (err) {
-        feedback.className = "sermon-feedback-msg sermon-feedback-msg--err";
-        feedback.textContent = err && err.message ? err.message : "Não foi possível validar sua chave.";
-        saveBtn.disabled = false;
-      }
-    });
-
-    tokenInput.focus();
+    if (!isConnected && tokenInput) {
+      tokenInput.focus();
+    }
   }
 
   /* ------------------------------------------------------------------
@@ -1140,53 +1161,86 @@
       : "Editar " + targetRevLabel;
 
     const hasSidebar = referenceNotes.length > 0;
+    const metaSummaryParts = [
+      initialMeta.passagem,
+      initialMeta.tema,
+      initialMeta.igreja,
+      initialMeta.data,
+    ].filter(Boolean);
+    const metaSummaryText = metaSummaryParts.length
+      ? metaSummaryParts.join(" · ")
+      : "Passagem, tema, data, local, resumo e nota da revisão";
+
     const editorBody = modal.querySelector("#sermon-editor-body");
     editorBody.innerHTML =
       '<div id="sermon-save-result"></div>' +
       '<div class="sermon-editor-layout' + (hasSidebar ? "" : " sermon-editor-layout--single") + '">' +
       '  <div class="sermon-editor-main">' +
-      '    <div class="sermon-meta-grid">' +
-      '      <div class="sermon-field sermon-field--wide">' +
-      '        <label for="ed-titulo">Título *</label>' +
-      '        <input type="text" class="sermon-field-input" id="ed-titulo" required>' +
-      '      </div>' +
-      '      <div class="sermon-field">' +
-      '        <label for="ed-passagem">Passagem (opcional)</label>' +
-      '        <input type="text" class="sermon-field-input" id="ed-passagem" placeholder="Ex.: Salmo 23.1–6">' +
-      '      </div>' +
-      '      <div class="sermon-field">' +
-      '        <label for="ed-tema">Tema (opcional)</label>' +
-      '        <input type="text" class="sermon-field-input" id="ed-tema" placeholder="Ex.: Fidelidade de Deus">' +
-      '      </div>' +
-      '      <div class="sermon-field">' +
-      '        <label for="ed-data">Data (opcional)</label>' +
-      '        <input type="date" class="sermon-field-input" id="ed-data">' +
-      '      </div>' +
-      '      <div class="sermon-field">' +
-      '        <label for="ed-igreja">Local / Igreja (opcional)</label>' +
-      '        <input type="text" class="sermon-field-input" id="ed-igreja" placeholder="Ex.: IPR Paranaíba-MS">' +
-      '      </div>' +
-      '      <div class="sermon-field">' +
-      '        <label for="ed-traducao">Tradução (opcional)</label>' +
-      '        <input type="text" class="sermon-field-input" id="ed-traducao" placeholder="Ex.: ACF, NVI, ARA">' +
-      '      </div>' +
-      '      <div class="sermon-field sermon-field--wide">' +
-      '        <label for="ed-resumo">Resumo breve (opcional)</label>' +
-      '        <input type="text" class="sermon-field-input" id="ed-resumo" placeholder="Uma frase curta para o catálogo">' +
-      '      </div>' +
-      '      <div class="sermon-field sermon-field--full">' +
-      '        <label for="ed-nota-revisao">Nota desta revisão (opcional)</label>' +
-      '        <input type="text" class="sermon-field-input" id="ed-nota-revisao" placeholder="Ex.: Reorganizado ponto 2 e ajustada conclusão">' +
-      '      </div>' +
+      '    <div class="sermon-editor-title-row">' +
+      '      <label for="ed-titulo" class="sr-only">Título da pregação</label>' +
+      '      <input type="text" class="sermon-title-input" id="ed-titulo" placeholder="Título da pregação" required>' +
       '    </div>' +
-      '    <div class="sermon-editor-tabs">' +
-      '      <label for="ed-body" style="font-size:.78rem;font-weight:700;color:var(--forest-2);">Texto da pregação</label>' +
+      '    <details class="sermon-meta-drawer" id="ed-meta-drawer">' +
+      '      <summary>' +
+      '        <span class="sermon-meta-drawer-title">Detalhes opcionais</span>' +
+      '        <span class="sermon-meta-drawer-preview">' + escapeHtml(metaSummaryText) + '</span>' +
+      '      </summary>' +
+      '      <div class="sermon-meta-grid">' +
+      '        <div class="sermon-field">' +
+      '          <label for="ed-passagem">Passagem</label>' +
+      '          <input type="text" class="sermon-field-input" id="ed-passagem" placeholder="Ex.: Salmo 23.1–6">' +
+      '        </div>' +
+      '        <div class="sermon-field">' +
+      '          <label for="ed-tema">Tema</label>' +
+      '          <input type="text" class="sermon-field-input" id="ed-tema" placeholder="Ex.: Fidelidade de Deus">' +
+      '        </div>' +
+      '        <div class="sermon-field">' +
+      '          <label for="ed-data">Data</label>' +
+      '          <input type="date" class="sermon-field-input" id="ed-data">' +
+      '        </div>' +
+      '        <div class="sermon-field">' +
+      '          <label for="ed-igreja">Local / Igreja</label>' +
+      '          <input type="text" class="sermon-field-input" id="ed-igreja" placeholder="Ex.: IPR Paranaíba-MS">' +
+      '        </div>' +
+      '        <div class="sermon-field">' +
+      '          <label for="ed-traducao">Tradução</label>' +
+      '          <input type="text" class="sermon-field-input" id="ed-traducao" placeholder="Ex.: ACF, NVI, ARA">' +
+      '        </div>' +
+      '        <div class="sermon-field sermon-field--wide">' +
+      '          <label for="ed-resumo">Resumo breve</label>' +
+      '          <input type="text" class="sermon-field-input" id="ed-resumo" placeholder="Uma frase curta para o catálogo">' +
+      '        </div>' +
+      '        <div class="sermon-field sermon-field--full">' +
+      '          <label for="ed-nota-revisao">Nota desta revisão</label>' +
+      '          <input type="text" class="sermon-field-input" id="ed-nota-revisao" placeholder="Ex.: Reorganizado ponto 2 e ajustada conclusão">' +
+      '        </div>' +
+      '      </div>' +
+      '    </details>' +
+      '    <div class="sermon-editor-toolbar">' +
+      '      <div class="sermon-fmt-group" role="toolbar" aria-label="Dicas e atalhos de formatação">' +
+      '        <button type="button" class="sermon-fmt-btn" data-fmt="h2" data-tip="Título de seção (## Título) — entra no índice">H2</button>' +
+      '        <button type="button" class="sermon-fmt-btn" data-fmt="h3" data-tip="Subtítulo (### Subtítulo)">H3</button>' +
+      '        <button type="button" class="sermon-fmt-btn" data-fmt="bold" data-tip="Negrito (**texto**)"><strong>B</strong></button>' +
+      '        <button type="button" class="sermon-fmt-btn" data-fmt="italic" data-tip="Itálico (*texto*)"><em>I</em></button>' +
+      '        <button type="button" class="sermon-fmt-btn" data-fmt="quote" data-tip="Citação ou versículo em destaque (> texto)">“”</button>' +
+      '        <button type="button" class="sermon-fmt-btn" data-fmt="ul" data-tip="Lista com marcadores (- item)">•</button>' +
+      '        <button type="button" class="sermon-fmt-btn" data-fmt="ol" data-tip="Lista numerada (1. item)">1.</button>' +
+      '        <button type="button" class="sermon-fmt-btn sermon-fmt-btn--help" id="ed-fmt-help-btn" data-tip="Ver guia rápido de formatação" aria-expanded="false">?</button>' +
+      '      </div>' +
       '      <div class="sermon-tab-group" role="tablist">' +
       '        <button type="button" class="sermon-tab-btn is-active" id="ed-tab-write" role="tab" aria-selected="true">Escrever</button>' +
       '        <button type="button" class="sermon-tab-btn" id="ed-tab-preview" role="tab" aria-selected="false">Visualizar</button>' +
       '      </div>' +
       '    </div>' +
-      '    <textarea class="sermon-markdown-input" id="ed-body" spellcheck="true"></textarea>' +
+      '    <div class="sermon-fmt-cheatsheet" id="ed-fmt-cheatsheet" hidden>' +
+      '      <span><code>## Título</code> seção no índice</span>' +
+      '      <span><code>### Subtítulo</code> subtópico</span>' +
+      '      <span><code>**texto**</code> <strong>negrito</strong></span>' +
+      '      <span><code>*texto*</code> <em>itálico</em></span>' +
+      '      <span><code>&gt; frase</code> citação</span>' +
+      '      <span><code>- item</code> lista</span>' +
+      '    </div>' +
+      '    <textarea class="sermon-markdown-input" id="ed-body" spellcheck="true" placeholder="Escreva ou ajuste o esboço da sua pregação aqui..."></textarea>' +
       '    <div class="sermon-preview-pane prose" id="ed-preview" hidden></div>' +
       '    <p class="sermon-feedback-msg" id="ed-feedback" hidden></p>' +
       '  </div>' +
@@ -1229,6 +1283,64 @@
     const tabPreview = modal.querySelector("#ed-tab-preview");
     const saveBtn = modal.querySelector("#ed-save-btn");
     const downloadBtn = modal.querySelector("#ed-download-btn");
+    const fmtHelpBtn = modal.querySelector("#ed-fmt-help-btn");
+    const fmtCheat = modal.querySelector("#ed-fmt-cheatsheet");
+
+    function applyFormat(kind) {
+      if (fBody.hidden) {
+        tabWrite.click();
+      }
+      const start = fBody.selectionStart || 0;
+      const end = fBody.selectionEnd || 0;
+      const value = fBody.value;
+      const selected = value.slice(start, end);
+      let replacement = "";
+      let cursorStart = start;
+      let cursorEnd = end;
+
+      if (kind === "bold") {
+        const inner = selected || "texto em destaque";
+        replacement = "**" + inner + "**";
+        cursorStart = start + 2;
+        cursorEnd = cursorStart + inner.length;
+      } else if (kind === "italic") {
+        const inner = selected || "ênfase";
+        replacement = "*" + inner + "*";
+        cursorStart = start + 1;
+        cursorEnd = cursorStart + inner.length;
+      } else {
+        const prefixes = { h2: "## ", h3: "### ", quote: "> ", ul: "- ", ol: "1. " };
+        const placeholders = {
+          h2: "Título da seção",
+          h3: "Subtítulo",
+          quote: "Citação ou versículo",
+          ul: "Item da lista",
+          ol: "Primeiro item",
+        };
+        const prefix = prefixes[kind] || "";
+        const inner = selected || placeholders[kind] || "";
+        const needsLead = start > 0 && value[start - 1] !== "\n";
+        replacement = (needsLead ? "\n" : "") + prefix + inner;
+        cursorStart = start + (needsLead ? 1 : 0) + prefix.length;
+        cursorEnd = cursorStart + inner.length;
+      }
+
+      fBody.value = value.slice(0, start) + replacement + value.slice(end);
+      fBody.focus();
+      fBody.setSelectionRange(cursorStart, cursorEnd);
+    }
+
+    modal.querySelectorAll(".sermon-fmt-btn[data-fmt]").forEach((btn) => {
+      btn.addEventListener("click", () => applyFormat(btn.getAttribute("data-fmt")));
+    });
+
+    if (fmtHelpBtn && fmtCheat) {
+      fmtHelpBtn.addEventListener("click", () => {
+        const nextHidden = !fmtCheat.hidden;
+        fmtCheat.hidden = nextHidden;
+        fmtHelpBtn.setAttribute("aria-expanded", nextHidden ? "false" : "true");
+      });
+    }
 
     fTitulo.value = initialMeta.titulo || "";
     fPassagem.value = initialMeta.passagem || "";

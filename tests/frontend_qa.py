@@ -727,6 +727,7 @@ Conclusão revisada.
                 raise AssertionError("modal do editor de revisão não abriu")
             if "Trazer ilustração da ovelha" not in page.locator("#ed-ref-notes-list").inner_text():
                 raise AssertionError("notas da R1 não apareceram na barra lateral do editor R3")
+            page.locator("#ed-meta-drawer summary").click()
             page.locator("#ed-nota-revisao").fill("Versão R3 criada direto no navegador.")
             page.locator("#ed-tab-preview").click()
             page.wait_for_timeout(80)
