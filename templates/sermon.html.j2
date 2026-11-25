@@ -21,7 +21,7 @@
         <p class="sermon-lead">{{ metadata.resumo }}</p>
         {% endif %}
 
-        {% set has_meta = metadata.passagem or metadata.traducao or metadata.igreja or metadata.data_formatada or metadata.estudo_origem %}
+        {% set has_meta = metadata.passagem or metadata.traducao or metadata.igreja or metadata.data_formatada or origin_study %}
         {% if has_meta or revisions|length > 1 %}
         <div class="sermon-meta-bar">
           {% if has_meta %}
@@ -30,7 +30,7 @@
             {% if metadata.traducao %}<span class="sermon-meta-item">{{ metadata.traducao }}</span>{% endif %}
             {% if metadata.igreja %}<span class="sermon-meta-item">{{ metadata.igreja }}</span>{% endif %}
             {% if metadata.data_formatada %}<span class="sermon-meta-item hero-meta-date">{{ metadata.data_formatada }}</span>{% endif %}
-            {% if metadata.estudo_origem %}<a class="sermon-origin-link" href="../{{ metadata.estudo_origem }}/">Estudo de origem <span aria-hidden="true">→</span></a>{% endif %}
+            {% if origin_study %}<a class="sermon-origin-link" href="{{ origin_study.href }}" title="Abrir estudo base: {{ origin_study.titulo }}">Estudo base: {{ origin_study.titulo }} <span aria-hidden="true">→</span></a>{% endif %}
           </div>
           {% endif %}
 
@@ -67,15 +67,15 @@
         {% endif %}
       </header>
 
-      <section class="sermon-author-bar" id="sermon-author-bar" aria-label="Ferramentas do autor" hidden>
+      <section class="sermon-author-bar" id="sermon-author-bar" aria-label="Suas anotações e revisões" hidden>
         <div class="sermon-author-bar-inner">
           <div class="sermon-author-status">
             <span class="sermon-status-dot" aria-hidden="true"></span>
-            <span id="sermon-sync-status">Modo autor ativo</span>
+            <span id="sermon-sync-status">Acesso liberado</span>
           </div>
           <div class="sermon-author-actions">
             <button type="button" class="sermon-btn sermon-btn--ghost" id="sermon-general-note-btn">Nota geral</button>
-            <button type="button" class="sermon-btn sermon-btn--ghost" id="sermon-all-notes-btn">Todas as notas <span class="sermon-count-badge" id="sermon-notes-count">0</span></button>
+            <button type="button" class="sermon-btn sermon-btn--ghost" id="sermon-all-notes-btn">Minhas notas <span class="sermon-count-badge" id="sermon-notes-count">0</span></button>
             <button type="button" class="sermon-btn sermon-btn--secondary" id="sermon-edit-current-btn">Editar {{ metadata.revisao }}</button>
             <button type="button" class="sermon-btn sermon-btn--primary" id="sermon-new-revision-btn">Nova revisão</button>
           </div>

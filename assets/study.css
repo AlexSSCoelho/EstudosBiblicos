@@ -1174,7 +1174,7 @@ figcaption strong {
 }
 
 @media (max-width: 860px) {
-  :root { --topbar: 54px; --reading-size: 17px; }
+  :root { --topbar: 50px; --reading-size: 17px; }
   .topbar-inner, .hero, .thesis-wrap, .study-shell, .footer-inner {
     padding-left: 18px;
     padding-right: 18px;
@@ -1198,21 +1198,20 @@ figcaption strong {
   .thesis-inner { grid-template-columns: 1fr; gap: 10px; padding: 23px 20px; }
   .study-shell { display: block; padding-top: 12px; }
   .toc {
-    --mobile-pill-width: min(296px, calc(100vw - 84px));
     position: sticky;
     top: var(--topbar);
     z-index: 45;
     display: block;
     max-height: none;
-    margin: 0 -18px 24px;
-    padding: 7px 0;
+    margin: 0 -18px 20px;
+    padding: 6px 0;
     overflow-x: auto;
     overflow-y: hidden;
     background: rgba(255, 253, 248, .94);
     backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(22, 32, 28, .08);
-    border-bottom: 1px solid var(--line);
-    box-shadow: 0 6px 16px rgba(26, 39, 31, .06);
+    border-top: 1px solid rgba(22, 32, 28, .06);
+    border-bottom: 1px solid var(--soft-line);
+    box-shadow: 0 4px 12px rgba(26, 39, 31, .05);
     scroll-snap-type: x proximity;
     scrollbar-width: none;
   }
@@ -1223,65 +1222,73 @@ figcaption strong {
     min-width: 100%;
     flex-direction: row;
     flex-wrap: nowrap;
-    gap: 8px;
-    padding-inline: calc((100vw - var(--mobile-pill-width)) / 2);
+    align-items: center;
+    gap: 6px;
+    padding-inline: 16px;
   }
   .toc a {
-    flex: 0 0 var(--mobile-pill-width);
-    width: var(--mobile-pill-width);
-    min-height: 44px;
-    padding: 6px 10px;
-    border: 1px solid var(--line);
+    flex: 0 0 auto;
+    width: auto;
+    max-width: min(76vw, 270px);
+    min-height: 32px;
+    padding: 5px 12px;
+    border: 1px solid var(--soft-line);
     border-radius: 999px;
-    background: var(--paper);
-    white-space: normal;
-    display: grid;
-    grid-template-columns: 26px minmax(0, 1fr) 26px;
+    background: transparent;
+    white-space: nowrap;
+    display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     scroll-snap-align: center;
-    transition: background-color .2s ease, border-color .2s ease, transform .14s ease;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .14s ease;
   }
   .toc a:active {
-    transform: scale(.975);
+    transform: scale(.97);
   }
   .toc .toc-item {
     margin: 0;
-    padding: 6px 10px;
+    padding: 5px 12px;
   }
-  .toc a::after { content: ""; }
+  .toc a::after { content: none; }
   .toc a .toc-text {
     min-width: 0;
     overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    font-size: .81rem;
-    line-height: 1.24;
-    text-align: center;
-    color: var(--ink);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    font-size: .78rem;
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--muted);
   }
-  .toc a .toc-badge { justify-self: center; }
+  .toc a .toc-badge {
+    flex-shrink: 0;
+    min-width: 0;
+    font-size: .7rem;
+  }
   .toc a .toc-badge--verse {
     color: var(--forest);
     font-weight: 700;
   }
   .toc a .toc-badge--num {
-    color: var(--muted);
-    font-weight: 600;
+    color: var(--rust-dark);
+    font-weight: 700;
+    opacity: .8;
   }
   .toc a:hover, .toc a.active {
     border-color: var(--forest);
     background: var(--forest);
   }
   .toc a:hover .toc-text, .toc a.active .toc-text {
-    color: #fff;
+    color: #fffdf8;
+    font-weight: 600;
   }
   .toc a:hover .toc-badge--num, .toc a.active .toc-badge--num,
   .toc a:hover .toc-badge--verse, .toc a.active .toc-badge--verse {
     color: #f0bd94;
+    opacity: 1;
   }
-  .prose h2, .prose h3, .prose h4, .verse-marker { scroll-margin-top: calc(var(--topbar) + 74px); }
+  .prose h2, .prose h3, .prose h4, .verse-marker { scroll-margin-top: calc(var(--topbar) + 58px); }
   .mobile-toc-wrap { padding: 0 18px; }
   .mobile-toc-wrap .toc { margin-left: -18px; margin-right: -18px; }
   .lex-drawer-body table th:first-child,
@@ -2125,13 +2132,16 @@ html[data-theme="dark"] .mobile-toc-pill.active {
     box-shadow: 0 6px 18px rgba(0, 0, 0, .38);
   }
   html[data-theme="dark"] .toc a {
-    background: var(--paper-2);
-    border-color: var(--line);
+    background: rgba(255, 255, 255, .03);
+    border-color: var(--soft-line);
+  }
+  html[data-theme="dark"] .toc a .toc-text {
+    color: var(--muted);
   }
   html[data-theme="dark"] .toc a:hover,
   html[data-theme="dark"] .toc a.active {
     background: #233c2d;
-    border-color: var(--forest);
+    border-color: rgba(136, 188, 156, .55);
   }
   html[data-theme="dark"] .toc a:hover .toc-text,
   html[data-theme="dark"] .toc a.active .toc-text {
@@ -2468,11 +2478,17 @@ html[data-theme="dark"] .lex-tooltip[data-placement="bottom"]::after {
   font-size: .84rem;
   color: var(--muted);
 }
-.sermon-meta-item,
-.sermon-origin-link {
+.sermon-meta-item {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+}
+.sermon-origin-link {
+  display: inline;
+  line-height: 1.45;
+  color: var(--forest);
+  font-weight: 700;
+  text-decoration: none;
 }
 .sermon-meta-item strong {
   color: var(--ink);
@@ -2484,14 +2500,59 @@ html[data-theme="dark"] .lex-tooltip[data-placement="bottom"]::after {
   color: var(--line);
   font-weight: 700;
 }
-.sermon-origin-link {
-  color: var(--forest);
-  font-weight: 700;
-  text-decoration: none;
-}
 .sermon-origin-link:hover {
   color: var(--rust-dark);
   text-decoration: underline;
+}
+.related-sermons-bar {
+  margin-top: 18px;
+  padding-top: 13px;
+  border-top: 1px solid var(--soft-line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.related-sermons-label {
+  color: var(--sermon);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.related-sermons-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.related-sermon-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--sermon);
+  border-radius: 5px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: .82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color .15s ease, color .15s ease, transform .14s ease;
+}
+.related-sermon-link:hover {
+  border-color: var(--sermon);
+  color: var(--sermon);
+  transform: translateY(-1px);
+}
+.related-sermon-rev {
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--paper-2);
+  color: var(--sermon);
+  font-size: .69rem;
+  font-weight: 800;
+  letter-spacing: .05em;
 }
 .sermon-revisions-bar {
   display: flex;
@@ -3107,6 +3168,20 @@ html[data-theme="dark"] .sermon-sheet {
 html[data-theme="dark"] .sermon-origin-link {
   color: var(--forest-2);
 }
+html[data-theme="dark"] .related-sermon-link {
+  background: var(--paper-2);
+  border-color: var(--line);
+  border-left-color: var(--sermon);
+  color: var(--ink);
+}
+html[data-theme="dark"] .related-sermon-link:hover {
+  border-color: var(--sermon);
+  color: var(--sermon);
+}
+html[data-theme="dark"] .related-sermon-rev {
+  background: rgba(197, 161, 132, .16);
+  color: var(--sermon);
+}
 html[data-theme="dark"] .sermon-rev-link {
   background: var(--paper-2);
   border-color: var(--line);
@@ -3299,7 +3374,7 @@ html[data-theme="dark"] .sermon-modal-backdrop {
   .reading-progress, .back-to-top-btn,
   .sermon-auth-btn, .sermon-author-bar, .sermon-revisions-bar, .sermon-note-anchor,
   .sermon-general-note-slot, .sermon-modal-backdrop, .sermon-modal, .sermon-notes-drawer,
-  .sermon-origin-link {
+  .sermon-origin-link, .related-sermons-bar {
     display: none !important;
   }
   .lex-term {

@@ -18,6 +18,7 @@ import stat
 import subprocess
 import sys
 import tempfile
+import time
 import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path, PurePosixPath
@@ -162,6 +163,8 @@ class Study:
     source_path: Path
     review: dict[str, Any] | None = None
     revisions: list[dict[str, Any]] = field(default_factory=list)
+    origin_study: dict[str, Any] | None = None
+    related_sermons: list[dict[str, Any]] = field(default_factory=list)
 
     @property
     def source_dir(self) -> Path:
@@ -1060,6 +1063,69 @@ def attach_sermon_revisions(studies: list[Study]) -> None:
             ]
 
 
+def attach_study_sermon_links(studies: list[Study]) -> None:
+    """Resolve bidirectional links between sermons (estudo_origem) and base studies."""
+    by_id = {study.study_id: study for study in studies}
+    sermons_by_origin: dict[str, dict[str, Study]] = {}
+
+    for study in studies:
+        study.origin_study = None
+        study.related_sermons = []
+
+    for study in studies:
+        origin_id = str(study.metadata.get("estudo_origem") or "").strip()
+        if not origin_id:
+            continue
+        if study.metadata.get("tipo") != "pregacao":
+            raise BuildError(
+                f"{study.source_path}: 'estudo_origem' é suportado apenas em pregações."
+            )
+        target = by_id.get(origin_id)
+        if target is None:
+            raise BuildError(
+                f"{study.source_path}: 'estudo_origem' ({origin_id!r}) não corresponde a nenhum estudo da biblioteca."
+            )
+        if target.metadata.get("tipo") == "pregacao":
+            raise BuildError(
+                f"{study.source_path}: 'estudo_origem' ({origin_id!r}) deve apontar para um estudo ou devocional, não para outra pregação."
+            )
+        study.origin_study = {
+            "id": target.study_id,
+            "titulo": target.metadata["titulo"],
+            "tipo": target.metadata["tipo"],
+            "href": f"../{target.study_id}/",
+        }
+        sermao_id = study.metadata["sermao_id"]
+        family_map = sermons_by_origin.setdefault(target.study_id, {})
+        existing = family_map.get(sermao_id)
+        if existing is None or int(study.metadata["revisao_numero"]) > int(
+            existing.metadata["revisao_numero"]
+        ):
+            family_map[sermao_id] = study
+
+    for origin_id, family_map in sermons_by_origin.items():
+        origin = by_id[origin_id]
+        linked = list(family_map.values())
+        dated = [s for s in linked if s.metadata.get("data")]
+        undated = [s for s in linked if not s.metadata.get("data")]
+        dated.sort(
+            key=lambda s: (s.metadata["data"], s.metadata["titulo"].casefold()),
+            reverse=True,
+        )
+        undated.sort(key=lambda s: s.metadata["titulo"].casefold())
+        origin.related_sermons = [
+            {
+                "id": sermon.study_id,
+                "titulo": sermon.metadata["titulo"],
+                "revisao": sermon.metadata["revisao"],
+                "data_formatada": sermon.metadata["data_formatada"],
+                "igreja": sermon.metadata["igreja"],
+                "href": f"../{sermon.study_id}/",
+            }
+            for sermon in (dated + undated)
+        ]
+
+
 def is_study_source_file(path: Path) -> bool:
     if not path.is_file():
         return False
@@ -1077,6 +1143,7 @@ def find_studies() -> list[Study]:
     if duplicates:
         raise BuildError(f"ids de estudos duplicados: {', '.join(duplicates)}.")
     attach_sermon_revisions(studies)
+    attach_study_sermon_links(studies)
     return studies
 
 
@@ -1237,7 +1304,14 @@ def render_pdf_with_chromium(html_path: Path, pdf_path: Path) -> None:
                 raise BuildError(f"Chromium não conseguiu gerar {pdf_path}: {detail}")
     finally:
         if print_html_path is not None:
-            print_html_path.unlink(missing_ok=True)
+            for attempt in range(5):
+                try:
+                    print_html_path.unlink(missing_ok=True)
+                    break
+                except OSError:
+                    if attempt == 4:
+                        raise
+                    time.sleep(0.15)
 
 
 def render_pdf(html_path: Path, pdf_path: Path) -> None:
@@ -1256,7 +1330,14 @@ def normalize_pdf_metadata(pdf_path: Path) -> None:
         data,
     )
     if normalized != data:
-        pdf_path.write_bytes(normalized)
+        for attempt in range(5):
+            try:
+                pdf_path.write_bytes(normalized)
+                break
+            except OSError:
+                if attempt == 4:
+                    raise
+                time.sleep(0.15)
 
 
 def environment() -> Environment:
@@ -1407,6 +1488,8 @@ def render_study(study: Study, templates: Environment, skip_pdf: bool) -> dict[s
         "review_json": review_json,
         "revisions": revisions,
         "sermon_editor_json": sermon_editor_json,
+        "origin_study": study.origin_study,
+        "related_sermons": study.related_sermons,
     }
     if study_type not in TEMPLATE_BY_TYPE:
         raise BuildError(f"Tipo de estudo sem template mapeado: {study_type!r}")

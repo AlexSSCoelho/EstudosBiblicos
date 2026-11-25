@@ -319,13 +319,11 @@
       cache: "no-store",
     });
     if (!resp.ok) {
-      const detail = await resp.json().catch(() => ({}));
-      const msg = detail && detail.message ? detail.message : "HTTP " + resp.status;
-      throw new Error("Não foi possível acessar o repositório (" + msg + ").");
+      throw new Error("Não foi possível validar sua chave de acesso. Verifique se ela foi copiada por completo.");
     }
     const info = await resp.json();
     if (info.permissions && info.permissions.push === false) {
-      throw new Error("Este token só tem permissão de leitura. Ative 'Contents: Read and write'.");
+      throw new Error("Esta chave permite apenas leitura. Ative a permissão de escrita ao criá-la.");
     }
     return info;
   }
@@ -563,7 +561,7 @@
       const saveBtn = document.createElement("button");
       saveBtn.type = "button";
       saveBtn.className = "sermon-btn sermon-btn--primary";
-      saveBtn.textContent = "Salvar no GitHub";
+      saveBtn.textContent = "Salvar anotação";
       saveBtn.addEventListener("click", () => {
         saveSectionNote(
           sectionId,
@@ -646,7 +644,7 @@
   }
 
   async function loadNotesFromGitHub() {
-    setSyncStatus("Carregando anotações do GitHub...");
+    setSyncStatus("Carregando suas anotações...");
     try {
       const file = await ghGetFile(notesFilePath());
       if (file.exists && file.content) {
@@ -663,11 +661,11 @@
       const count = notesCount();
       setSyncStatus(
         count > 0
-          ? "GitHub conectado · " + count + (count === 1 ? " nota sincronizada" : " notas sincronizadas")
-          : "GitHub conectado · pronto para anotar"
+          ? "Acesso liberado · " + count + (count === 1 ? " anotação salva" : " anotações salvas")
+          : "Acesso liberado · pronto para anotar"
       );
-    } catch (err) {
-      setSyncStatus("Erro ao ler notas: " + (err && err.message ? err.message : "falha de rede"));
+    } catch {
+      setSyncStatus("Não foi possível carregar suas anotações agora");
     }
   }
 
@@ -679,7 +677,7 @@
     if (feedbackEl) {
       feedbackEl.hidden = false;
       feedbackEl.className = "sermon-feedback-msg";
-      feedbackEl.textContent = "Salvando no GitHub...";
+      feedbackEl.textContent = "Salvando...";
     }
 
     const nowIso = new Date().toISOString();
@@ -717,7 +715,7 @@
         state.editingSections.delete(sectionId);
         updateNotesCounter();
         renderSectionAnchor(sectionId);
-        setSyncStatus("Nota salva no GitHub às " + formatTimestampBr(nowIso).slice(11));
+        setSyncStatus("Anotação salva às " + formatTimestampBr(nowIso).slice(11));
       } catch (err) {
         if (!isRetry && err && (err.status === 409 || err.status === 422)) {
           const latest = await ghGetFile(notesFilePath());
@@ -738,11 +736,11 @@
 
     try {
       await attemptSave(false);
-    } catch (err) {
+    } catch {
       if (feedbackEl) {
         feedbackEl.hidden = false;
         feedbackEl.className = "sermon-feedback-msg sermon-feedback-msg--err";
-        feedbackEl.textContent = "Erro ao salvar: " + (err && err.message ? err.message : "falha de rede");
+        feedbackEl.textContent = "Não foi possível salvar agora. Verifique sua conexão e tente novamente.";
       }
       buttonsToDisable.forEach((btn) => {
         if (btn) btn.disabled = false;
@@ -809,30 +807,36 @@
     modal.innerHTML =
       '<div class="sermon-modal-header">' +
       '  <div>' +
-      '    <p class="sermon-modal-kicker">Acesso privado no navegador</p>' +
-      '    <h2 id="sermon-auth-title">Modo autor (GitHub)</h2>' +
+      '    <p class="sermon-modal-kicker">Acesso pessoal</p>' +
+      '    <h2 id="sermon-auth-title">Entrar para anotar e revisar</h2>' +
       '  </div>' +
       '  <button type="button" class="review-close-btn" id="sermon-modal-close" aria-label="Fechar">&times;</button>' +
       '</div>' +
       '<div class="sermon-modal-body">' +
       '  <p class="sermon-field-help" style="margin-top:0;margin-bottom:14px;">' +
-      '    Conecte um <strong>Fine-grained Personal Access Token</strong> com permissão ' +
-      '    <code>Contents: Read and write</code> apenas para este repositório. O token fica salvo somente neste navegador.' +
-      '    <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">Gerar token no GitHub</a>.' +
+      '    Cole abaixo a sua chave pessoal para liberar anotações por seção e criar novas revisões (R2, R3...) direto por aqui. Ela fica salva apenas neste aparelho.' +
       '  </p>' +
       '  <div class="sermon-field">' +
-      '    <label for="sermon-gh-token">Token do GitHub</label>' +
-      '    <input type="password" class="sermon-field-input" id="sermon-gh-token" autocomplete="off" placeholder="github_pat_...">' +
+      '    <label for="sermon-gh-token">Chave de acesso</label>' +
+      '    <input type="password" class="sermon-field-input" id="sermon-gh-token" autocomplete="off" placeholder="Cole sua chave aqui">' +
       '  </div>' +
       '  <details style="margin-top:10px;">' +
-      '    <summary style="cursor:pointer;font-size:.8rem;font-weight:700;color:var(--muted);">Opções avançadas (repositório e branch)</summary>' +
+      '    <summary style="cursor:pointer;font-size:.82rem;font-weight:700;color:var(--forest);">Como criar ou recuperar minha chave?</summary>' +
+      '    <ol class="sermon-field-help" style="margin:8px 0 0;padding-left:18px;">' +
+      '      <li>Abra a página para <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">criar sua chave no GitHub</a>.</li>' +
+      '      <li>Selecione apenas a biblioteca <strong>EstudosBiblicos</strong>.</li>' +
+      '      <li>Em permissões de conteúdo (<em>Contents</em>), marque <strong>Read and write</strong>, gere a chave e cole no campo acima.</li>' +
+      '    </ol>' +
+      '  </details>' +
+      '  <details style="margin-top:10px;">' +
+      '    <summary style="cursor:pointer;font-size:.78rem;font-weight:600;color:var(--muted);">Configurações avançadas</summary>' +
       '    <div style="margin-top:10px;">' +
       '      <div class="sermon-field">' +
-      '        <label for="sermon-gh-repo">Repositório (owner/repo)</label>' +
+      '        <label for="sermon-gh-repo">Biblioteca</label>' +
       '        <input type="text" class="sermon-field-input" id="sermon-gh-repo">' +
       '      </div>' +
       '      <div class="sermon-field">' +
-      '        <label for="sermon-gh-branch">Branch</label>' +
+      '        <label for="sermon-gh-branch">Versão principal</label>' +
       '        <input type="text" class="sermon-field-input" id="sermon-gh-branch">' +
       '      </div>' +
       '    </div>' +
@@ -842,12 +846,12 @@
       '<div class="sermon-modal-footer">' +
       '  <div>' +
       (state.token
-        ? '<button type="button" class="sermon-btn sermon-btn--danger" id="sermon-auth-disconnect">Desconectar</button>'
+        ? '<button type="button" class="sermon-btn sermon-btn--danger" id="sermon-auth-disconnect">Sair neste aparelho</button>'
         : "") +
       '  </div>' +
       '  <div class="sermon-note-form-right">' +
       '    <button type="button" class="sermon-btn sermon-btn--ghost" id="sermon-auth-cancel">Cancelar</button>' +
-      '    <button type="button" class="sermon-btn sermon-btn--primary" id="sermon-auth-save">Testar e conectar</button>' +
+      '    <button type="button" class="sermon-btn sermon-btn--primary" id="sermon-auth-save">' + (state.token ? "Atualizar chave" : "Entrar") + '</button>' +
       '  </div>' +
       '</div>';
 
@@ -886,7 +890,7 @@
       if (!token) {
         feedback.hidden = false;
         feedback.className = "sermon-feedback-msg sermon-feedback-msg--err";
-        feedback.textContent = "Informe o token do GitHub para ativar o modo autor.";
+        feedback.textContent = "Cole sua chave de acesso para continuar.";
         tokenInput.focus();
         return;
       }
@@ -894,7 +898,7 @@
       saveBtn.disabled = true;
       feedback.hidden = false;
       feedback.className = "sermon-feedback-msg";
-      feedback.textContent = "Validando acesso ao repositório...";
+      feedback.textContent = "Verificando acesso...";
 
       try {
         await ghVerifyAccess(token, repo);
@@ -908,7 +912,7 @@
         await applyAuthorMode(true);
       } catch (err) {
         feedback.className = "sermon-feedback-msg sermon-feedback-msg--err";
-        feedback.textContent = err && err.message ? err.message : "Falha ao validar token.";
+        feedback.textContent = err && err.message ? err.message : "Não foi possível validar sua chave.";
         saveBtn.disabled = false;
       }
     });
@@ -938,7 +942,7 @@
       '</div>' +
       '<div class="sermon-modal-body" id="sermon-notes-drawer-body"></div>' +
       '<div class="sermon-modal-footer">' +
-      '  <span class="sermon-field-help" style="margin:0;">As notas são salvas em <code>' + escapeHtml(notesFilePath()) + '</code>.</span>' +
+      '  <span class="sermon-field-help" style="margin:0;">Suas anotações ficam salvas na sua conta e disponíveis em qualquer aparelho.</span>' +
       '  <button type="button" class="sermon-btn sermon-btn--secondary" id="sermon-drawer-done">Fechar</button>' +
       '</div>';
 
@@ -1074,12 +1078,12 @@
       '<div class="sermon-modal-header">' +
       '  <div>' +
       '    <p class="sermon-modal-kicker" id="sermon-editor-kicker">Preparando editor...</p>' +
-      '    <h2 id="sermon-editor-title">Carregando dados do GitHub...</h2>' +
+      '    <h2 id="sermon-editor-title">Carregando texto...</h2>' +
       '  </div>' +
       '  <button type="button" class="review-close-btn" id="sermon-editor-close" aria-label="Fechar">&times;</button>' +
       '</div>' +
       '<div class="sermon-modal-body" id="sermon-editor-body">' +
-      '  <p class="sermon-field-help">Sincronizando a versão mais recente do arquivo...</p>' +
+      '  <p class="sermon-field-help">Buscando a versão mais recente da pregação...</p>' +
       '</div>';
 
     openOverlay(modal);
@@ -1129,11 +1133,11 @@
     const kickerEl = modal.querySelector("#sermon-editor-kicker");
     const titleEl = modal.querySelector("#sermon-editor-title");
     kickerEl.textContent = isNew
-      ? "Nova revisão a partir de " + sermonData.revisao + " · " + targetPath
-      : "Editando " + targetRevLabel + " · " + targetPath;
+      ? "Baseada na revisão " + sermonData.revisao
+      : "Editando revisão " + targetRevLabel;
     titleEl.textContent = isNew
-      ? "Criar revisão " + targetRevLabel
-      : "Editar revisão " + targetRevLabel;
+      ? "Nova revisão (" + targetRevLabel + ")"
+      : "Editar " + targetRevLabel;
 
     const hasSidebar = referenceNotes.length > 0;
     const editorBody = modal.querySelector("#sermon-editor-body");
@@ -1176,10 +1180,10 @@
       '      </div>' +
       '    </div>' +
       '    <div class="sermon-editor-tabs">' +
-      '      <label for="ed-body" style="font-size:.78rem;font-weight:700;color:var(--forest-2);">Texto da pregação (Markdown)</label>' +
+      '      <label for="ed-body" style="font-size:.78rem;font-weight:700;color:var(--forest-2);">Texto da pregação</label>' +
       '      <div class="sermon-tab-group" role="tablist">' +
       '        <button type="button" class="sermon-tab-btn is-active" id="ed-tab-write" role="tab" aria-selected="true">Escrever</button>' +
-      '        <button type="button" class="sermon-tab-btn" id="ed-tab-preview" role="tab" aria-selected="false">Pré-visualizar</button>' +
+      '        <button type="button" class="sermon-tab-btn" id="ed-tab-preview" role="tab" aria-selected="false">Visualizar</button>' +
       '      </div>' +
       '    </div>' +
       '    <textarea class="sermon-markdown-input" id="ed-body" spellcheck="true"></textarea>' +
@@ -1198,12 +1202,12 @@
     footer.className = "sermon-modal-footer";
     footer.innerHTML =
       '<div class="sermon-note-form-right">' +
-      '  <button type="button" class="sermon-btn sermon-btn--ghost" id="ed-download-btn">Baixar .md</button>' +
+      '  <button type="button" class="sermon-btn sermon-btn--ghost" id="ed-download-btn">Baixar cópia</button>' +
       '</div>' +
       '<div class="sermon-note-form-right">' +
       '  <button type="button" class="sermon-btn sermon-btn--ghost" id="ed-cancel-btn">Cancelar</button>' +
       '  <button type="button" class="sermon-btn sermon-btn--primary" id="ed-save-btn">' +
-      (isNew ? "Salvar " + escapeHtml(targetRevLabel) + " no GitHub" : "Atualizar " + escapeHtml(targetRevLabel) + " no GitHub") +
+      (isNew ? "Salvar revisão " + escapeHtml(targetRevLabel) : "Salvar alterações") +
       '  </button>' +
       '</div>';
     modal.appendChild(footer);
@@ -1321,7 +1325,7 @@
       saveBtn.disabled = true;
       feedback.hidden = false;
       feedback.className = "sermon-feedback-msg";
-      feedback.textContent = "Enviando " + targetRevLabel + " para o GitHub...";
+      feedback.textContent = "Salvando revisão " + targetRevLabel + "...";
 
       try {
         const commitMsg = isNew
@@ -1342,29 +1346,23 @@
           sermonData.body = fBody.value.trim();
         }
 
-        const commitUrl =
-          result && result.commit && result.commit.html_url
-            ? result.commit.html_url
-            : "https://github.com/" + state.repo + "/commits/" + state.branch;
         const actionsUrl = "https://github.com/" + state.repo + "/actions";
 
         saveResult.innerHTML =
           '<div class="sermon-save-banner">' +
-          '  <strong>' + escapeHtml(targetRevLabel) + ' salva com sucesso no GitHub!</strong> ' +
-          '  Arquivo gravado em <code>' + escapeHtml(targetPath) + '</code>.<br>' +
-          '  O GitHub Actions já foi acionado para gerar o novo HTML e o PDF (leva cerca de 1 a 2 minutos). ' +
-          '  <a href="' + escapeHtml(commitUrl) + '" target="_blank" rel="noopener noreferrer">Ver commit</a> · ' +
+          '  <strong>Revisão ' + escapeHtml(targetRevLabel) + ' salva com sucesso!</strong><br>' +
+          '  A página atualizada e o novo PDF ficarão disponíveis automaticamente em cerca de 1 a 2 minutos. ' +
           '  <a href="' + escapeHtml(actionsUrl) + '" target="_blank" rel="noopener noreferrer">Acompanhar publicação</a>' +
           '</div>';
 
         feedback.hidden = true;
         saveBtn.disabled = false;
-        setSyncStatus(targetRevLabel + " enviada ao GitHub · publicação em andamento");
+        setSyncStatus("Revisão " + targetRevLabel + " salva · publicação em andamento");
         editorBody.scrollTop = 0;
-      } catch (err) {
+      } catch {
         feedback.hidden = false;
         feedback.className = "sermon-feedback-msg sermon-feedback-msg--err";
-        feedback.textContent = "Erro ao salvar no GitHub: " + (err && err.message ? err.message : "falha inesperada");
+        feedback.textContent = "Não foi possível salvar agora. Verifique sua conexão ou chave de acesso e tente novamente.";
         saveBtn.disabled = false;
       }
     });
@@ -1386,7 +1384,7 @@
       authBtn.setAttribute("aria-pressed", enabled ? "true" : "false");
       authBtn.setAttribute(
         "title",
-        enabled ? "Modo autor ativo (gerenciar conexão GitHub)" : "Modo autor (anotações e revisões)"
+        enabled ? "Acesso pessoal ativo (gerenciar)" : "Entrar para anotar e revisar"
       );
     }
     if (authorBar) {

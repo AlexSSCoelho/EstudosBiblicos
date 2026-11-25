@@ -21,6 +21,16 @@
         <span class="hero-meta-date">{{ metadata.data | date_br }}</span>
         {% if metadata.get("autor") %}<span>Autor: {{ metadata.get("autor") }}</span>{% endif %}
       </div>
+      {% if related_sermons %}
+      <div class="related-sermons-bar" aria-label="Pregações vinculadas a este estudo">
+        <span class="related-sermons-label">{% if related_sermons|length == 1 %}Pregação baseada neste estudo{% else %}Pregações baseadas neste estudo{% endif %}</span>
+        <div class="related-sermons-list">
+          {% for sermon in related_sermons %}
+          <a class="related-sermon-link" href="{{ sermon.href }}">{{ sermon.titulo }} <span class="related-sermon-rev">{{ sermon.revisao }}</span> <span aria-hidden="true">→</span></a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
     </div>
     {% if hero_image %}
     <figure class="hero-figure">

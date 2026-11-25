@@ -747,6 +747,92 @@ Apelo final.
             ["Recente", "Antigo", "Aliança", "Zelo"],
         )
 
+    def test_bidirectional_study_sermon_linking_and_missing_target_validation(self) -> None:
+        old_source_root = build.SOURCE_ROOT
+        old_dist_root = build.DIST_ROOT
+        old_study_root = build.STUDY_OUTPUT_ROOT
+        old_cat_root = build.CATEGORY_OUTPUT_ROOT
+        try:
+            with tempfile.TemporaryDirectory(dir=Path.cwd()) as temp_dir:
+                root = Path(temp_dir)
+                build.SOURCE_ROOT = root / "Pregações"
+                build.DIST_ROOT = root / "dist"
+                build.STUDY_OUTPUT_ROOT = build.DIST_ROOT / "estudos"
+                build.CATEGORY_OUTPUT_ROOT = build.DIST_ROOT / "tipos"
+
+                study_with_sermon = build.SOURCE_ROOT / "Estudo Com Pregacao"
+                study_without_sermon = build.SOURCE_ROOT / "Estudo Sem Pregacao"
+                sermon_linked = build.SOURCE_ROOT / "Pregacao Vinculada"
+                sermon_standalone = build.SOURCE_ROOT / "Pregacao Avulsa"
+                for folder in (
+                    study_with_sermon,
+                    study_without_sermon,
+                    sermon_linked,
+                    sermon_standalone,
+                ):
+                    folder.mkdir(parents=True)
+
+                (study_with_sermon / "estudo.md").write_text(
+                    "---\nid: estudo-base\ntipo: estudo_tematico\ntitulo: Estudo Base\ntema: Graça\npassagem: Ef 2.8\ndata: 2026-10-01\nresumo: Resumo.\n---\n\n## Seção\n\nTexto.\n",
+                    encoding="utf-8",
+                )
+                (study_without_sermon / "estudo.md").write_text(
+                    "---\nid: estudo-isolado\ntipo: devocional\ntitulo: Estudo Isolado\npassagem: Sl 23.1\ndata: 2026-10-02\nresumo: Resumo.\n---\n\n## Seção\n\nTexto.\n",
+                    encoding="utf-8",
+                )
+                (sermon_linked / "estudo.md").write_text(
+                    "---\nid: preg-vinc\ntipo: pregacao\ntitulo: Pregação Vinculada\nestudo_origem: estudo-base\n---\n\n## Ponto 1\n\nR1.\n",
+                    encoding="utf-8",
+                )
+                (sermon_linked / "r2.md").write_text(
+                    "---\nid: preg-vinc-r2\nsermao_id: preg-vinc\nrevisao: R2\ntipo: pregacao\ntitulo: Pregação Vinculada\nestudo_origem: estudo-base\n---\n\n## Ponto 1\n\nR2.\n",
+                    encoding="utf-8",
+                )
+                (sermon_standalone / "estudo.md").write_text(
+                    "---\nid: preg-avulsa\ntipo: pregacao\ntitulo: Pregação Avulsa\n---\n\n## Ponto 1\n\nSem estudo base.\n",
+                    encoding="utf-8",
+                )
+
+                build.build(skip_pdf=True)
+
+                base_html = (build.STUDY_OUTPUT_ROOT / "estudo-base" / "index.html").read_text(
+                    encoding="utf-8"
+                )
+                isolated_html = (
+                    build.STUDY_OUTPUT_ROOT / "estudo-isolado" / "index.html"
+                ).read_text(encoding="utf-8")
+                linked_sermon_html = (
+                    build.STUDY_OUTPUT_ROOT / "preg-vinc-r2" / "index.html"
+                ).read_text(encoding="utf-8")
+                standalone_sermon_html = (
+                    build.STUDY_OUTPUT_ROOT / "preg-avulsa" / "index.html"
+                ).read_text(encoding="utf-8")
+
+                # Estudo base aponta para a revisão mais recente (R2) sem duplicar R1
+                self.assertIn("related-sermons-bar", base_html)
+                self.assertIn("../preg-vinc-r2/", base_html)
+                self.assertNotIn("../preg-vinc/", base_html)
+                # Estudo isolado não exibe bloco de pregações
+                self.assertNotIn("related-sermons-bar", isolated_html)
+                # Pregação vinculada aponta para o estudo base com título
+                self.assertIn("../estudo-base/", linked_sermon_html)
+                self.assertIn("Estudo base: Estudo Base", linked_sermon_html)
+                # Pregação avulsa não exibe link de estudo base
+                self.assertNotIn("sermon-origin-link", standalone_sermon_html)
+
+                # Vínculo quebrado para estudo inexistente deve falhar no build
+                (sermon_standalone / "estudo.md").write_text(
+                    "---\nid: preg-avulsa\ntipo: pregacao\ntitulo: Pregação Quebrada\nestudo_origem: nao-existe\n---\n\nTexto.\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(build.BuildError, "não corresponde a nenhum estudo"):
+                    build.find_studies()
+        finally:
+            build.SOURCE_ROOT = old_source_root
+            build.DIST_ROOT = old_dist_root
+            build.STUDY_OUTPUT_ROOT = old_study_root
+            build.CATEGORY_OUTPUT_ROOT = old_cat_root
+
 
 if __name__ == "__main__":
     unittest.main()
