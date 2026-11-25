@@ -28,6 +28,7 @@ O servidor utiliza os arquivos que já estão em `dist/`. Ele só executa o buil
 - [Devocionais](http://localhost:8000/tipos/devocionais.html)
 - [Estudos expositivos](http://localhost:8000/tipos/estudos-expositivos.html)
 - [Estudos temáticos](http://localhost:8000/tipos/estudos-tematicos.html)
+- [Pregações](http://localhost:8000/tipos/pregacoes.html)
 - [Todas as leituras](http://localhost:8000/tipos/todas.html)
 
 Os estudos individuais usam endereços curtos, terminados em `/`:
@@ -62,7 +63,9 @@ Esse comando gera novamente o HTML, os PDFs, o manifesto e o índice da bibliote
 
 ## Onde estão os arquivos
 
-- `Pregações/**/estudo.md`: fonte editorial dos estudos.
+- `Pregações/**/estudo.md` (e `r2.md`, `r3.md`... para revisões de pregações): fonte editorial dos estudos e pregações.
+- `Esboços/`: pasta local (ignorada no Git) para fotos de esboços manuais de pregações.
+- `anotacoes/`: anotações por seção das pregações salvas pelo Modo Autor via GitHub API.
 - `templates/`: modelos usados na geração das páginas.
 - `assets/`: CSS, JavaScript e outros recursos de origem.
 - `dist/`: HTML, PDF, manifesto e índice gerados.

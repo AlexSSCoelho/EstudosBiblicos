@@ -78,6 +78,7 @@ jobs:
             echo "dist já está atualizado."
           else
             git commit -m "chore: regenerate study artifacts"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             git push
           fi
 

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#20372a">
+  <meta name="description" content="Esboços e manuscritos de púlpito com anotações por seção e histórico de revisões.">
+  <title>Pregações | Estudos Bíblicos</title>
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("estudos_theme_v1");
+        var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var theme = saved === "dark" || saved === "light" ? saved : (prefersDark ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", theme === "dark" ? "#111613" : "#20372a");
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/study.css">
+  <script defer src="../assets/study.js"></script>
+</head>
+<body class="library-page">
+  <main id="conteudo" class="library-shell">
+    <div class="library-top-bar">
+      <a class="library-back-link" href="../"><span aria-hidden="true">←</span> Voltar à biblioteca</a>
+      <button
+        type="button"
+        class="theme-toggle-btn"
+        id="theme-toggle-btn"
+        aria-label="Ativar modo escuro"
+        aria-pressed="false"
+        title="Alternar modo claro/escuro"
+      >
+        <svg class="theme-icon theme-icon--moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+        <svg class="theme-icon theme-icon--sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+        </svg>
+      </button>
+    </div>
+
+    <header class="library-header">
+      <p class="eyebrow">Leituras bíblicas</p>
+      <h1>Pregações</h1>
+      <p>Esboços e manuscritos de púlpito com anotações por seção e histórico de revisões.</p>
+    </header>
+
+    <section class="library-list" aria-labelledby="library-title">
+      <div class="library-list-heading">
+        <h2 id="library-title">Leituras</h2>
+        <span>1 leitura disponível</span>
+      </div>
+
+
+      <div class="study-cards">
+
+
+        <article class="study-card study-card--pregacao">
+  <div class="card-kicker">Pregação · R1</div>
+  <h3><a href="../estudos/o-deus-que-nunca-muda/">O Deus Que Nunca Muda</a></h3>
+  <p>Reflexão sobre a imutabilidade de Deus, o mistério de seus atributos eternos, o contraste entre circunstâncias mutáveis e o caráter constante do Senhor, e a calibração da nossa fé diante da aflição.</p>
+
+
+    <p class="card-reference"><strong>Tema:</strong> Imutabilidade de Deus</p>
+
+
+  <div class="card-footer">
+    <div class="card-meta">
+
+
+
+
+
+      <a href="../estudos/o-deus-que-nunca-muda/o-deus-que-nunca-muda.pdf" target="_blank" rel="noopener noreferrer">Abrir PDF</a>
+    </div>
+  </div>
+</article>
+
+      </div>
+
+    </section>
+
+    <footer class="library-footer">
+      <p>Cada estudo pode ser lido no navegador e também está disponível em PDF.</p>
+    </footer>
+  </main>
+</body>
+</html>

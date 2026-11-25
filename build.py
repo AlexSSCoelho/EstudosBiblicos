@@ -19,7 +19,7 @@ import subprocess
 import sys
 import tempfile
 import unicodedata
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path, PurePosixPath
 from typing import Any, Iterable
 from urllib.parse import unquote, urlsplit
@@ -58,9 +58,16 @@ DEFAULT_TRANSLATIONS = {
     "devocional": "NVI",
     "estudo_exegetico": "ACF",
     "estudo_tematico": "ACF",
+    "pregacao": "",
 }
 REQUIRED_FIELDS = ("id", "tipo", "titulo", "passagem", "data", "resumo")
-STUDY_TYPE_ORDER = ("devocional", "estudo_exegetico", "estudo_tematico")
+REQUIRED_FIELDS_BY_TYPE = {
+    "devocional": REQUIRED_FIELDS,
+    "estudo_exegetico": REQUIRED_FIELDS,
+    "estudo_tematico": REQUIRED_FIELDS,
+    "pregacao": ("id", "tipo", "titulo"),
+}
+STUDY_TYPE_ORDER = ("devocional", "estudo_exegetico", "estudo_tematico", "pregacao")
 STUDY_TYPE_PRESENTATION = {
     "devocional": {
         "slug": "devocionais",
@@ -81,7 +88,17 @@ STUDY_TYPE_PRESENTATION = {
         "title": "Estudos temáticos",
         "description": "Um tema bíblico examinado à luz de várias passagens.",
     },
+    "pregacao": {
+        "slug": "pregacoes",
+        "kicker": "Para pregar",
+        "title": "Pregações",
+        "description": "Esboços e manuscritos de púlpito com anotações por seção e histórico de revisões.",
+    },
 }
+GITHUB_REPO = "AlexSSCoelho/EstudosBiblicos"
+GITHUB_BRANCH = "main"
+SERMON_REVISION_FILE_RE = re.compile(r"^r([1-9]\d*)\.md$", re.IGNORECASE)
+SERMON_REVISION_LABEL_RE = re.compile(r"^[rR]?([1-9]\d*)$")
 DETAIL_BLOCK_RE = re.compile(
     r'<details\s+class="lex-drawer">\s*<summary>(?P<summary>.*?)</summary>'
     r'(?P<body>.*?)</details>',
@@ -144,6 +161,7 @@ class Study:
     toc: list[dict[str, Any]]
     source_path: Path
     review: dict[str, Any] | None = None
+    revisions: list[dict[str, Any]] = field(default_factory=list)
 
     @property
     def source_dir(self) -> Path:
@@ -292,9 +310,32 @@ def normalize_type(value: Any, path: Path) -> str:
         "estudo_doutrinario",
     }:
         return "estudo_tematico"
+    if normalized in {
+        "pregacao",
+        "pregação",
+        "sermao",
+        "sermão",
+        "esboco",
+        "esboço",
+        "mensagem",
+    }:
+        return "pregacao"
     raise BuildError(
-        f"{path}: tipo inválido: {value!r}. Use devocional, estudo_exegetico ou estudo_tematico."
+        f"{path}: tipo inválido: {value!r}. Use devocional, estudo_exegetico, estudo_tematico ou pregacao."
     )
+
+
+def normalize_revision(value: Any, path: Path) -> tuple[str, int]:
+    if value is None or not str(value).strip():
+        return "R1", 1
+    raw = str(value).strip()
+    match = SERMON_REVISION_LABEL_RE.fullmatch(raw)
+    if not match:
+        raise BuildError(
+            f"{path}: revisão inválida: {value!r}. Use R1, R2, R3... (ou número inteiro positivo)."
+        )
+    number = int(match.group(1))
+    return f"R{number}", number
 
 
 def as_list(value: Any) -> list[Any]:
@@ -360,7 +401,13 @@ def format_date_br(value: Any) -> str:
 
 
 def normalize_metadata(metadata: dict[str, Any], path: Path) -> dict[str, Any]:
-    missing = [field for field in REQUIRED_FIELDS if not metadata.get(field)]
+    if not metadata.get("tipo"):
+        missing_base = [field for field in REQUIRED_FIELDS if not metadata.get(field)]
+        raise BuildError(f"{path}: campos obrigatórios ausentes: {', '.join(missing_base)}.")
+
+    study_type = normalize_type(metadata["tipo"], path)
+    required_fields = REQUIRED_FIELDS_BY_TYPE[study_type]
+    missing = [field for field in required_fields if not metadata.get(field)]
     if missing:
         raise BuildError(f"{path}: campos obrigatórios ausentes: {', '.join(missing)}.")
 
@@ -370,11 +417,11 @@ def normalize_metadata(metadata: dict[str, Any], path: Path) -> dict[str, Any]:
 
     normalized = dict(metadata)
     normalized["id"] = study_id
-    normalized["tipo"] = normalize_type(metadata["tipo"], path)
+    normalized["tipo"] = study_type
     normalized["titulo"] = str(metadata["titulo"]).strip()
-    normalized["passagem"] = str(metadata["passagem"]).strip()
-    normalized["resumo"] = str(metadata["resumo"]).strip()
-    normalized["data"] = str(metadata["data"]).strip()
+    normalized["passagem"] = str(metadata.get("passagem") or "").strip()
+    normalized["resumo"] = str(metadata.get("resumo") or "").strip()
+    normalized["data"] = str(metadata.get("data") or "").strip()
     normalized["data_formatada"] = format_date_br(normalized["data"])
 
     if normalized["tipo"] == "estudo_tematico":
@@ -389,8 +436,9 @@ def normalize_metadata(metadata: dict[str, Any], path: Path) -> dict[str, Any]:
 
     translation = metadata.get("traducao")
     translation_text = "" if translation is None else str(translation).strip()
-    normalized["traducao_inferida"] = not bool(translation_text)
-    normalized["traducao"] = translation_text or DEFAULT_TRANSLATIONS[normalized["tipo"]]
+    default_translation = DEFAULT_TRANSLATIONS[normalized["tipo"]]
+    normalized["traducao_inferida"] = (not bool(translation_text)) and bool(default_translation)
+    normalized["traducao"] = translation_text or default_translation
     normalized["homiletica"] = bool(metadata.get("homiletica", False))
     if normalized["tipo"] == "estudo_tematico" and normalized["homiletica"]:
         raise BuildError(f"{path}: estudos temáticos não incluem proposição ou movimentos homiléticos.")
@@ -404,9 +452,31 @@ def normalize_metadata(metadata: dict[str, Any], path: Path) -> dict[str, Any]:
         for item in as_list(metadata.get("lexicos"))
     ]
     normalized["imagens"] = as_list(metadata.get("imagens"))
-    for field in ("autor", "tese", "destinatarios", "igreja"):
-        value = metadata.get(field)
-        normalized[field] = "" if value is None else str(value).strip()
+    for field_name in ("autor", "tese", "destinatarios", "nota_revisao", "estudo_origem"):
+        value = metadata.get(field_name)
+        normalized[field_name] = "" if value is None else str(value).strip()
+    igreja_value = metadata.get("igreja")
+    if igreja_value is None or not str(igreja_value).strip():
+        igreja_value = metadata.get("local")
+    normalized["igreja"] = "" if igreja_value is None else str(igreja_value).strip()
+
+    if normalized["tipo"] == "pregacao":
+        revisao_label, revisao_numero = normalize_revision(metadata.get("revisao"), path)
+        normalized["revisao"] = revisao_label
+        normalized["revisao_numero"] = revisao_numero
+        raw_sermao_id = str(metadata.get("sermao_id") or "").strip() or study_id
+        if raw_sermao_id != slugify(raw_sermao_id) or not re.fullmatch(
+            r"[a-z0-9][a-z0-9-]*", raw_sermao_id
+        ):
+            raise BuildError(
+                f"{path}: sermao_id inválido: {raw_sermao_id!r}. Use slug minúsculo com hífens."
+            )
+        normalized["sermao_id"] = raw_sermao_id
+    else:
+        normalized["revisao"] = ""
+        normalized["revisao_numero"] = 0
+        normalized["sermao_id"] = ""
+
     status = metadata.get("status")
     normalized["status"] = str(status).strip() if status is not None else "rascunho"
     return normalized
@@ -941,15 +1011,72 @@ def load_study(path: Path) -> Study:
     return study
 
 
+def relative_repo_posix(path: Path) -> str:
+    try:
+        return path.resolve().relative_to(ROOT.resolve()).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+def revision_summary_for(study: Study) -> dict[str, Any]:
+    return {
+        "id": study.study_id,
+        "revisao": study.metadata["revisao"],
+        "revisao_numero": study.metadata["revisao_numero"],
+        "titulo": study.metadata["titulo"],
+        "data": study.metadata["data"],
+        "data_formatada": study.metadata["data_formatada"],
+        "igreja": study.metadata["igreja"],
+        "nota_revisao": study.metadata.get("nota_revisao", ""),
+        "href": f"../{study.study_id}/",
+        "html": f"estudos/{study.study_id}/",
+        "pdf": f"estudos/{study.study_id}/{study.study_id}.pdf",
+        "source_path": relative_repo_posix(study.source_path),
+    }
+
+
+def attach_sermon_revisions(studies: list[Study]) -> None:
+    grouped: dict[str, list[Study]] = {}
+    for study in studies:
+        if study.metadata.get("tipo") == "pregacao":
+            grouped.setdefault(study.metadata["sermao_id"], []).append(study)
+
+    for sermao_id, group in grouped.items():
+        group.sort(key=lambda item: (item.metadata["revisao_numero"], item.study_id))
+        seen_numbers: set[int] = set()
+        for item in group:
+            rev_num = int(item.metadata["revisao_numero"])
+            if rev_num in seen_numbers:
+                raise BuildError(
+                    f"Revisão duplicada R{rev_num} para a pregação {sermao_id!r}."
+                )
+            seen_numbers.add(rev_num)
+
+        summaries = [revision_summary_for(item) for item in group]
+        for item in group:
+            item.revisions = [
+                {**summary, "is_current": summary["id"] == item.study_id}
+                for summary in summaries
+            ]
+
+
+def is_study_source_file(path: Path) -> bool:
+    if not path.is_file():
+        return False
+    name = path.name
+    return name.casefold() == "estudo.md" or bool(SERMON_REVISION_FILE_RE.fullmatch(name))
+
+
 def find_studies() -> list[Study]:
     if not SOURCE_ROOT.exists():
         return []
-    sources = sorted(SOURCE_ROOT.rglob("estudo.md"))
+    sources = sorted(path for path in SOURCE_ROOT.rglob("*.md") if is_study_source_file(path))
     studies = [load_study(path) for path in sources]
     ids = [study.study_id for study in studies]
     duplicates = sorted({study_id for study_id in ids if ids.count(study_id) > 1})
     if duplicates:
         raise BuildError(f"ids de estudos duplicados: {', '.join(duplicates)}.")
+    attach_sermon_revisions(studies)
     return studies
 
 
@@ -1152,6 +1279,11 @@ def credits_context(metadata: dict[str, Any]) -> dict[str, list[Any]]:
 
 
 def card_for(study: Study) -> dict[str, Any]:
+    revisions = study.revisions or (
+        [{**revision_summary_for(study), "is_current": True}]
+        if study.metadata["tipo"] == "pregacao"
+        else []
+    )
     return {
         "id": study.study_id,
         "tipo": study.metadata["tipo"],
@@ -1162,13 +1294,29 @@ def card_for(study: Study) -> dict[str, Any]:
         "traducao_inferida": study.metadata["traducao_inferida"],
         "data": study.metadata["data"],
         "data_formatada": format_date_br(study.metadata["data"]),
+        "igreja": study.metadata.get("igreja", ""),
         "resumo": study.metadata["resumo"],
         "status": study.metadata["status"],
         "tags": study.metadata["tags"],
         "homiletica": study.metadata["homiletica"],
+        "revisao": study.metadata.get("revisao", ""),
+        "revisao_numero": study.metadata.get("revisao_numero", 0),
+        "sermao_id": study.metadata.get("sermao_id", ""),
+        "revisoes_total": len(revisions) if study.metadata["tipo"] == "pregacao" else 0,
+        "revisoes": [
+            {
+                "id": rev["id"],
+                "revisao": rev["revisao"],
+                "data_formatada": rev["data_formatada"],
+                "igreja": rev["igreja"],
+                "html": rev["html"],
+                "pdf": rev["pdf"],
+            }
+            for rev in revisions
+        ],
         "html": f"estudos/{study.study_id}/",
         "pdf": f"estudos/{study.study_id}/{study.study_id}.pdf",
-        "fonte": study.source_path.relative_to(ROOT).as_posix(),
+        "fonte": relative_repo_posix(study.source_path),
     }
 
 
@@ -1181,7 +1329,51 @@ TEMPLATE_BY_TYPE = {
     "devocional": "devotional.html.j2",
     "estudo_exegetico": "exegetical.html.j2",
     "estudo_tematico": "thematic.html.j2",
+    "pregacao": "sermon.html.j2",
 }
+
+
+def sermon_editor_payload(study: Study, revisions: list[dict[str, Any]]) -> dict[str, Any]:
+    max_revision = max((int(rev["revisao_numero"]) for rev in revisions), default=1)
+    rel_source = relative_repo_posix(study.source_path)
+    rel_dir = relative_repo_posix(study.source_dir)
+    return {
+        "id": study.study_id,
+        "sermao_id": study.metadata["sermao_id"],
+        "revisao": study.metadata["revisao"],
+        "revisao_numero": study.metadata["revisao_numero"],
+        "next_revisao_numero": max_revision + 1,
+        "source_path": rel_source,
+        "source_dir": rel_dir,
+        "github_repo": GITHUB_REPO,
+        "github_branch": GITHUB_BRANCH,
+        "metadata": {
+            "titulo": study.metadata["titulo"],
+            "passagem": study.metadata["passagem"],
+            "tema": study.metadata["tema"],
+            "data": study.metadata["data"],
+            "igreja": study.metadata["igreja"],
+            "traducao": study.metadata["traducao"],
+            "resumo": study.metadata["resumo"],
+            "nota_revisao": study.metadata.get("nota_revisao", ""),
+            "estudo_origem": study.metadata.get("estudo_origem", ""),
+        },
+        "body": study.body,
+        "revisions": [
+            {
+                "id": rev["id"],
+                "revisao": rev["revisao"],
+                "revisao_numero": rev["revisao_numero"],
+                "data_formatada": rev["data_formatada"],
+                "igreja": rev["igreja"],
+                "nota_revisao": rev["nota_revisao"],
+                "href": rev["href"],
+                "source_path": rev["source_path"],
+                "is_current": rev["is_current"],
+            }
+            for rev in revisions
+        ],
+    }
 
 
 def render_study(study: Study, templates: Environment, skip_pdf: bool) -> dict[str, Any]:
@@ -1194,6 +1386,15 @@ def render_study(study: Study, templates: Environment, skip_pdf: bool) -> dict[s
         if study.review is not None
         else ""
     )
+    study_type = study.metadata["tipo"]
+    revisions: list[dict[str, Any]] = []
+    sermon_editor_json = ""
+    if study_type == "pregacao":
+        revisions = study.revisions or [{**revision_summary_for(study), "is_current": True}]
+        sermon_editor_json = json.dumps(
+            sermon_editor_payload(study, revisions), ensure_ascii=False
+        ).replace("</", "<\\/")
+
     context = {
         "metadata": study.metadata,
         "body_html": study.body_html,
@@ -1204,8 +1405,9 @@ def render_study(study: Study, templates: Environment, skip_pdf: bool) -> dict[s
         "source_path": study.source_path.as_posix(),
         "review_data": study.review,
         "review_json": review_json,
+        "revisions": revisions,
+        "sermon_editor_json": sermon_editor_json,
     }
-    study_type = study.metadata["tipo"]
     if study_type not in TEMPLATE_BY_TYPE:
         raise BuildError(f"Tipo de estudo sem template mapeado: {study_type!r}")
 
@@ -1226,8 +1428,29 @@ def render_study(study: Study, templates: Environment, skip_pdf: bool) -> dict[s
     return card_for(study)
 
 
+def deduplicate_sermon_cards(cards: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Keep only the latest revision card per sermon family in catalog views."""
+    non_sermons: list[dict[str, Any]] = []
+    latest_by_sermon: dict[str, dict[str, Any]] = {}
+    for card in cards:
+        if card["tipo"] != "pregacao":
+            non_sermons.append(card)
+            continue
+        sermao_id = card.get("sermao_id") or card["id"]
+        current = latest_by_sermon.get(sermao_id)
+        if current is None or int(card.get("revisao_numero", 0)) > int(
+            current.get("revisao_numero", 0)
+        ):
+            latest_by_sermon[sermao_id] = card
+    return non_sermons + list(latest_by_sermon.values())
+
+
 def sort_cards(cards: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    return sorted(cards, key=lambda card: (card["data"], card["titulo"]), reverse=True)
+    dated = [card for card in cards if card.get("data")]
+    undated = [card for card in cards if not card.get("data")]
+    dated.sort(key=lambda card: (card["data"], card["titulo"].casefold()), reverse=True)
+    undated.sort(key=lambda card: card["titulo"].casefold())
+    return dated + undated
 
 
 def study_count_label(count: int) -> str:
@@ -1300,26 +1523,26 @@ def render_catalog_pages(cards: list[dict[str, Any]], templates: Environment) ->
         cards,
         templates,
         title="Todas as leituras",
-        description="Veja todos os estudos, devocionais e leituras temáticas em um só lugar.",
+        description="Veja todos os estudos, devocionais, leituras temáticas e pregações em um só lugar.",
         output_path=CATEGORY_OUTPUT_ROOT / "todas.html",
     )
 
 
 def render_index(cards: list[dict[str, Any]], templates: Environment) -> None:
-    cards = sort_cards(cards)
+    catalog = sort_cards(deduplicate_sermon_cards(cards))
     index = normalize_generated_text(
         templates.get_template("index.html.j2").render(
-            categories=category_cards(cards),
-            total_count=len(cards),
+            categories=category_cards(catalog),
+            total_count=len(catalog),
             asset_prefix="./",
         )
     )
     (DIST_ROOT / "index.html").write_text(index, encoding="utf-8")
     (DIST_ROOT / "manifest.json").write_text(
-        json.dumps({"version": 1, "studies": cards}, ensure_ascii=False, indent=2) + "\n",
+        json.dumps({"version": 1, "studies": catalog}, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    render_catalog_pages(cards, templates)
+    render_catalog_pages(catalog, templates)
 
 
 def select_study(studies: list[Study], selector: str | None) -> Study | None:

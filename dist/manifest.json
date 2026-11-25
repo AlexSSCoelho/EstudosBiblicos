@@ -11,6 +11,7 @@
       "traducao_inferida": false,
       "data": "2026-11-14",
       "data_formatada": "14/11/2026",
+      "igreja": "",
       "resumo": "No Monte das Oliveiras, diante do anúncio da ruína do templo e da ansiedade dos discípulos por sinais do fim, Jesus desfaz o sensacionalismo apocalíptico, adverte contra messias impostores e falsos profetas, interpreta as convulsões da história como princípio de dores e estabelece a pregação do evangelho do Reino a todas as nações como o verdadeiro horizonte que antecede o fim.",
       "status": "revisado",
       "tags": [
@@ -21,6 +22,11 @@
         "missao"
       ],
       "homiletica": false,
+      "revisao": "",
+      "revisao_numero": 0,
+      "sermao_id": "",
+      "revisoes_total": 0,
+      "revisoes": [],
       "html": "estudos/mateus-24-3-14/",
       "pdf": "estudos/mateus-24-3-14/mateus-24-3-14.pdf",
       "fonte": "Pregações/2026-11-14 - Mateus 24.3-14 - Estudo expositivo/estudo.md"
@@ -35,6 +41,7 @@
       "traducao_inferida": false,
       "data": "2026-11-11",
       "data_formatada": "11/11/2026",
+      "igreja": "",
       "resumo": "Na campina de Dura, diante do ultimato de Nabucodonosor e da fornalha acesa, Hananias, Misael e Azarias afirmam o poder de Deus para livrá-los e recusam a idolatria mesmo sem garantia de livramento.",
       "status": "revisado",
       "tags": [
@@ -45,6 +52,11 @@
         "soberania-de-deus"
       ],
       "homiletica": false,
+      "revisao": "",
+      "revisao_numero": 0,
+      "sermao_id": "",
+      "revisoes_total": 0,
+      "revisoes": [],
       "html": "estudos/daniel-3-16-18/",
       "pdf": "estudos/daniel-3-16-18/daniel-3-16-18.pdf",
       "fonte": "Pregações/2026-11-11 - Daniel 3.16-18 - Estudo expositivo/estudo.md"
@@ -59,6 +71,7 @@
       "traducao_inferida": false,
       "data": "2026-09-10",
       "data_formatada": "10/09/2026",
+      "igreja": "",
       "resumo": "Malaquias, Samuel, o salmista, Tiago e Hebreus examinam a constância divina diante da culpa, do sofrimento, da tentação e da espera.",
       "status": "revisado",
       "tags": [
@@ -68,6 +81,11 @@
         "perseveranca"
       ],
       "homiletica": false,
+      "revisao": "",
+      "revisao_numero": 0,
+      "sermao_id": "",
+      "revisoes_total": 0,
+      "revisoes": [],
       "html": "estudos/a-imutabilidade-de-deus/",
       "pdf": "estudos/a-imutabilidade-de-deus/a-imutabilidade-de-deus.pdf",
       "fonte": "Pregações/2026-09-10 - A Imutabilidade de Deus - Estudo temático/estudo.md"
@@ -82,6 +100,7 @@
       "traducao_inferida": false,
       "data": "2026-08-23",
       "data_formatada": "23/08/2026",
+      "igreja": "",
       "resumo": "Uma meditação pastoral sobre a pressão dos padrões deste século, a transformação pela renovação do entendimento e a obediência que discerne a vontade de Deus.",
       "status": "revisado",
       "tags": [
@@ -91,6 +110,11 @@
         "devocional"
       ],
       "homiletica": false,
+      "revisao": "",
+      "revisao_numero": 0,
+      "sermao_id": "",
+      "revisoes_total": 0,
+      "revisoes": [],
       "html": "estudos/romanos-12-2-devocional/",
       "pdf": "estudos/romanos-12-2-devocional/romanos-12-2-devocional.pdf",
       "fonte": "Pregações/2026-08-23 - Romanos 12.2 - Devocional/estudo.md"
@@ -105,6 +129,7 @@
       "traducao_inferida": false,
       "data": "2026-07-19",
       "data_formatada": "19/07/2026",
+      "igreja": "IPR Paranaíba-MS",
       "resumo": "Escrita da prisão para uma igreja parceira, a carta ensina uma comunidade pressionada a permanecer unida, pensar segundo o evangelho e transformar a fé em prática.",
       "status": "revisado",
       "tags": [
@@ -114,9 +139,47 @@
         "discipulado"
       ],
       "homiletica": true,
+      "revisao": "",
+      "revisao_numero": 0,
+      "sermao_id": "",
+      "revisoes_total": 0,
+      "revisoes": [],
       "html": "estudos/filipenses-4-6-9/",
       "pdf": "estudos/filipenses-4-6-9/filipenses-4-6-9.pdf",
       "fonte": "Pregações/2026-07-19 - Filipenses 4.6-9 - IPR Paranaíba-MS/estudo.md"
+    },
+    {
+      "id": "o-deus-que-nunca-muda",
+      "tipo": "pregacao",
+      "titulo": "O Deus Que Nunca Muda",
+      "tema": "Imutabilidade de Deus",
+      "passagem": "",
+      "traducao": "",
+      "traducao_inferida": false,
+      "data": "",
+      "data_formatada": "",
+      "igreja": "",
+      "resumo": "Reflexão sobre a imutabilidade de Deus, o mistério de seus atributos eternos, o contraste entre circunstâncias mutáveis e o caráter constante do Senhor, e a calibração da nossa fé diante da aflição.",
+      "status": "rascunho",
+      "tags": [],
+      "homiletica": false,
+      "revisao": "R1",
+      "revisao_numero": 1,
+      "sermao_id": "o-deus-que-nunca-muda",
+      "revisoes_total": 1,
+      "revisoes": [
+        {
+          "id": "o-deus-que-nunca-muda",
+          "revisao": "R1",
+          "data_formatada": "",
+          "igreja": "",
+          "html": "estudos/o-deus-que-nunca-muda/",
+          "pdf": "estudos/o-deus-que-nunca-muda/o-deus-que-nunca-muda.pdf"
+        }
+      ],
+      "html": "estudos/o-deus-que-nunca-muda/",
+      "pdf": "estudos/o-deus-que-nunca-muda/o-deus-que-nunca-muda.pdf",
+      "fonte": "Pregações/Pregação - O Deus Que Nunca Muda/estudo.md"
     }
   ]
 }

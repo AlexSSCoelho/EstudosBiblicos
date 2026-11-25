@@ -551,5 +551,202 @@ Texto.
                 build.load_study(study_path)
 
 
+class SermonModuleTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.path = Path("tests/fixture-pregacao.md")
+
+    def test_sermon_allows_minimal_metadata_without_optional_fields(self) -> None:
+        metadata = build.normalize_metadata(
+            {
+                "id": "sermao-minimo",
+                "tipo": "pregacao",
+                "titulo": "A Graça que Sustenta",
+            },
+            self.path,
+        )
+        self.assertEqual(metadata["tipo"], "pregacao")
+        self.assertEqual(metadata["revisao"], "R1")
+        self.assertEqual(metadata["revisao_numero"], 1)
+        self.assertEqual(metadata["sermao_id"], "sermao-minimo")
+        self.assertEqual(metadata["passagem"], "")
+        self.assertEqual(metadata["data"], "")
+        self.assertEqual(metadata["data_formatada"], "")
+        self.assertEqual(metadata["igreja"], "")
+        self.assertEqual(metadata["tema"], "")
+        self.assertEqual(metadata["resumo"], "")
+        self.assertEqual(metadata["traducao"], "")
+        self.assertFalse(metadata["traducao_inferida"])
+
+    def test_sermon_aliases_local_and_revision_normalization(self) -> None:
+        for alias in ("pregação", "sermao", "sermão", "esboço", "mensagem"):
+            metadata = build.normalize_metadata(
+                {
+                    "id": "sermao-r2",
+                    "sermao_id": "sermao",
+                    "revisao": "r2",
+                    "tipo": alias,
+                    "titulo": "Mensagem de Teste",
+                    "local": "IPR Central",
+                },
+                self.path,
+            )
+            self.assertEqual(metadata["tipo"], "pregacao")
+            self.assertEqual(metadata["revisao"], "R2")
+            self.assertEqual(metadata["revisao_numero"], 2)
+            self.assertEqual(metadata["igreja"], "IPR Central")
+
+        with self.assertRaises(build.BuildError):
+            build.normalize_metadata(
+                {
+                    "id": "sermao-invalido",
+                    "tipo": "pregacao",
+                    "titulo": "Revisão inválida",
+                    "revisao": "v2",
+                },
+                self.path,
+            )
+
+    def test_sermon_revisions_group_render_and_deduplicate_in_catalog(self) -> None:
+        old_source_root = build.SOURCE_ROOT
+        old_dist_root = build.DIST_ROOT
+        old_study_root = build.STUDY_OUTPUT_ROOT
+        old_cat_root = build.CATEGORY_OUTPUT_ROOT
+        try:
+            with tempfile.TemporaryDirectory(dir=Path.cwd()) as temp_dir:
+                root = Path(temp_dir)
+                build.SOURCE_ROOT = root / "Pregações"
+                build.DIST_ROOT = root / "dist"
+                build.STUDY_OUTPUT_ROOT = build.DIST_ROOT / "estudos"
+                build.CATEGORY_OUTPUT_ROOT = build.DIST_ROOT / "tipos"
+
+                sermon_dir = build.SOURCE_ROOT / "Pregação - Fidelidade"
+                sermon_dir.mkdir(parents=True)
+                (sermon_dir / "estudo.md").write_text(
+                    """---
+id: fidelidade-de-deus
+tipo: pregacao
+titulo: A Fidelidade de Deus
+---
+
+## Introdução
+
+Primeiro esboço sem data, local ou tema.
+
+## Aplicação
+
+Conclusão prática.
+""",
+                    encoding="utf-8",
+                )
+                (sermon_dir / "r2.md").write_text(
+                    """---
+id: fidelidade-de-deus-r2
+sermao_id: fidelidade-de-deus
+revisao: R2
+tipo: pregacao
+titulo: A Fidelidade de Deus
+passagem: Lamentações 3.22–23
+tema: Fidelidade
+data: 2026-11-20
+igreja: IPR Paranaíba-MS
+nota_revisao: Adicionada ilustração na introdução.
+---
+
+## Introdução
+
+Versão revisada para nova ministração.
+
+## Aplicação
+
+Apelo final.
+""",
+                    encoding="utf-8",
+                )
+
+                studies = build.find_studies()
+                self.assertEqual(len(studies), 2)
+                by_id = {s.study_id: s for s in studies}
+                self.assertEqual(len(by_id["fidelidade-de-deus"].revisions), 2)
+                self.assertEqual(
+                    [r["revisao"] for r in by_id["fidelidade-de-deus-r2"].revisions],
+                    ["R1", "R2"],
+                )
+
+                cards = build.build(skip_pdf=True)
+                self.assertEqual(len(cards), 2)
+
+                r1_html = (build.STUDY_OUTPUT_ROOT / "fidelidade-de-deus" / "index.html").read_text(
+                    encoding="utf-8"
+                )
+                r2_html = (build.STUDY_OUTPUT_ROOT / "fidelidade-de-deus-r2" / "index.html").read_text(
+                    encoding="utf-8"
+                )
+                self.assertIn("sermon-revisions-bar", r1_html)
+                self.assertIn("../fidelidade-de-deus-r2/", r1_html)
+                self.assertIn('id="sermon-editor-data"', r1_html)
+                self.assertIn('"next_revisao_numero": 3', r1_html)
+                self.assertIn("assets/sermon.js", r1_html)
+                self.assertNotIn("None", r1_html)
+                self.assertIn("Adicionada ilustração na introdução.", r2_html)
+                self.assertIn("20/11/2026", r2_html)
+
+                catalog_html = (build.CATEGORY_OUTPUT_ROOT / "pregacoes.html").read_text(
+                    encoding="utf-8"
+                )
+                self.assertEqual(catalog_html.count('class="study-card '), 1)
+                self.assertIn("fidelidade-de-deus-r2/", catalog_html)
+                self.assertIn("2 revisões", catalog_html)
+        finally:
+            build.SOURCE_ROOT = old_source_root
+            build.DIST_ROOT = old_dist_root
+            build.STUDY_OUTPUT_ROOT = old_study_root
+            build.CATEGORY_OUTPUT_ROOT = old_cat_root
+
+    def test_sermon_duplicate_revision_number_raises(self) -> None:
+        old_source_root = build.SOURCE_ROOT
+        try:
+            with tempfile.TemporaryDirectory(dir=Path.cwd()) as temp_dir:
+                build.SOURCE_ROOT = Path(temp_dir) / "Pregações"
+                folder = build.SOURCE_ROOT / "Pregação - Duplicada"
+                folder.mkdir(parents=True)
+                (folder / "estudo.md").write_text(
+                    "---\nid: dup-1\nsermao_id: dup\nrevisao: R1\ntipo: pregacao\ntitulo: T\n---\n\nTexto.\n",
+                    encoding="utf-8",
+                )
+                (folder / "r2.md").write_text(
+                    "---\nid: dup-2\nsermao_id: dup\nrevisao: R1\ntipo: pregacao\ntitulo: T\n---\n\nTexto.\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(build.BuildError, "Revisão duplicada R1"):
+                    build.find_studies()
+        finally:
+            build.SOURCE_ROOT = old_source_root
+
+    def test_sermon_rejects_revisao_yml(self) -> None:
+        with tempfile.TemporaryDirectory(dir=Path.cwd()) as temp_dir:
+            root = Path(temp_dir)
+            sermon_path = root / "estudo.md"
+            sermon_path.write_text(
+                "---\nid: preg-rev\ntipo: pregacao\ntitulo: Pregação\n---\n\n## Seção\n\nTexto.\n",
+                encoding="utf-8",
+            )
+            (root / "revisao.yml").write_text("version: 1\n", encoding="utf-8")
+            with self.assertRaisesRegex(build.BuildError, "estudos expositivos e temáticos"):
+                build.load_study(sermon_path)
+
+    def test_sort_cards_places_dated_desc_and_undated_alpha(self) -> None:
+        cards = [
+            {"titulo": "Zelo", "data": ""},
+            {"titulo": "Antigo", "data": "2026-01-10"},
+            {"titulo": "Aliança", "data": ""},
+            {"titulo": "Recente", "data": "2026-11-15"},
+        ]
+        ordered = build.sort_cards(cards)
+        self.assertEqual(
+            [c["titulo"] for c in ordered],
+            ["Recente", "Antigo", "Aliança", "Zelo"],
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

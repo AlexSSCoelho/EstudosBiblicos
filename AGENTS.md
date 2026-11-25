@@ -23,15 +23,21 @@ Repositório pessoal para elaboração, leitura e arquivamento de estudos bíbli
    - A tradução padrão é ACF. Contexto, delimitação, exposição por unidades ou versículos, gavetas lexicais (`<details class="lex-drawer">`), hermenêutica, homilética, perguntas e apelo são blocos opcionais; o conteúdo determina a composição.
 3. **Estudo Temático:**
     - A tradução padrão é ACF. Investigação bíblico-teológica de um tema ou doutrina articulando passagens do Antigo e do Novo Testamento. O campo `tema` é obrigatório no front matter; `passagens_chave` organiza o panorama canônico opcional. A síntese permanece estritamente submetida à exegese de cada texto em seu contexto histórico-gramatical. Não inclua proposição nem movimentos homiléticos nesse perfil.
+4. **Pregação (`pregacao`):**
+    - Esboços e manuscritos de púlpito em modo leitura limpa (sem `revisao.yml` / quiz / flashcard), com suporte a histórico de revisões (`R1`, `R2`, `R3`...) na mesma pasta (`estudo.md`, `r2.md`, `r3.md`...) agrupadas por `sermao_id`.
+    - Apenas `id`, `tipo` e `titulo` são obrigatórios; `passagem`, `data`, `igreja`/`local`, `tema`, `traducao`, `resumo`, `nota_revisao` e `estudo_origem` são opcionais.
+    - No navegador, o Modo Autor (via token GitHub local no dispositivo) libera notas separadas por seção (salvas em `anotacoes/<id>.json` sem disparar rebuild) e editor de revisões (`Editar` ou `Nova revisão R2/R3...`) com commit direto em `Pregações/**`.
 
 ## Convenções de Pastas e Arquivos
 
 - Cada pregação/estudo vive em sua própria pasta temática dentro de `Pregações/`:
   - Devocionais e Estudos Exegéticos: `Pregações/AAAA-MM-DD - [Livro] [Cap.Vers] - [Igreja]/` (ex.: `Pregações/2026-07-19 - Filipenses 4.6-9 - IPR Paranaíba-MS/`)
   - Estudos Temáticos: `Pregações/AAAA-MM-DD - [Tema] - Estudo temático/` (ex.: `Pregações/2026-09-10 - A Imutabilidade de Deus - Estudo temático/`)
+  - Pregações: `Pregações/Pregação - [Título]/` (ou `Pregações/AAAA-MM-DD - [Título] - Pregação/` quando houver data), com `estudo.md` (R1) e revisões opcionais `r2.md`, `r3.md`... na mesma pasta.
+- Fotos de esboços manuais para transcrição ficam em `Esboços/` (ignorada no `.gitignore`, nunca enviada ao GitHub).
 - Estudos `estudo_exegetico` e `estudo_tematico` utilizam o arquivo irmão `revisao.yml` (`version: 1`) na pasta do estudo para leitura ativa e revisão interativa exclusiva de desktop.
 - Arquivos de imagem locais (mapas, diagramas) devem ficar na pasta do respectivo estudo e ser referenciados por caminho relativo `./nome-imagem.png`.
-- Templates reutilizáveis ficam em `templates/` (`base.html.j2`, `devotional.html.j2`, `exegetical.html.j2`, `thematic.html.j2` e componentes). Não edite HTML dentro de `dist/` para alterar um estudo.
+- Templates reutilizáveis ficam em `templates/` (`base.html.j2`, `devotional.html.j2`, `exegetical.html.j2`, `thematic.html.j2`, `sermon.html.j2` e componentes). Não edite HTML dentro de `dist/` para alterar um estudo.
 - Gere a biblioteca com `py -X utf8 build.py` ou apenas um estudo com `py -X utf8 build.py <id>`. O `server.py` serve exclusivamente `dist/` e usa o manifesto gerado.
 
 ## Regras e Restrições Locais (Do-Not Rules)

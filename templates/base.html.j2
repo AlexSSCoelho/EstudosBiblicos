@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#20372a">
-  <meta name="description" content="{{ metadata.resumo if metadata is defined else 'Biblioteca de estudos bíblicos.' }}">
+  <meta name="description" content="{{ (metadata.resumo or metadata.titulo) if metadata is defined else 'Biblioteca de estudos bíblicos.' }}">
   <title>{% block title %}Estudos Bíblicos{% endblock %}</title>
   <script>
     (function () {
@@ -23,6 +23,9 @@
   <script defer src="{{ asset_prefix }}assets/study.js"></script>
   {% if review_data is defined and review_data %}
   <script defer src="{{ asset_prefix }}assets/review.js"></script>
+  {% endif %}
+  {% if metadata is defined and metadata.tipo == "pregacao" %}
+  <script defer src="{{ asset_prefix }}assets/sermon.js"></script>
   {% endif %}
 </head>
 <body class="{% block body_class %}{% endblock %}" data-study-type="{{ metadata.tipo if metadata is defined else 'biblioteca' }}">
@@ -49,10 +52,25 @@
         {% endif %}
         <a class="brand" href="{{ asset_prefix }}" title="Voltar à biblioteca">
           <strong>Estudos Bíblicos</strong>
-          <span>· {% if metadata.tipo == "estudo_tematico" %}Estudo temático{% else %}{{ metadata.passagem }}{% endif %}</span>
+          <span>· {% if metadata.tipo == "estudo_tematico" %}Estudo temático{% elif metadata.tipo == "pregacao" %}{{ metadata.passagem or "Pregação" }}{% else %}{{ metadata.passagem }}{% endif %}</span>
         </a>
       </div>
       <div class="topbar-actions">
+        {% if metadata.tipo == "pregacao" %}
+        <button
+          type="button"
+          class="sermon-auth-btn"
+          id="sermon-auth-btn"
+          aria-label="Modo autor (anotações e revisões)"
+          aria-pressed="false"
+          title="Modo autor (anotações e revisões)"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+        </button>
+        {% endif %}
         <button
           type="button"
           class="theme-toggle-btn"

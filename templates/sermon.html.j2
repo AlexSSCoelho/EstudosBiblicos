@@ -1,0 +1,98 @@
+{% extends "base.html.j2" %}
+
+{% block title %}{{ metadata.titulo }} ({{ metadata.revisao }}) | Pregação{% endblock %}
+{% block body_class %}study-document sermon-document{% endblock %}
+
+{% block content %}
+<main id="conteudo" class="study-page">
+  <header class="hero hero--sermon{% if not hero_image %} hero--text-only{% endif %}">
+    <div class="hero-copy">
+      <p class="eyebrow">Pregação{% if metadata.tema %} · {{ metadata.tema }}{% endif %}</p>
+      <h1>{{ metadata.titulo }}</h1>
+      {% if metadata.resumo %}
+      <p class="hero-lead">{{ metadata.resumo }}</p>
+      {% endif %}
+      <div class="hero-meta" aria-label="Dados da pregação">
+        <span class="sermon-rev-pill">{{ metadata.revisao }}</span>
+        {% if metadata.passagem %}<span>{{ metadata.passagem }}</span>{% endif %}
+        {% if metadata.traducao %}<span>{{ metadata.traducao }}</span>{% endif %}
+        {% if metadata.igreja %}<span>{{ metadata.igreja }}</span>{% endif %}
+        {% if metadata.data_formatada %}<span class="hero-meta-date">{{ metadata.data_formatada }}</span>{% endif %}
+        {% if metadata.estudo_origem %}<a class="hero-meta-link" href="../{{ metadata.estudo_origem }}/">Estudo de origem</a>{% endif %}
+      </div>
+
+      {% if revisions|length > 1 %}
+      <nav class="sermon-revisions-bar" aria-label="Revisões desta pregação">
+        <span class="sermon-revisions-label">Revisões</span>
+        <div class="sermon-revisions-list">
+          {% for rev in revisions %}
+          <a
+            class="sermon-rev-link{% if rev.is_current %} is-current{% endif %}"
+            href="{{ rev.href }}"
+            {% if rev.is_current %}aria-current="page"{% endif %}
+            title="{{ rev.revisao }}{% if rev.data_formatada %} · {{ rev.data_formatada }}{% endif %}{% if rev.igreja %} · {{ rev.igreja }}{% endif %}{% if rev.nota_revisao %} — {{ rev.nota_revisao }}{% endif %}"
+          >
+            <strong>{{ rev.revisao }}</strong>
+            {% if rev.data_formatada %}<small>{{ rev.data_formatada }}</small>{% elif rev.igreja %}<small>{{ rev.igreja }}</small>{% endif %}
+          </a>
+          {% endfor %}
+        </div>
+      </nav>
+      {% endif %}
+
+      {% if metadata.nota_revisao %}
+      <p class="sermon-revision-note"><strong>Nota da {{ metadata.revisao }}:</strong> {{ metadata.nota_revisao }}</p>
+      {% endif %}
+    </div>
+
+    {% if hero_image %}
+    <figure class="hero-figure">
+      <img src="{{ hero_image.get('src') }}" alt="{{ hero_image.get('alt') or 'Imagem de apoio à pregação' }}" decoding="async">
+      {% if hero_image.get('legenda') %}<figcaption>{{ hero_image.get('legenda') }}</figcaption>{% endif %}
+    </figure>
+    {% endif %}
+  </header>
+
+  <section class="sermon-author-bar" id="sermon-author-bar" aria-label="Ferramentas do autor" hidden>
+    <div class="sermon-author-bar-inner">
+      <div class="sermon-author-status">
+        <span class="sermon-status-dot" aria-hidden="true"></span>
+        <span id="sermon-sync-status">Modo autor ativo</span>
+      </div>
+      <div class="sermon-author-actions">
+        <button type="button" class="sermon-btn sermon-btn--ghost" id="sermon-general-note-btn">Nota geral</button>
+        <button type="button" class="sermon-btn sermon-btn--ghost" id="sermon-all-notes-btn">Todas as notas <span class="sermon-count-badge" id="sermon-notes-count">0</span></button>
+        <button type="button" class="sermon-btn sermon-btn--secondary" id="sermon-edit-current-btn">Editar {{ metadata.revisao }}</button>
+        <button type="button" class="sermon-btn sermon-btn--primary" id="sermon-new-revision-btn">Nova revisão</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="study-shell{% if not toc %} study-shell--single{% endif %}">
+    {% include "components/toc.html.j2" %}
+
+    <article class="study-content">
+      <div id="sermon-general-note-slot" class="sermon-general-note-slot" hidden></div>
+      <div class="prose study-body">{{ body_html|safe }}</div>
+    </article>
+  </div>
+
+  <script type="application/json" id="sermon-editor-data">{{ sermon_editor_json|safe }}</script>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-meta-primary">
+        <strong class="footer-study-title">{{ metadata.titulo }}</strong>
+        <span class="footer-study-meta">Pregação · {{ metadata.revisao }}{% if metadata.passagem %} · {{ metadata.passagem }}{% endif %}{% if metadata.traducao %} · {{ metadata.traducao }}{% endif %}{% if metadata.igreja %} · {{ metadata.igreja }}{% endif %}{% if metadata.data_formatada %}<span class="footer-meta-date"> · {{ metadata.data_formatada }}</span>{% endif %}</span>
+      </div>
+      {% if credits.textual or credits.lexicons or credits.images %}
+      {% include "components/credits.html.j2" %}
+      {% else %}
+      <div class="footer-credit">
+        <div>Esboço e manuscrito de púlpito · {{ metadata.revisao }}</div>
+      </div>
+      {% endif %}
+    </div>
+  </footer>
+</main>
+{% endblock %}

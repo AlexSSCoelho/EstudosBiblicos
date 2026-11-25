@@ -56,9 +56,9 @@ O repositório deve lidar com qualquer um dos 66 livros da Bíblia, aplicando as
 
 ---
 
-## 4. Os Três Perfis Oficiais de Entrega
+## 4. Os Quatro Perfis Oficiais de Entrega
 
-O repositório oferece três perfis editoriais, mas nenhum deles impõe uma quantidade fixa de seções, princípios, movimentos ou perguntas. O front matter registra `tipo` e, quando aplicável, `homiletica`; o corpo do Markdown determina a composição real.
+O repositório oferece quatro perfis editoriais, mas nenhum deles impõe uma quantidade fixa de seções, princípios, movimentos ou perguntas. O front matter registra `tipo` e, quando aplicável, `homiletica` ou `revisao`; o corpo do Markdown determina a composição real.
 
 ### Perfil 1: Devocional / Meditação Bíblica
 
@@ -110,6 +110,14 @@ O repositório oferece três perfis editoriais, mas nenhum deles impõe uma quan
   - Proibição absoluta de fórmulas prontas, listas de autoajuda, tópicos clichês ("o que fazer", "como entender hoje") ou quebras artificiais de ritmo. A aplicação existencial (descanso da alma, oração perseverante, fidelidade na aflição) deve fluir naturalmente do texto sagrado.
   - **Registro de escrita:** manter a voz adulta, teológica e acessível, sem simplificar distinções necessárias. Preferir linguagem direta, conexões argumentativas verificáveis e vocabulário preciso. Evitar imagens decorativas, generalizações enfáticas, antagonistas retóricos inventados, sinônimos usados apenas para elevar o tom e conclusões de impacto sem nova informação. A linguagem figurada das próprias Escrituras e metáforas que expliquem o texto permanecem bem-vindas.
   - Estudos temáticos não incluem proposição nem movimentos homiléticos. A reflexão pastoral permanece ligada ao argumento e às passagens examinadas.
+
+### Perfil 4: Pregação (`pregacao`)
+
+* **Objetivo:** arquivamento, leitura de púlpito e evolução iterativa (`R1`, `R2`, `R3`...) de esboços e manuscritos de pregações do autor, incluindo transcrições fiéis de esboços manuais enviados via pasta local `Esboços/`.
+* **Contrato de metadados flexível:** apenas `id`, `tipo: pregacao` e `titulo` são obrigatórios. `passagem`, `tema`, `data`, `igreja`/`local`, `traducao`, `resumo`, `nota_revisao` e `estudo_origem` são todos opcionais (omitidos quando o esboço original não os informa).
+* **Revisões em família:** a versão inicial vive em `estudo.md` (`revisao: R1` padrão) e revisões futuras ficam na mesma pasta (`r2.md`, `r3.md`...) compartilhando o mesmo `sermao_id`. O catálogo exibe a revisão mais recente enquanto a página de leitura permite alternar entre todas as versões.
+* **Modo autor no navegador (GitHub API):** para visitantes sem token, a página é 100% leitura limpa (sem botões de edição nem anotações). Com um *Fine-grained Personal Access Token* restrito ao repositório salvo localmente no navegador, o autor desbloqueia anotações separadas por seção (`anotacoes/<id>.json`, instantâneas e sem disparar rebuild) e o editor de revisões (`Editar` ou `Nova revisão R2/R3...`) com commit direto em `Pregações/**` e publicação automática via GitHub Actions.
+* **Sem `revisao.yml`:** pregações não utilizam quizzes/flashcards de revisão ativa; no modo de impressão e PDF, todos os controles do autor, notas e carimbos de data são suprimidos.
 
 Em todos os perfis, a distinção entre observação textual, interpretação, inferência, síntese e aplicação deve aparecer naturalmente na prosa, sem etiquetas repetitivas nem formato de relatório de IA.
 
